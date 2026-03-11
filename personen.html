@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zes stemmen in het Nederlandse medialandschap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0eb;
+    --bg-dark: #e8e0d8;
+    --ink: #1a1a18;
+    --ink-light: #4a4a45;
+    --ink-muted: #8a8a82;
+    --accent: #c23a22;
+    --accent-light: #d94530;
+    --card-bg: #ffffff;
+    --border: #d4cdc4;
+    --quote-bg: #faf5f3;
+    --quote-border: #d4a89a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', Georgia, serif;
+    line-height: 1.7;
+  }
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    background: var(--card-bg);
+    box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    min-height: 100vh;
+  }
+  /* ── NAV ── */
+  .top-nav {
+    padding: 1.5rem 0 0;
+  }
+  .back-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent-light);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+  .back-link:hover { text-decoration: underline; }
+  /* ── HEADER ── */
+  .cover {
+    text-align: center;
+    padding: 4rem 0 3rem;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 3rem;
+  }
+  .cover .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent-light);
+    margin-bottom: 1rem;
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4.5vw, 2.4rem);
+    line-height: 1.2;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+  .cover .subtitle {
+    font-size: 1.05rem;
+    color: var(--ink-light);
+    font-weight: 300;
+    max-width: 520px;
+    margin: 0 auto 1.5rem;
+  }
+  .cover .names {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .name-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.2rem 0.7rem 0.2rem 0.2rem;
+    border-radius: 20px;
+    background: #e8d5cf;
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .name-tag:hover {
+    background: #dcc5bd;
+    transform: translateY(-1px);
+  }
+  .name-tag img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid rgba(194,58,34,0.25);
+    flex-shrink: 0;
+  }
+  .cover .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+  /* ── SECTION SWITCHER ── */
+  .section-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 2.5rem;
+    position: sticky;
+    top: 0;
+    background: var(--card-bg);
+    z-index: 50;
+  }
+  .section-nav button {
+    flex: 1;
+    padding: 1rem 1rem;
+    border: none;
+    background: transparent;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .section-nav button:hover { color: var(--ink); }
+  .section-nav button.active {
+    color: var(--accent);
+  }
+  .section-nav button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+  }
+  /* ── CONTENT SECTIONS ── */
+  .content-section {
+    display: none;
+  }
+  .content-section.active {
+    display: block;
+  }
+  /* ── INTRO BOX ── */
+  .intro-box {
+    background: var(--quote-bg);
+    border-left: 4px solid var(--accent-light);
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .intro-box p {
+    font-size: 0.92rem;
+    color: var(--accent);
+    line-height: 1.7;
+  }
+  .intro-box p + p { margin-top: 0.8rem; }
+  /* ── THEMATIC SECTIONS ── */
+  .theme-header {
+    margin: 3rem 0 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--accent);
+  }
+  .theme-header:first-child { margin-top: 0; }
+  .theme-header .theme-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent-light);
+    margin-bottom: 0.25rem;
+  }
+  .theme-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--accent);
+    line-height: 1.3;
+  }
+  .person-sub {
+    margin-top: 2rem;
+  }
+  .person-sub h3 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .person-sub .org-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  p { margin-bottom: 1rem; font-size: 0.95rem; }
+  blockquote {
+    background: var(--quote-bg);
+    border-left: 3px solid var(--quote-border);
+    padding: 1rem 1.4rem;
+    margin: 1rem 0 1.2rem;
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    color: #5a3a3a;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+  ul {
+    margin: 0.8rem 0 1.2rem;
+    padding-left: 0;
+    list-style: none;
+  }
+  ul li {
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--ink-light);
+  }
+  ul li::before {
+    content: '\2014';
+    position: absolute;
+    left: 0;
+    color: var(--ink-muted);
+  }
+  /* ── CONSENSUS BOX ── */
+  .consensus-box {
+    background: var(--accent);
+    color: #fce8e4;
+    padding: 2rem 2.2rem;
+    margin: 3rem 0;
+    border-radius: 4px;
+  }
+  .consensus-box h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+    color: #fff;
+  }
+  .consensus-box h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #e8a090;
+    margin: 1.5rem 0 0.5rem;
+  }
+  .consensus-box h3:first-of-type { margin-top: 0; }
+  .consensus-box p { color: #f0d4cc; font-size: 0.9rem; }
+  .consensus-box ul li { color: #f0d4cc; }
+  .consensus-box ul li::before { color: #e8a090; }
+  /* ── PROFILE SECTIONS ── */
+  .profile-header {
+    margin: 3.5rem 0 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--accent);
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .profile-header:first-child { margin-top: 0; }
+  .prof-photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--border);
+    margin-top: 0.2rem;
+    background: var(--bg);
+  }
+  .prof-info { flex: 1; min-width: 0; }
+  .profile-header .prof-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent-light);
+    margin-bottom: 0.25rem;
+  }
+  .profile-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--accent);
+    line-height: 1.3;
+  }
+  .profile-header .prof-org {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    margin-top: 0.2rem;
+  }
+  .profile-body { margin-top: 1.5rem; }
+  .profile-body h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-light);
+    margin: 2rem 0 0.6rem;
+  }
+  .profile-body h3:first-child { margin-top: 0; }
+  .profile-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0 0;
+  }
+  /* ── SDM SECTION ── */
+  .sdm-section {
+    background: var(--accent);
+    color: #fff;
+    padding: 2.5rem 2.2rem;
+    margin: 3rem -2rem;
+    border-radius: 0;
+  }
+  .sdm-section .sdm-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #e8a090;
+    margin-bottom: 0.6rem;
+  }
+  .sdm-section h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
+  .sdm-section .sdm-sub {
+    font-size: 0.82rem;
+    color: #e8a090;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+  .sdm-section h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #e8a090;
+    margin: 1.5rem 0 0.5rem;
+  }
+  .sdm-section p { color: #f0d4cc; font-size: 0.9rem; }
+  .sdm-section blockquote {
+    background: rgba(255,255,255,0.07);
+    border-left: 3px solid #e8a090;
+    color: #fce8e4;
+  }
+  .sdm-section ul li { color: #f0d4cc; }
+  .sdm-section ul li::before { color: #e8a090; }
+  .signatories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .sig-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.12);
+    color: #fce8e4;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .sig-tag.absent {
+    opacity: 0.4;
+    text-decoration: line-through;
+  }
+  /* ── CONCLUSION ── */
+  .conclusion {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--accent);
+  }
+  .conclusion h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  /* ── FOOTER ── */
+  .page-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .page-footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 600px) {
+    .page { padding: 0 1.2rem 3rem; }
+    .cover { padding: 3rem 0 2rem; }
+    .sdm-section { margin: 3rem -1.2rem; padding: 2rem 1.2rem; }
+    .section-nav button { font-size: 0.78rem; padding: 0.8rem 0.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-nav">
+    <a href="index.html" class="back-link">&larr; Terug naar overzicht</a>
+  </div>
+
+  <div class="cover">
+    <div class="kicker">Onderdeel 2 &middot; Personen</div>
+    <h1>Zes stemmen in het Nederlandse medialandschap</h1>
+    <p class="subtitle">Journalistiek, democratie en de pluriforme toekomst van de media</p>
+    <div class="names">
+      <a class="name-tag" href="#profiel-vanbeemen"><img src="https://www.mediahuis.nl/app/uploads/2019/09/Rien-van-Beemen-1024x683.jpg" alt="">Van Beemen</a>
+      <a class="name-tag" href="#profiel-deranitz"><img src="https://media.prod.cc.bijnpo.nl/xlarge_Jet_de_Ranitz_0b15f4dda6.jpg" alt="">De Ranitz</a>
+      <a class="name-tag" href="#profiel-sanders"><img src="https://cdn.theorg.com/978ce44f-0b24-48b5-9545-f777a3385aa1_medium.jpg" alt="">Sanders</a>
+      <a class="name-tag" href="#profiel-meijs"><img src="https://secure.brunico.com/gimages/delegatephotos/large/665835.jpg" alt="">Meijs</a>
+      <a class="name-tag" href="#profiel-riemsma"><img src="https://anp.fra1.cdn.digitaloceanspaces.com/thumbs/anp-508189996-a1330_1680x.jpg" alt="">Riemsma</a>
+      <a class="name-tag" href="#profiel-roddenhof"><img src="https://cdn.theorg.com/86afa350-7798-42fc-8e8a-299cd2611725_medium.jpg" alt="">Roddenhof</a>
+    </div>
+    <div class="meta">Samengesteld op basis van publieke bronnen &middot; Maart 2026</div>
+  </div>
+
+  <!-- SECTION SWITCHER -->
+  <div class="section-nav">
+    <button class="active" onclick="switchSection('themes', this)">Per thema</button>
+    <button onclick="switchSection('profiles', this)">Per persoon</button>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!--            DEEL A: PER THEMA            -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="content-section active" id="section-themes">
+
+    <div class="intro-box">
+      <p>Zes sleutelfiguren in het Nederlandse medialandschap &mdash; Van Beemen (Mediahuis), De Ranitz (NPO), Sanders (Follow the Money), Meijs (Talpa), Riemsma (ANP) en Roddenhof (DPG Media) &mdash; werden geanalyseerd op drie thema&rsquo;s die centraal staan in het debat over de toekomst van journalistiek en democratie.</p>
+      <p>Per thema worden hun posities naast elkaar gelegd. Dit is geen reconstructie van wat zij in gesprek zullen zeggen, maar een analyse van hun publieke uitspraken, interviews en beleidsposities tot maart 2026.</p>
+    </div>
+
+    <!-- THEMA 1: AI -->
+    <div class="theme-header">
+      <div class="theme-num">Thema 1 van 3</div>
+      <h2>AI en technologie</h2>
+    </div>
+
+    <p style="margin-top:1.5rem;">Over &eacute;&eacute;n ding zijn alle zes het eens: generatieve AI verandert het medialandschap ingrijpend. Maar daar houdt de overeenstemming op. De accenten lopen uiteen van voorzichtig optimisme over effici&euml;ntiewinst tot existenti&euml;le zorg over het voortbestaan van originele journalistiek.</p>
+
+    <p>De meest gedeelde positie is defensief: AI-bedrijven mogen journalistieke content niet zonder toestemming of vergoeding gebruiken om hun modellen te trainen. Van Beemen (Mediahuis/NDP) pleit als branchevoorzitter voor strenge handhaving van de AI Act; Roddenhof (DPG Media) voert tegelijkertijd juridische actie en investeert in eigen AI-toepassingen. Zoals hij het verwoordde in het journalistieke jaarverslag van DPG (2025): <em>&ldquo;We investeren in technologie om onze journalistiek beter te maken, niet om journalisten te vervangen. Maar we zijn niet na&iuml;ef: als we niet investeren, doen anderen het over ons.&rdquo;</em></p>
+
+    <p>Waar het om de inzet van AI in de eigen organisatie gaat, kristalliseert zich een gedeeld principe uit. Riemsma (ANP) formuleerde het het scherpst met het <strong>&ldquo;mens-machine-mens&rdquo;-principe</strong>:</p>
+    <blockquote>&ldquo;AI is een hulpmiddel, geen journalist. Bij ons beoordeelt altijd een mens de uitkomsten. De verantwoordelijkheid voor wat je publiceert blijft bij de redactie.&rdquo;</blockquote>
+    <p>Van Beemen klinkt vergelijkbaar optimistisch over de arbeidsdeling. Op Cannes Lions (juni 2025): <em>&ldquo;Onze beste koppenmakers worden straks verslagen door AI, en dat is mooi, want journalisten moeten zich bezighouden met duiding van nieuws, analyseren en geopolitieke verslagen maken.&rdquo;</em> De belofte is dus: AI neemt routinewerk over, de journalist focust op wat mensen uniek maakt. Maar Riemsma waarschuwt dat dit ook een naïeve hoop kan zijn &mdash; zij ziet AI als de derde disruptieve golf na het internet en social media, en vreest dat de sector opnieuw te laat reageert.</p>
+
+    <p>De meest radicale stem komt van Sanders (Follow the Money). Waar anderen AI beschouwen als een instrument om te beheersen, trekt hij de consequentie door naar de volledige digitale infrastructuur. In februari 2026 kondigde FTM aan alle Amerikaanse technologie &mdash; Google Workspace, Slack &mdash; af te bouwen:</p>
+    <blockquote>&ldquo;Als je journalistieke onafhankelijkheid serieus neemt, moet je ook je digitale soevereiniteit serieus nemen. Je kunt niet kritisch schrijven over Big Tech terwijl je operationeel volledig van ze afhankelijk bent.&rdquo;</blockquote>
+    <p>Geen van de andere vijf gaat zo ver. De vraag is of Sanders&rsquo; principi&euml;le positie haalbaar is voor grotere organisaties &mdash; of juist dat de grotere organisaties zich die principi&euml;le vraag niet durven te stellen.</p>
+
+    <p>De Ranitz (NPO) koppelt technologie consequent aan haar democratische boodschap: <em>&ldquo;In dat digitale domein bepalen grote internationale platforms in hoge mate wat zichtbaar is. Een sterke publieke omroep is daarom noodzakelijk als betrouwbaar en controleerbaar tegenwicht.&rdquo;</em> Haar achtergrond bij SURF geeft haar een ongebruikelijk technologisch profiel voor een omroepleider, maar concrete plannen voor AI-inzet bij de NPO zijn er nog niet.</p>
+
+    <p>De uitzondering is Meijs (Talpa), die AI uitsluitend vanuit productieperspectief benadert. Talpa&rsquo;s &ldquo;AI Hub&rdquo; richt zich op formatontwikkeling en publieksanalyse &mdash; zonder publieke reflectie op auteursrecht, ethiek of democratische implicaties. Dat is consistent met zijn positie, maar maakt ook zichtbaar hoe verschillend &ldquo;AI in de media&rdquo; kan worden ge&iuml;nterpreteerd.</p>
+
+    <!-- THEMA 2: VERDIENMODELLEN -->
+    <div class="theme-header">
+      <div class="theme-num">Thema 2 van 3</div>
+      <h2>Verdienmodellen en financi&euml;le duurzaamheid</h2>
+    </div>
+
+    <p style="margin-top:1.5rem;">Het businessmodel van journalistiek is de afgelopen twee decennia structureel ondermijnd. Advertentie-inkomsten verschoven naar techplatforms; jongere generaties betalen niet vanzelfsprekend voor nieuws. De diagnose is gedeeld, maar de antwoorden lopen sterk uiteen &mdash; van schaalvergroting tot ledenfinanciering, van publieke bescherming tot commerci&euml;le innovatie.</p>
+
+    <p>De urgentie is bij iedereen voelbaar. Van Beemen (Mediahuis/NDP) schetst het grimmigst:</p>
+    <blockquote>&ldquo;Er werken momenteel nog een kleine 3.000 journalisten in ons land, maar de vraag is of we dat op langere termijn kunnen handhaven.&rdquo;</blockquote>
+    <p>Zijn remedie is drieledig: adverteerders moeten hun verantwoordelijkheid nemen door in Nederlandse media te investeren in plaats van blind in Big Tech; de overheid moet geen btw-verhoging op journalistiek doorvoeren; en de sector moet samenwerken via initiatieven als Trusted Web en de Nederlandse Datakluis.</p>
+
+    <p>Roddenhof (DPG Media) kiest voor het meest controversi&euml;le antwoord: <strong>schaal</strong>. De RTL-overname (&euro;1,1 miljard, juli 2025) cre&euml;erde een conglomeraat met een geschatte jaaromzet van &euro;2,4 miljard. Zijn stelling is provocatief:</p>
+    <blockquote>&ldquo;Pluriformiteit bestaat dankzij consolidatie, niet ondanks. Zonder de schaal van DPG hadden titels als de Leeuwarder Courant of het Brabants Dagblad niet overleefd.&rdquo;</blockquote>
+    <p>Tegelijk bouwt hij via het Trusted Web-project een eigen advertentie-ecosysteem, onafhankelijk van Google en Meta. Over de btw-verhoging op journalistiek was hij onomwonden: <em>&ldquo;de nekslag&rdquo;</em> voor kleinere media.</p>
+
+    <p>Aan de andere kant van het spectrum bewijst Sanders (FTM) dat ledenfinanciering werkt &mdash; van 2.500 naar circa 45.000 betalende leden in zeven jaar. Zijn filosofie is principieel anders: niet het product centraal, maar de missie.</p>
+    <blockquote>&ldquo;Stoppen met een harde paywall in een artikel. De lezers moeten eerst kennismaken met onze stukken. We moeten meer verhalen vertellen vanuit een missie in plaats vanuit een product.&rdquo;</blockquote>
+    <p>Hij noemt paywalls liever &ldquo;Engagement Doors&rdquo; &mdash; een herschikking van de relatie tussen lezer en redactie die begint bij vertrouwen, niet bij betaling. Het contrast met Roddenhofs schaallogica is scherp: waar DPG groeit door overname, groeit FTM door overtuiging.</p>
+
+    <p>De Ranitz (NPO) staat voor een eigen uitdaging: de publieke omroep door de grootste bezuinigingsronde in decennia loodsen. Haar positie raakt aan het hart van het publiek-private debat: <em>&ldquo;Wie sneller snoeit dan bouwt, verliest talent, vertrouwen en publiek. In die volgorde.&rdquo;</em> Ze verdedigt het publieke model als essentieel tegenwicht &mdash; juist omdat commerci&euml;le media onder druk staan. Tegelijk erkent ze dat de grens van het gratis online-aanbod een &ldquo;continu gesprek&rdquo; is met private partijen als Van Beemen.</p>
+
+    <p>Riemsma (ANP) opereert in een bijzonder businessmodel: het persbureau verkoopt content aan andere media, die zelf al onder druk staan. Haar antwoord is diversificatie &mdash; de relaunch van IO+ als verdiept nieuwsproduct &mdash; maar het uitgangspunt blijft principieel: <em>&ldquo;Vergis je niet, voor een gezonde democratie is het essentieel dat we iets van een gemeenschappelijke waarheid hebben. Het moet natuurlijk wel betaalbaar blijven.&rdquo;</em></p>
+
+    <p>Meijs (Talpa) opereert in een fundamenteel ander verdienmodel: entertainment, formatexport, advertenties. Toch deelt hij &eacute;&eacute;n belang met de nieuwsmediasector: de &ldquo;Nederlandse advertentie-euro in het Nederlandse ecosysteem&rdquo; houden. Dat is een commercieel argument, geen journalistiek-democratisch betoog &mdash; maar het raakt wel aan dezelfde strijd tegen platformdominantie.</p>
+
+    <!-- THEMA 3: POLITIEK -->
+    <div class="theme-header">
+      <div class="theme-num">Thema 3 van 3</div>
+      <h2>Politiek en regelgeving</h2>
+    </div>
+
+    <p style="margin-top:1.5rem;">De sectorbrief aan informateur Buma (november 2025) markeerde een historisch moment: voor het eerst spraken publieke en private medialeiders met &eacute;&eacute;n stem naar de politiek. Vijf van de zes ondertekenden. De gedeelde boodschap &mdash; <strong>mediabeleid is techbeleid</strong> &mdash; verhulde echter de onderlinge spanningen over de rol van de overheid.</p>
+
+    <p>Van Beemen (NDP) is de facto de lobbyist van de private nieuwssector. Hij pleit voor ge&iuml;ntegreerd media- en technologiebeleid onder &eacute;&eacute;n bewindspersoon, stevige implementatie van de AI Act, en eerlijke concurrentieregels. Tegenover de publieke omroep is hij genuanceerd: geen afschaffing, maar wel grenzen aan het gratis online-aanbod.</p>
+
+    <p>De Ranitz (NPO) verdedigt het publieke bestel met een principieel argument:</p>
+    <blockquote>&ldquo;Het Nederlandse publieke mediabestel werkt omdat het pluriform is: omroepen, taakomroepen en de NPO vormen samen een systeem waarin verschillende stemmen, perspectieven en publieksgroepen een plek hebben. Dat is hoe je vertrouwen bouwt.&rdquo;</blockquote>
+    <p>De spanning tussen Van Beemen en De Ranitz is productief: beiden erkennen dat de ander noodzakelijk is, maar het debat over waar de publieke taak ophoudt en het private domein begint, is onopgelost.</p>
+
+    <p>Roddenhof (DPG Media) richt zijn politieke pijlen op twee fronten. Extern vecht hij juridisch tegen Google &mdash; <em>&ldquo;Content mag je niet gewoon stelen&rdquo;</em> &mdash; en tegen de btw-verhoging. Maar hij waarschuwt ook tegen een dieper gevaar:</p>
+    <blockquote>&ldquo;Ik heb wel altijd angst dat partijen in Nederland de neiging hebben instanties te politiseren en dan wordt het een politiek wapen. En dan gaan we wel de verkeerde kant op.&rdquo;</blockquote>
+
+    <p>Sanders (FTM) ondertekende de sectorbrief maar opereert bewust onafhankelijk van zowel overheid als grote mediabedrijven. Zijn technologische soevereiniteitsargument is tegelijk een politiek statement: als de staat je digitale infrastructuur niet kan beschermen, moet je het zelf doen. Riemsma (ANP) ziet de dreiging in drie opeenvolgende golven &mdash; internet, sociale media, AI &mdash; en pleit voor een overheid die de sector actief beschermt tegen de derde golf, met auteursrechtbescherming &eacute;n beleid tegen de uitholling van het journalistieke ecosysteem.</p>
+
+    <p>De afwezige is opnieuw Meijs (Talpa). Hij ondertekende de sectorbrief niet &mdash; consistent met zijn profiel als entertainmentbedrijf. Er zijn geen publieke uitspraken van hem gevonden over persvrijheid, mediawetgeving of de democratische rol van media. Die afwezigheid roept de vraag op: hoort entertainment aan dezelfde beleidstafel als journalistiek? Of houdt Talpa zich terecht buiten een gesprek dat niet over hen gaat?</p>
+
+    <!-- CONSENSUS -->
+    <div class="consensus-box">
+      <h2>Waar de zes het eens &mdash; en oneens &mdash; zijn</h2>
+
+      <h3>Brede consensus</h3>
+      <ul>
+        <li>Big Tech vormt een existenti&euml;le bedreiging voor onafhankelijke journalistiek</li>
+        <li>AI-bedrijven moeten betalen voor het gebruik van journalistieke content</li>
+        <li>De Nederlandse mediasector moet samenwerken om internationaal relevant te blijven</li>
+        <li>Adverteerders hebben een verantwoordelijkheid om in Nederlandse media te investeren</li>
+      </ul>
+
+      <h3>Belangrijke spanningen</h3>
+      <ul>
+        <li><strong>Publiek vs. privaat:</strong> Hoever mag het gratis online-aanbod van de NPO reiken?</li>
+        <li><strong>Consolidatie vs. pluriformiteit:</strong> Is DPG&rsquo;s schaalstrategie de redding of de ondergang van mediapluriformiteit?</li>
+        <li><strong>Technologische soevereiniteit:</strong> Is Sanders&rsquo; Europese keuze principieel juist maar praktisch onhaalbaar voor grotere organisaties?</li>
+        <li><strong>Entertainment vs. journalistiek:</strong> Hoort Talpa aan dezelfde beleidstafel als Follow the Money?</li>
+        <li><strong>Overheidsrol:</strong> Beschermer van de sector of bedreiging van de onafhankelijkheid?</li>
+      </ul>
+
+      <h3>De afwezige stem</h3>
+      <p>Maarten Meijs&rsquo; afwezigheid in het democratie-en-mediadebat is op zichzelf veelzeggend. Het roept de vraag op of het mediapolitieke debat te eng is gedefinieerd &mdash; of dat Talpa zich terecht buiten een gesprek houdt dat niet over entertainment gaat.</p>
+    </div>
+
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!--          DEEL B: PER PERSOON            -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="content-section" id="section-profiles">
+
+    <div class="intro-box">
+      <p>Individuele profielen van zes sleutelfiguren die ieder vanuit een andere positie het Nederlandse medialandschap vormgeven: private nieuwsmedia, de publieke omroep, onafhankelijke onderzoeksjournalistiek, het nationale persbureau en commercieel entertainment.</p>
+    </div>
+
+    <!-- PROFIEL 1: VAN BEEMEN -->
+    <div class="profile-header" id="profiel-vanbeemen">
+      <img class="prof-photo" src="https://www.mediahuis.nl/app/uploads/2019/09/Rien-van-Beemen-1024x683.jpg" alt="Rien van Beemen">
+      <div class="prof-info">
+        <div class="prof-num">Profiel 1 van 6</div>
+        <h2>Rien van Beemen</h2>
+        <div class="prof-org">CEO Mediahuis Nederland &amp; voorzitter NDP Nieuwsmedia</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <h3>Huidige positie</h3>
+      <p>Rien van Beemen is CEO van Mediahuis Nederland (sinds 2019) en voorzitter van NDP Nieuwsmedia, de brancheorganisatie van alle private nieuwsbedrijven in Nederland. Onder zijn leiding vallen De Telegraaf, diverse regionale dagbladen, digitale merken als Dumpert en Culy, en radiozenders waaronder Radio Veronica en 100% NL. Hij is geen journalist of boekenauteur, maar een media-executive met een achtergrond in de reissector en technologie (onder meer RealNetworks en NRC Media).</p>
+      <h3>Visie op journalistiek en democratie</h3>
+      <p>Van Beemen is een van de meest vocale pleitbezorgers voor de financi&euml;le duurzaamheid van professionele journalistiek. In MarketingTribune (februari 2025):</p>
+      <blockquote>&ldquo;Er werken momenteel nog een kleine 3.000 journalisten in ons land, maar de vraag is of we dat op langere termijn kunnen handhaven. Professionele journalisten heb je hard nodig voor juiste checks and balances, vooral ook in de regio op politiek gebied.&rdquo;</blockquote>
+      <p>Hij riep adverteerders en mediabureaus op hun verantwoordelijkheid te nemen en niet blind te staren op Big Tech. Over de verhouding publiek-privaat is hij genuanceerd: hij verzet zich tegen afschaffing van de NPO maar eist wel grenzen aan het gratis online-nieuwsaanbod van publieke omroepen.</p>
+      <h3>Kernposities</h3>
+      <ul>
+        <li>Eerlijke concurrentie tussen publieke en private media</li>
+        <li>Bescherming van auteursrechten tegenover AI-bedrijven</li>
+        <li>Verantwoordelijkheid van adverteerders voor de Nederlandse journalistiek</li>
+        <li>Samenwerking met &mdash; niet afschaffing van &mdash; de NPO</li>
+      </ul>
+    </div>
+
+    <hr class="profile-divider">
+
+    <!-- PROFIEL 2: DE RANITZ -->
+    <div class="profile-header" id="profiel-deranitz">
+      <img class="prof-photo" src="https://media.prod.cc.bijnpo.nl/xlarge_Jet_de_Ranitz_0b15f4dda6.jpg" alt="Jet de Ranitz">
+      <div class="prof-info">
+        <div class="prof-num">Profiel 2 van 6</div>
+        <h2>Jet de Ranitz</h2>
+        <div class="prof-org">Bestuursvoorzitter Nederlandse Publieke Omroep (NPO)</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <h3>Huidige positie</h3>
+      <p>Jet de Ranitz trad op 17 december 2025 aan als voorzitter van de Raad van Bestuur van de NPO, als opvolger van Frederieke Leeflang. Haar carri&egrave;re omvat het Nederlands Dans Theater (zakelijk directeur), Hogeschool Inholland (collegevoorzitter, 2014&ndash;2020), ICT-co&ouml;peratie SURF (CEO, 2020&ndash;2024) en kort Microsoft Nederland.</p>
+      <h3>Visie op journalistiek en democratie</h3>
+      <p>Bij haar aantreden formuleerde De Ranitz direct haar uitgangspunt:</p>
+      <blockquote>&ldquo;Een sterke publieke omroep is onmisbaar voor de Nederlandse samenleving. Betrouwbare journalistiek, verbinding en een programmering die zowel jonge als oudere kijkers en luisteraars bindt &mdash; dat is wat we nodig hebben in tijden van fake news en polarisatie.&rdquo;</blockquote>
+      <p>In een brief aan de Tweede Kamer (begin 2026) verdedigde ze het pluriforme bestel:</p>
+      <blockquote>&ldquo;Het Nederlandse publieke mediabestel werkt omdat het pluriform is: omroepen, taakomroepen en de NPO vormen samen een systeem waarin verschillende stemmen, perspectieven en publieksgroepen een plek hebben.&rdquo;</blockquote>
+      <h3>Kernposities</h3>
+      <ul>
+        <li>Pluriformiteit als fundament van het publieke bestel</li>
+        <li>Publieke media als democratisch tegenwicht tegen platforms</li>
+        <li>Bezuinigingen niet sneller dan hervormingen</li>
+        <li>Digitale transitie als absolute prioriteit</li>
+      </ul>
+    </div>
+
+    <hr class="profile-divider">
+
+    <!-- PROFIEL 3: SANDERS -->
+    <div class="profile-header" id="profiel-sanders">
+      <img class="prof-photo" src="https://cdn.theorg.com/978ce44f-0b24-48b5-9545-f777a3385aa1_medium.jpg" alt="Jan-Willem Sanders">
+      <div class="prof-info">
+        <div class="prof-num">Profiel 3 van 6</div>
+        <h2>Jan-Willem Sanders</h2>
+        <div class="prof-org">Uitgever &amp; managing director Follow the Money</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <h3>Huidige positie</h3>
+      <p>Jan-Willem Sanders is uitgever, managing director en mede-eigenaar van Follow the Money (FTM), het onafhankelijke platform voor onderzoeksjournalistiek. Onder zijn leiding groeide FTM van 2.500 naar circa 45.000 betalende leden in zeven jaar &mdash; een van de opvallendste groeiverhalen in de Nederlandse mediasector.</p>
+      <h3>Visie op journalistiek en democratie</h3>
+      <p>De FTM-missie die Sanders uitdraagt is expliciet democratisch:</p>
+      <blockquote>&ldquo;Waarheidsvinding en duiding door onafhankelijke diepgravende journalistiek is niet alleen een onmisbaar onderdeel van onze democratie, de kracht van de onthulling gecombineerd met de belofte van mogelijke verbetering en innovatie kan zaken in beweging zetten en ten goede keren.&rdquo;</blockquote>
+      <p>Een opvallende recente stap is FTM&rsquo;s besluit om Amerikaanse technologie af te bouwen. In februari 2026 beschreven Sanders en hoofdredacteur Harry Lensink hoe het platform overstapt op Europese alternatieven &mdash; digitale soevereiniteit als voorwaarde voor journalistieke onafhankelijkheid.</p>
+      <h3>Kernposities</h3>
+      <ul>
+        <li>Ledenfinanciering als garantie voor onafhankelijkheid</li>
+        <li>Missiegedreven journalistiek boven productdenken</li>
+        <li>Technologische soevereiniteit als journalistieke noodzaak</li>
+        <li>Onderzoeksjournalistiek als democratisch instrument</li>
+      </ul>
+    </div>
+
+    <hr class="profile-divider">
+
+    <!-- PROFIEL 4: MEIJS -->
+    <div class="profile-header" id="profiel-meijs">
+      <img class="prof-photo" src="https://secure.brunico.com/gimages/delegatephotos/large/665835.jpg" alt="Maarten Meijs">
+      <div class="prof-info">
+        <div class="prof-num">Profiel 4 van 6</div>
+        <h2>Maarten Meijs</h2>
+        <div class="prof-org">CEO Talpa Network &amp; Talpa Studios</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <h3>Huidige positie</h3>
+      <p>Maarten Meijs is per maart 2026 CEO van het overkoepelende Talpa-directieteam, verantwoordelijk voor Talpa Studios (internationale formatontwikkeling) en Talpa Network (SBS6, NET5, Veronica, Radio 538, streamingplatform KIJK). Zijn domein is entertainment, niet journalistiek.</p>
+      <h3>Visie op journalistiek en democratie</h3>
+      <p>Er zijn geen publieke uitspraken van Meijs gevonden over persvrijheid, democratie of de pluriforme toekomst van de journalistiek &mdash; dit weerspiegelt zijn profiel. Zijn publieke uitspraken betreffen consequent de commerci&euml;le entertainmentsector: formatexport, streamingstrategie en AI in productiepijplijnen.</p>
+      <p>Meijs ondertekende de sectorbrief aan informateur Buma niet.</p>
+      <h3>Kernposities</h3>
+      <ul>
+        <li>Entertainment en formatselling als strategisch speerpunt</li>
+        <li>Technologische vernieuwing via gezamenlijke AI Hub</li>
+        <li>Advertentie-euro&rsquo;s in het Nederlandse ecosysteem houden</li>
+        <li>Geen aantoonbare positie in het democratie-en-mediadebat</li>
+      </ul>
+    </div>
+
+    <hr class="profile-divider">
+
+    <!-- PROFIEL 5: RIEMSMA -->
+    <div class="profile-header" id="profiel-riemsma">
+      <img class="prof-photo" src="https://anp.fra1.cdn.digitaloceanspaces.com/thumbs/anp-508189996-a1330_1680x.jpg" alt="Martha Riemsma">
+      <div class="prof-info">
+        <div class="prof-num">Profiel 5 van 6</div>
+        <h2>Martha Riemsma</h2>
+        <div class="prof-org">Algemeen directeur ANP &amp; voorzitter Stichting De Tegel</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <h3>Huidige positie</h3>
+      <p>Martha Riemsma is sinds medio oktober 2024 Algemeen Directeur van het Algemeen Nederlands Persbureau (ANP) in Den Haag. Zij is tevens voorzitter van het bestuur van Stichting De Tegel en commissielid bij het Fonds Bijzondere Journalistieke Projecten.</p>
+      <h3>Carri&egrave;reachtergrond</h3>
+      <p>Van mei 2014 tot mei 2022 was Riemsma hoofdredacteur van De Twentsche Courant Tubantia. Haar meest innovatieve project was de oprichting van Newsroom Enschede, een samenwerkingsverband tussen Tubantia en lokale omroep 1Twente, in 2018 gepresenteerd als modelvoorbeeld voor de toekomst van regionale journalistiek.</p>
+      <h3>Visie op journalistiek en democratie</h3>
+      <p>Riemsma&rsquo;s overtuiging is consequent: onafhankelijke journalistiek is niet optioneel maar existentieel. Bij de relaunch van IO+ (november 2024):</p>
+      <blockquote>&ldquo;Vergis je niet, voor een gezonde democratie is het essentieel dat we iets van een gemeenschappelijke waarheid hebben. Het moet natuurlijk wel betaalbaar blijven, maar hoe dan ook voelen wij het als onze missie om te blijven zorgen voor die feitelijke basis onder de journalistiek en de media in Nederland.&rdquo;</blockquote>
+      <p>Over AI: het ANP hanteert het <strong>&ldquo;mens-machine-mens&rdquo;-principe</strong>: AI voor procesondersteuning, maar een mens beoordeelt altijd de eindproducten.</p>
+      <h3>Kernposities</h3>
+      <ul>
+        <li>Gemeenschappelijke waarheid als fundament van democratie</li>
+        <li>&ldquo;Mens-machine-mens&rdquo;-principe als leidraad voor AI-gebruik</li>
+        <li>Journalistiek vakmanschap als sectoroverstijgende opdracht</li>
+        <li>Digitale soevereiniteit en auteursrecht tegenover AI-platforms</li>
+      </ul>
+    </div>
+
+    <hr class="profile-divider">
+
+    <!-- PROFIEL 6: RODDENHOF -->
+    <div class="profile-header" id="profiel-roddenhof">
+      <img class="prof-photo" src="https://cdn.theorg.com/86afa350-7798-42fc-8e8a-299cd2611725_medium.jpg" alt="Erik Roddenhof">
+      <div class="prof-info">
+        <div class="prof-num">Profiel 6 van 6</div>
+        <h2>Erik Roddenhof</h2>
+        <div class="prof-org">CEO DPG Media Group</div>
+      </div>
+    </div>
+    <div class="profile-body">
+      <h3>Huidige positie</h3>
+      <p>Erik Roddenhof is sinds maart 2020 CEO van DPG Media Group, het grootste mediabedrijf van Nederland en de Benelux. Met de afronding van de overname van RTL Nederland (&euro;1,1 miljard, 1 juli 2025) leidt hij een conglomeraat met een geschatte jaaromzet van circa &euro;2,4 miljard.</p>
+      <h3>Visie op journalistiek en democratie</h3>
+      <p>Roddenhof positioneert redactionele onafhankelijkheid als niet-onderhandelbaar. In het eerste journalistieke jaarverslag van DPG Media (2025):</p>
+      <blockquote>&ldquo;Meer dan ooit geloven we in het belang van een vrije en onafhankelijke pers in een maatschappij die overspoeld wordt door nepnieuws en desinformatie.&rdquo;</blockquote>
+      <p>Zijn kernargument in het pluriformiteitsdebat: <strong>pluriformiteit bestaat dankzij consolidatie, niet ondanks.</strong></p>
+      <p>Over de politisering van media:</p>
+      <blockquote>&ldquo;Ik heb wel altijd angst dat partijen in Nederland de neiging hebben instanties te politiseren en dan wordt het een politiek wapen. En dan gaan we wel de verkeerde kant op.&rdquo;</blockquote>
+      <h3>Kernposities</h3>
+      <ul>
+        <li>Redactionele onafhankelijkheid als niet-onderhandelbare kernwaarde</li>
+        <li>Consolidatie als voorwaarde voor pluriformiteit</li>
+        <li>Actieve juridische en commerci&euml;le strijd tegen Google</li>
+        <li>Bezwaar tegen btw-verhoging op journalistiek</li>
+        <li>Bescherming van media tegen politisering</li>
+      </ul>
+    </div>
+
+    <!-- SDM SECTION -->
+    <div class="sdm-section">
+      <div class="sdm-kicker">Gezamenlijk initiatief &middot; November 2025</div>
+      <h2>De sectorbrief aan informateur Buma</h2>
+      <div class="sdm-sub">Ge&iuml;nitieerd door Stichting Democratie en Media &middot; Ondertekend door 23 medialeiders</div>
+      <h3>Ondertekenaars uit dit rapport</h3>
+      <div class="signatories">
+        <span class="sig-tag">Van Beemen</span>
+        <span class="sig-tag">De Ranitz</span>
+        <span class="sig-tag">Sanders</span>
+        <span class="sig-tag absent">Meijs</span>
+        <span class="sig-tag">Riemsma</span>
+        <span class="sig-tag">Roddenhof</span>
+      </div>
+      <p style="font-size:0.75rem; opacity:0.6; margin-bottom:1.5rem;">Doorgestreept = niet ondertekend</p>
+      <h3>Centrale boodschap</h3>
+      <blockquote>&ldquo;Onze samenleving verliest haar greep op een op waarheidsvinding gerichte en pluriforme informatievoorziening door de dominante rol van mondiale techbedrijven. Dit vormt een ernstige bedreiging voor de democratische weerbaarheid, maar ook voor de strategische autonomie en daarmee de veiligheid van Nederland.&rdquo;</blockquote>
+      <h3>Concrete eisen aan de politiek</h3>
+      <ul>
+        <li>Ge&iuml;ntegreerd media- en technologiebeleid onder &eacute;&eacute;n verantwoordelijk bewindspersoon</li>
+        <li>Stevige implementatie van de Europese AI Act, met nadruk op auteursrechtbescherming</li>
+        <li>Ge&iuml;ntegreerd toezicht op eerlijke concurrentieverhoudingen</li>
+        <li>Actieve ondersteuning van Nederlandse en Europese mediacoöperaties en -fondsen</li>
+      </ul>
+    </div>
+
+    <!-- CONCLUSIE -->
+    <div class="conclusion">
+      <h2>Conclusie: gedeelde diagnose, verschillende remedies</h2>
+      <p>De zes geprofileerde figuren vertegenwoordigen fundamenteel verschillende posities. Toch tekent zich een opmerkelijke convergentie af in hun diagnose: de combinatie van AI-disruptie, platformdominantie en politieke druk vormt een existenti&euml;le bedreiging voor journalistieke onafhankelijkheid en daarmee voor de democratie.</p>
+      <p>De remedies lopen uiteen. Van Beemen zoekt het in eerlijke concurrentieregels en adverteerdersverantwoordelijkheid. De Ranitz verdedigt het pluriforme publieke bestel. Sanders bewijst dat ledenfinanciering werkt &mdash; en kiest voor volledige technologische soevereiniteit. Riemsma pleit voor het &ldquo;mens-machine-mens&rdquo;-principe. Roddenhof zet in op schaal en zakelijke weerbaarheid.</p>
+      <p>Meijs staat buiten dit debat &mdash; en dat zegt op zichzelf ook iets. De vraag die openblijft: bepalen de algoritmes van Amerikaanse en Chinese techreuzen, dan wel een democratisch gedreven Nederlands ecosysteem, de informatievoorziening van de toekomst?</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <p>Samengesteld op basis van publieke bronnen &middot; SDM &middot; Maart 2026</p>
+  </div>
+</div>
+
+<script>
+function switchSection(id, btn) {
+  document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.section-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else {
+    var buttons = document.querySelectorAll('.section-nav button');
+    buttons.forEach(function(b){ b.classList.remove('active'); });
+    buttons[id === 'themes' ? 0 : 1].classList.add('active');
+  }
+}
+
+function navigateToProfile(hash) {
+  if (!hash || !hash.startsWith('#profiel-')) return false;
+  // Switch to "Per persoon" section
+  switchSection('profiles', null);
+  // Scroll to the profile after a brief delay for DOM update
+  setTimeout(function() {
+    var el = document.querySelector(hash);
+    if (el) {
+      var navHeight = document.querySelector('.section-nav').offsetHeight;
+      var top = el.getBoundingClientRect().top + window.pageYOffset - navHeight - 16;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  }, 100);
+  return true;
+}
+
+// Handle name-tag clicks within the page
+document.querySelectorAll('.name-tag[href^="#profiel-"]').forEach(function(tag) {
+  tag.addEventListener('click', function(e) {
+    e.preventDefault();
+    history.replaceState(null, '', this.getAttribute('href'));
+    navigateToProfile(this.getAttribute('href'));
+  });
+});
+
+// Handle incoming hash from other pages (e.g. personen.html#profiel-sanders)
+if (window.location.hash && window.location.hash.startsWith('#profiel-')) {
+  navigateToProfile(window.location.hash);
+}
+</script>
+</body>
+</html>

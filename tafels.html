@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kansen om gezamenlijk op te trekken — SDM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f0eb;
+            --bg-dark: #e8e0d8;
+            --ink: #1a1a18;
+            --ink-light: #4a4a45;
+            --ink-muted: #8a8a82;
+            --accent: #c23a22;
+            --card-bg: #ffffff;
+            --border: #d4cdc4;
+            --cat-onafhankelijkheid: #c23a22;
+            --cat-publiek: #1a2e4a;
+            --cat-kennis: #5d7a6e;
+            --cat-wetgeving: #8b6914;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink-light);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Header */
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 2.8rem;
+            line-height: 1.15;
+            color: var(--ink);
+            margin-bottom: 0.75rem;
+        }
+
+        .page-header .subtitle {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--ink-light);
+            line-height: 1.55;
+            max-width: 680px;
+        }
+
+        .accent-line {
+            width: 48px;
+            height: 3px;
+            background: var(--accent);
+            margin-top: 1.25rem;
+            border-radius: 2px;
+        }
+
+        /* Compact index */
+        .compact-index {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .compact-index-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ink-muted);
+            margin-bottom: 1.25rem;
+        }
+
+        .index-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .index-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .index-group-header {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.6rem;
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .index-group-header.cat-onafhankelijkheid { background: var(--cat-onafhankelijkheid); }
+        .index-group-header.cat-publiek { background: var(--cat-publiek); }
+        .index-group-header.cat-kennis { background: var(--cat-kennis); }
+        .index-group-header.cat-wetgeving { background: var(--cat-wetgeving); }
+
+        .index-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .index-list li {
+            padding: 0.25rem 0;
+        }
+
+        .index-list a {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            color: var(--ink-light);
+            text-decoration: none;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .index-list a:hover {
+            color: var(--accent);
+        }
+
+        .index-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--ink-muted);
+            min-width: 1.5em;
+            text-align: right;
+        }
+
+        /* Tiles section */
+        .tiles-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .tafel-tile {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem 2rem 1.5rem;
+            border-left: 4px solid var(--border);
+            position: relative;
+            scroll-margin-top: 1.5rem;
+        }
+
+        .tafel-tile.cat-onafhankelijkheid { border-left-color: var(--cat-onafhankelijkheid); }
+        .tafel-tile.cat-publiek { border-left-color: var(--cat-publiek); }
+        .tafel-tile.cat-kennis { border-left-color: var(--cat-kennis); }
+        .tafel-tile.cat-wetgeving { border-left-color: var(--cat-wetgeving); }
+
+        .tafel-prio {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--bg-dark);
+            line-height: 1;
+            position: absolute;
+            top: 1.25rem;
+            right: 1.75rem;
+        }
+
+        .tafel-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            line-height: 1.3;
+            color: var(--ink);
+            margin-bottom: 1rem;
+            padding-right: 3rem;
+        }
+
+        .tafel-body {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--ink-light);
+            margin-bottom: 1.25rem;
+        }
+
+        .tafel-doel {
+            margin-bottom: 1.5rem;
+        }
+
+        .tafel-doel-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--ink);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.25rem;
+        }
+
+        .tafel-doel-text {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--ink-light);
+            padding-left: 0.75rem;
+            border-left: 2px solid var(--bg-dark);
+        }
+
+        .tafel-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 3px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .badge-cat {
+            color: #fff;
+        }
+
+        .badge-cat.cat-onafhankelijkheid { background: var(--cat-onafhankelijkheid); }
+        .badge-cat.cat-publiek { background: var(--cat-publiek); }
+        .badge-cat.cat-kennis { background: var(--cat-kennis); }
+        .badge-cat.cat-wetgeving { background: var(--cat-wetgeving); }
+
+        .badge-thema {
+            background: var(--bg);
+            color: var(--ink-light);
+            border: 1px solid var(--border);
+        }
+
+        .badge-tempel {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 3px;
+            line-height: 1;
+            text-decoration: none;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+
+        .badge-tempel:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .meta-spacer {
+            flex: 1;
+        }
+
+        /* Expandable details */
+        .tafel-details {
+            margin-top: 1rem;
+            border: none;
+        }
+        .tafel-details summary {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0.5rem 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .tafel-details summary::-webkit-details-marker { display: none; }
+        .tafel-details summary::before {
+            content: '\25B6';
+            font-size: 0.6rem;
+            transition: transform 0.2s;
+        }
+        .tafel-details[open] summary::before {
+            transform: rotate(90deg);
+        }
+        .tafel-details summary:hover {
+            color: var(--ink);
+        }
+        .tafel-detail-content {
+            padding-top: 0.75rem;
+        }
+        .tafel-detail-content h4 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+            margin: 1rem 0 0.3rem;
+        }
+        .tafel-detail-content h4:first-child {
+            margin-top: 0;
+        }
+        .tafel-detail-content p {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--ink-light);
+        }
+        .tafel-detail-content .detail-voorbeeld {
+            background: var(--bg);
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            margin-top: 0.3rem;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            color: var(--ink-light);
+        }
+
+        /* Footer */
+        .page-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .page-footer p {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+        }
+
+        .page-footer a {
+            color: var(--ink-light);
+            text-decoration: none;
+        }
+
+        .page-footer a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .page-container {
+                padding: 1.25rem 1rem 3rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header .subtitle {
+                font-size: 1.05rem;
+            }
+
+            .compact-index {
+                padding: 1.25rem 1.25rem;
+            }
+
+            .tafel-tile {
+                padding: 1.5rem 1.25rem 1.25rem;
+            }
+
+            .tafel-prio {
+                font-size: 2.25rem;
+                top: 1rem;
+                right: 1.25rem;
+            }
+
+            .tafel-title {
+                font-size: 1.15rem;
+                padding-right: 2.5rem;
+            }
+
+            .tafel-meta {
+                gap: 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+
+        <!-- Back link -->
+        <a href="index.html" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Terug naar index
+        </a>
+
+        <!-- Header -->
+        <header class="page-header">
+            <h1>Kansen om gezamenlijk op te trekken</h1>
+            <p class="subtitle">Veertien onderwerpen voor gezamenlijke actie in de mediasector — van licenties tot zelfregulering.</p>
+            <div class="accent-line"></div>
+        </header>
+
+        <!-- Compact index -->
+        <nav class="compact-index">
+            <div class="compact-index-title">Overzicht</div>
+
+            <div class="index-group">
+                <div class="index-group-header cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</div>
+                <ol class="index-list">
+                    <li><a href="#tafel-1"><span class="index-num">1.</span> Licenties voor content-gebruik</a></li>
+                    <li><a href="#tafel-2"><span class="index-num">2.</span> Hoe krijgen Europese mediabedrijven grip op hun eigen technologische infrastructuur?</a></li>
+                    <li><a href="#tafel-3"><span class="index-num">3.</span> Hoe vermindert de sector de afhankelijkheid van Facebook, Instagram en X voor bereik?</a></li>
+                    <li><a href="#tafel-4"><span class="index-num">4.</span> Verplichte keuzevrijheid voor nieuwsaanbevelingsmodules</a></li>
+                    <li><a href="#tafel-8"><span class="index-num">8.</span> Gedeelde UX, algoritmes en functionaliteiten als sectorbreed alternatief voor Big Tech</a></li>
+                </ol>
+            </div>
+
+            <div class="index-group">
+                <div class="index-group-header cat-publiek">Publiek &amp; Product</div>
+                <ol class="index-list">
+                    <li><a href="#tafel-5"><span class="index-num">5.</span> Gezamenlijke visie op de aanpak van nieuwsvermijding</a></li>
+                    <li><a href="#tafel-6"><span class="index-num">6.</span> Welke hardware-strategie vervangt print op lange termijn?</a></li>
+                    <li><a href="#tafel-9"><span class="index-num">9.</span> Hoe gaan journalistieke media om met de affordances die Big Tech heeft gecre&euml;erd?</a></li>
+                </ol>
+            </div>
+
+            <div class="index-group">
+                <div class="index-group-header cat-kennis">Kennis, Innovatie &amp; Ethiek</div>
+                <ol class="index-list">
+                    <li><a href="#tafel-7"><span class="index-num">7.</span> Oprichten van een sectorbreed innovatielab voor mediabedrijven</a></li>
+                    <li><a href="#tafel-10"><span class="index-num">10.</span> Centrale inzichten over pluriformiteit, diversiteit en politieke relevantie van journalistiek</a></li>
+                    <li><a href="#tafel-14"><span class="index-num">14.</span> Hoe reguleert de mediasector zichzelf verantwoord op het gebied van data en AI?</a></li>
+                </ol>
+            </div>
+
+            <div class="index-group">
+                <div class="index-group-header cat-wetgeving">Wetgeving &amp; Beleid</div>
+                <ol class="index-list">
+                    <li><a href="#tafel-11"><span class="index-num">11.</span> Aan welke knoppen valt nog te draaien bij EMFA, DSA, DMA en AI Act — en hoe faciliteren we innovatie?</a></li>
+                    <li><a href="#tafel-12"><span class="index-num">12.</span> Welke wet- en regelgeving zit innovatie in de weg, en hoe cre&euml;ren we meer ruimte?</a></li>
+                    <li><a href="#tafel-13"><span class="index-num">13.</span> Hoe zorgen we voor samenhangend overheidsbeleid op het snijvlak van media en technologie?</a></li>
+                </ol>
+            </div>
+        </nav>
+
+        <!-- Detailed tiles -->
+        <section class="tiles-section">
+
+            <!-- Tafel 1 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-1">
+                <span class="tafel-prio">1</span>
+                <h2 class="tafel-title">Licenties voor content-gebruik</h2>
+                <p class="tafel-body">Uitgevers zien hun journalistieke content gratis gebruikt worden door grote platforms (Google, Meta) en AI-bedrijven, zonder eerlijke vergoeding. Via licentieafspraken kunnen mediabedrijven aanspraak maken op een eerlijk deel van de waarde die hun content genereert.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Komen tot een gezamenlijk sectorstandpunt en onderhandelingsstrategie richting platforms en AI-bedrijven over eerlijke licentievergoedingen voor journalistieke content.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</span>
+                    <span class="badge badge-thema">Eerlijke vergoeding</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#levensvatbaarheid" class="badge-tempel">Levensvatbaarheid</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele uitgevers staan zwak tegenover de onderhandelingsmacht van grote platforms. Een gezamenlijk front — via NDP of een breder sectorverband — vergroot de onderhandelingspositie enorm en voorkomt dat platforms uitgevers tegen elkaar uitspelen.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Eerlijke vergoeding voor journalistieke content houdt redacties financieel gezond. Gezonde redacties kunnen blijven investeren in onafhankelijke, kwalitatieve journalistiek — de ruggengraat van een goed geïnformeerde samenleving.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Franse naburige rechten (2021): Google betaalt uitgevers via Ancine-akkoord; Australische News Media Bargaining Code (2021); lopende onderhandelingen NDP met AI-partijen</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 2 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-2">
+                <span class="tafel-prio">2</span>
+                <h2 class="tafel-title">Hoe krijgen Europese mediabedrijven grip op hun eigen technologische infrastructuur?</h2>
+                <p class="tafel-body">De meeste Europese mediabedrijven draaien op Amerikaanse cloud-infrastructuur (AWS, Azure, Google Cloud) en software. Dat maakt hen kwetsbaar: een politieke of commerci&euml;le beslissing aan de andere kant van de oceaan kan de operatie van nieuwsmedia direct raken. Eigen grip op servers en software is geen luxe, maar een voorwaarde voor onafhankelijke journalistiek.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Een gezamenlijke strategie ontwikkelen voor Europese technologische autonomie — van servers tot software — zodat de fundamentele infrastructuur van de mediasector niet afhankelijk is van Amerikaanse aanbieders.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</span>
+                    <span class="badge badge-thema">Eigen infrastructuur</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#technologie" class="badge-tempel">Technologie</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele mediabedrijven kunnen de overstap naar Europese infrastructuur nauwelijks alleen financieren of organiseren. Gezamenlijk kunnen ze Europese alternatieven identificeren, kosten delen en als sector een onafhankelijke technologische basis opbouwen.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Onafhankelijke journalistiek vereist onafhankelijke infrastructuur. Als de technologische basis van nieuwsmedia in handen is van buitenlandse partijen, is de vrijheid van de pers structureel kwetsbaar — en daarmee ook de democratische informatievoorziening.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Hetzner, OVHcloud en SURF als Europese alternatieven voor AWS; Gaia-X (Europese cloud-infrastructuurinitiatief)</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 3 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-3">
+                <span class="tafel-prio">3</span>
+                <h2 class="tafel-title">Hoe vermindert de sector de afhankelijkheid van Facebook, Instagram en X voor bereik?</h2>
+                <p class="tafel-body">Mediabedrijven zijn voor een groot deel van hun bereik afhankelijk van sociale mediaplatforms. Die platforms veranderen voortdurend hun algoritmes, bereikregels en verdienmodellen — met directe impact op verkeer en inkomsten van uitgevers.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Gezamenlijk alternatieven ontwikkelen voor sociale media als distributiekanaal en minder afhankelijk worden van de grillen van big tech, om zo de betrokkenheid van gebruikers te verhogen.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</span>
+                    <span class="badge badge-thema">Onafhankelijke distributie</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#publieksbereik" class="badge-tempel">Publieksbereik</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele uitgevers staan zwak tegenover de platforms. Gezamenlijk kunnen ze alternatieven ontwikkelen voor distributie, eigen publiekskanalen opbouwen (zoals nieuwsbrieven of apps) en met één stem onderhandelen of lobbyen over eerlijke bereikregels. Zo kunnen ze ook afdwingen dat in de alternatieven andere keuzes worden gemaakt voor een pluriformer, meer feitgedreven, gemodereerde, veilige omgeving waar ruimte is voor deliberatie in plaats van moddergevechten, etc. </p>
+                        <h4>Democratische impact</h4>
+                        <p>Als nieuws uitsluitend via sociale mediaplatforms bereikt wordt, zijn burgers overgeleverd aan commerciële algoritmes die polarisatie en engagement boven informatie stellen. Minder afhankelijkheid van social versterkt het kwalitetisaanbod van nieuws.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Afname Facebook-verkeer na algoritmewijziging 2023; NOS en RTL die inzetten op eigen apps als alternatief voor social</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 4 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-4">
+                <span class="tafel-prio">4</span>
+                <h2 class="tafel-title">Verplichte keuzevrijheid voor nieuwsaanbevelingsmodules</h2>
+                <p class="tafel-body">Mediabedrijven zijn sterk afhankelijk van grillige platforms voor hun bereik. Op sommige platforms is ruimte voor een alternatief naast het huidige monopolie. Zo krijgen consumenten invloed op hoe nieuws voor hen geselecteerd wordt (in bijvoorbeeld voorge&iuml;nstalleerde feeds op hun telefoon.)</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Gezamenlijke lobbystrategie uitrollen voor keuzevrijheid in nieuwsaanbevelingsmodules bij EU-wetgevers (met op termijn introductie van eigen modules).</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</span>
+                    <span class="badge badge-thema">Onafhankelijke distributie</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#ruimte" class="badge-tempel">Ruimte</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Dit is niet af te dwingen door één partij — het vereist sectorale samenwerking en gezamenlijk lobbywerk richting EU-wetgevers. Precedent: de DMA (Digital Markets Act) dwong Google al om gebruikers bij het instellen van een nieuwe telefoon of browser een keuzescherm te tonen voor hun zoekmachine. Hetzelfde principe zou kunnen gelden voor nieuwsaanbevelingsmodules.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Keuzevrijheid in nieuwsaanbeveling versterkt de informatiediversiteit en vermindert de macht van commerciële algoritmes over het publieke debat.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">DMA-keuzescherm zoekmachine (sinds 2023 verplicht op Android en Windows)</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 5 -->
+            <article class="tafel-tile cat-publiek" id="tafel-5">
+                <span class="tafel-prio">5</span>
+                <h2 class="tafel-title">Gezamenlijke visie op de aanpak van nieuwsvermijding</h2>
+                <p class="tafel-body">Een groeiende groep Nederlanders ervaart nieuws als niet-relevant of ontoegankelijk, of wordt zelfs afgeschrikt door de constante stroom aan negatief nieuws. Als sector moeten we gezamenlijk werken aan toegankelijker taalgebruik en inclusie, zodat iedereen zich gezien voelt en meer balans in de berichtgeving.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Brede, sectorbrede aanpak ontwikkelen om nieuwsmijders weer te interesseren in en binden aan goede journalistiek.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-publiek">Publiek &amp; Product</span>
+                    <span class="badge badge-thema">Publiekservaring</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#publieksbereik" class="badge-tempel">Publieksbereik</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Het geheel aan nieuws bepaald het beeld en sentiment dat er is rondom nieuws - nieuwsorganisaties hebben meer invloed op nieuwsmijding door het gezamenlijk op te pakken dan met losse initiatieven. </p>
+                        <h4>Democratische impact</h4>
+                        <p>Als meer mensen open staan voor nieuws, vergroot dat de groep burgers die actief, betrokken en geïnformeerd deelneemt aan de democratie en vergroot dat het bereik en impact van onze nieuwsmedia.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Tubantia&#x27;s project over aansprekend scrhijven poogt journalistiek begrijpelijke en toegankelijker te maken. </div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 6 -->
+            <article class="tafel-tile cat-publiek" id="tafel-6">
+                <span class="tafel-prio">6</span>
+                <h2 class="tafel-title">Welke hardware-strategie vervangt print op lange termijn?</h2>
+                <p class="tafel-body">Printkosten stijgen structureel. E-ink schermen in groot formaat (vergelijkbaar met tabloid/A4) zijn technisch beschikbaar en goed leesbaar. Een gesubsidieerd hardware-abonnement — waarbij abonnees een e-reader gespreid meebetalen, vergelijkbaar met telefoonabonnementen — kan een realistisch alternatief zijn voor de dure papieren krant.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Een gezamenlijke strategie ontwikkelen voor betaalbare hardware-alternatieven voor print.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-publiek">Publiek &amp; Product</span>
+                    <span class="badge badge-thema">Toekomst van distributie</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#publieksbereik" class="badge-tempel">Publieksbereik</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Dit kan geen individueel mediabedrijf alleen oplossen. Gezamenlijke inkoop van hardware, gedeelde distributie-infrastructuur en sectorbreed onderhandelen met leveranciers maakt het financieel haalbaar en verlaagt de drempel voor abonnees.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Toegang tot kwalitatief nieuws mag niet afhangen van of iemand een dure smartphone of abonnement kan betalen. Een betaalbaar hardware-alternatief voor print houdt serieuze journalistiek bereikbaar voor een brede groep burgers en zou print-liefhebbers kunnen overhalen. </p>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 7 -->
+            <article class="tafel-tile cat-kennis" id="tafel-7">
+                <span class="tafel-prio">7</span>
+                <h2 class="tafel-title">Oprichten van een sectorbreed innovatielab voor mediabedrijven</h2>
+                <p class="tafel-body">Traditionele uitgevers en redacties komen nauwelijks toe aan echte vernieuwing — de dagelijkse operatie gaat voor. Een gezamenlijk innovatielab biedt ruimte om los van bestaande structuren te experimenteren met platforms en verdienmodellen van de toekomst.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Haalbaarheid en governance van een sectorbreed innovatielab onderzoeken: wat zijn de doelen, wie doet mee, hoe wordt het gefinancierd en hoe worden resultaten gedeeld?</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-kennis">Kennis, Innovatie &amp; Ethiek</span>
+                    <span class="badge badge-thema">Sectorbrede kennisdeling</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#technologie" class="badge-tempel">Technologie</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele mediabedrijven hebben niet altijd focus, capaciteit en budget voor fundamentele innovatie. Samen kunnen ze talent, kennis en middelen bundelen — en voorkomen dat ieder wiel opnieuw wordt uitgevonden. Zo ontstaat een neutrale, sectorgedreven bron van innovatie. </p>
+                        <h4>Democratische impact</h4>
+                        <p>Innovatie in journalistiek leidt tot nieuwe manieren om burgers te informeren en te betrekken. Een sectorbreed lab vergroot de kans dat doorbraken ten goede komen aan de democratische functie van media, in plaats van alleen aan commercieel gewin.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">BBC R&amp;D (langlopend innovatielab bij publieke omroep); Journalism AI (Polis/LSE samenwerking Europese uitgevers)</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 8 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-8">
+                <span class="tafel-prio">8</span>
+                <h2 class="tafel-title">Gedeelde UX, algoritmes en functionaliteiten als sectorbreed alternatief voor Big Tech</h2>
+                <p class="tafel-body">Individuele uitgevers kunnen qua UX, personalisatie en functionaliteit niet concurreren met Google of Meta. Door gezamenlijk een gedeeld productplatform te ontwikkelen — met een eigen aanbevelingsalgoritme, zoekfunctie en gebruikerservaring — kunnen uitgevers samen een waardig alternatief bieden.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Verkennen welke productonderdelen mediabedrijven gezamenlijk kunnen ontwikkelen om een excellente gebruikerservaring te kunnen bieden.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</span>
+                    <span class="badge badge-thema">Eigen infrastructuur</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#technologie" class="badge-tempel">Technologie</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Een kwalitatief hoogwaardig platform vereist schaalmogelijkheden, data en engineering-capaciteit die individuele uitgevers ontberen. Alleen samen kunnen ze investeren in het soort productontwikkeling dat nu voorbehouden is aan Big Tech.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Een sterk, onafhankelijk nieuwsplatform als alternatief voor Big Tech geeft burgers toegang tot journalistiek zonder commercieel gedreven algoritmes. Dat versterkt de informatievrijheid en de kwaliteit van het publieke debat.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Blendle (vroeg voorbeeld sectorbreed productplatform NL); Opta (gedeeld aanbevelingsplatform Franse uitgevers)</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 9 -->
+            <article class="tafel-tile cat-publiek" id="tafel-9">
+                <span class="tafel-prio">9</span>
+                <h2 class="tafel-title">Hoe gaan journalistieke media om met de affordances die Big Tech heeft gecre&euml;erd?</h2>
+                <p class="tafel-body">Publiek is door TikTok, Gen AI en andere platforms gewend geraakt aan razendsnel gepersonaliseerde content, merkkeuzevrijheid en intu&iuml;tieve interactie. Die gewenning schept verwachtingen die traditionele nieuwsmedia nauwelijks kunnen waarmaken.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Als sector bepalen welke affordances van Big Tech-platforms overgenomen, aangepast of bewust verworpen worden — en hoe journalistieke media een eigen gebruikerservaring daar tegenover kunnen zetten.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-publiek">Publiek &amp; Product</span>
+                    <span class="badge badge-thema">Publiekservaring</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#publieksbereik" class="badge-tempel">Publieksbereik</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Dit raakt de hele sector: individuele redacties kunnen deze verwachtingskloof niet dichten. Gezamenlijk kunnen uitgevers onderzoeken welke affordances ze wél kunnen overnemen, welke ze bewust willen verwerpen, en hoe ze een eigen mediabeleving definiëren die niet slaafs Big Tech navolgt maar wél aansluit bij wat publiek gewend is.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Als journalistieke media niet meegaan in hoe burgers informatie consumeren, verliezen ze hun bereik — en daarmee hun democratische functie. Begrijpen welke affordances wel en niet bijdragen aan goede informatievoorziening is essentieel.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">TikTok-stijl verticaal scrollen bij NOS Stories; gepersonaliseerde nieuwsbrief-algoritmes als instapvorm</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 10 -->
+            <article class="tafel-tile cat-kennis" id="tafel-10">
+                <span class="tafel-prio">10</span>
+                <h2 class="tafel-title">Centrale inzichten over pluriformiteit, diversiteit en politieke relevantie van journalistiek</h2>
+                <p class="tafel-body">De journalistiek mist een gedeelde kennisbasis om haar democratische waarde te onderbouwen en zichtbaar te maken. Door inzichten over pluriformiteit, diversiteit en politieke relevantie te vergaren, kan de sector aantonen hoe het gaat — en waar het schuurt.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Opzetten van een structurele gedeelde meetinfrastructuur voor o.a. pluriformiteit, diversiteit en politieke relevantie van journalistiek in Nederland.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-kennis">Kennis, Innovatie &amp; Ethiek</span>
+                    <span class="badge badge-thema">Sectorbrede kennisdeling</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#verantwoordelijkheid" class="badge-tempel">Verantwoordelijkheid</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele mediabedrijven meten elk op hun eigen manier, waardoor vergelijking en verantwoording op sectorniveau onmogelijk is. Alleen een gezamenlijke aanpak met sectorbrede standaarden en definties levert de data en geloofwaardigheid om als sector te kunnen zeggen: dit doen we goed, en dit moet beter.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Door systematisch te meten hoe pluriform en divers de journalistiek is, kan de sector aantonen waar de democratische waarde van media onder druk staat of juist floreert en daar gericht op handelen. Zonder inzicht geen verantwoording.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Reuters Institute Digital News Report (jaarlijkse internationale benchmark); Mediamonitor NL (Commissariaat voor de Media)</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 11 -->
+            <article class="tafel-tile cat-wetgeving" id="tafel-11">
+                <span class="tafel-prio">11</span>
+                <h2 class="tafel-title">Aan welke knoppen valt nog te draaien bij EMFA, DSA, DMA en AI Act — en hoe faciliteren we innovatie?</h2>
+                <p class="tafel-body">De Europese mediasector kent diverse wetgeving relevant voor media: de European Media Freedom Act, Digital Services Act, Digital Markets Act en AI Act. De implementatie hiervan biedt ruimte voor interpretatie en invulling. Als sector kunnen we bepalen hoe die ruimte benut kan worden op een manier die innovatie faciliteert in plaats van belemmert.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">In kaart brengen welke implementatieruimte de EMFA, DSA, DMA en AI Act bieden voor de mediasector, en gezamenlijk een implementatiestrategie bepalen die innovatie faciliteert.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-wetgeving">Wetgeving &amp; Beleid</span>
+                    <span class="badge badge-thema">Mediawetgeving</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#ruimte" class="badge-tempel">Ruimte</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele mediabedrijven missen de capaciteit en juridische expertise om al deze wetgeving goed te doorgronden én te beïnvloeden. Samen kunnen ze expertise bundelen, gezamenlijke standpunten innemen richting wetgevers en toezichthouders, en implementatiekeuzes maken die de sector als geheel ten goede komen.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Europese mediawetgeving heeft directe invloed op de onafhankelijkheid, diversiteit en financiering van journalistiek. Goede implementatie versterkt de pluriformiteit en vrijheid van de pers; slechte implementatie kan innovatie remmen en kleine spelers buitensluiten.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">EMFA: bescherming redactionele onafhankelijkheid; DSA: transparantieverplichtingen voor platforms; DMA: kansen voor eerlijkere distributie; AI Act: regels rond geautomatiseerde content en aanbevelingssystemen</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 12 -->
+            <article class="tafel-tile cat-wetgeving" id="tafel-12">
+                <span class="tafel-prio">12</span>
+                <h2 class="tafel-title">Welke wet- en regelgeving zit innovatie in de weg, en hoe cre&euml;ren we meer ruimte?</h2>
+                <p class="tafel-body">De mediasector loopt regelmatig aan tegen wet- en regelgeving die innovatie onbedoeld belemmert — denk aan auteursrecht, privacy, mededingingsregels of omroepwetgeving. Deze tafel brengt in kaart welke belemmeringen er zijn en welke aanpassingen of uitzonderingen nodig zijn om innovatie mogelijk te maken.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Identificeren van gezamenlijke belemmeringen in de wetgeving en op termijn pleiten voor aanpassingen bij wetgevers en toezichthouders.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-wetgeving">Wetgeving &amp; Beleid</span>
+                    <span class="badge badge-thema">Mediawetgeving</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#ruimte" class="badge-tempel">Ruimte</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele bedrijven kunnen moeilijk lobbyen voor wetswijzigingen. Als sector kun je gezamenlijk een agenda opstellen, knelpunten documenteren en met één stem richting wetgevers en toezichthouders pleiten voor een innovatievriendelijker regelgevend kader.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Als wet- en regelgeving experimenteren onmogelijk maakt, stagneert de democratische functie van de pers — terwijl Big Tech wél de ruimte krijgt te innoveren. Innovatieve journalistiek vergroot het vermogen van media om burgers te informeren en te betrekken.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Auteursrechtuitzonderingen voor data-mining (DSM-richtlijn); sandboxes voor AI-experimenten onder de AI Act</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 13 -->
+            <article class="tafel-tile cat-wetgeving" id="tafel-13">
+                <span class="tafel-prio">13</span>
+                <h2 class="tafel-title">Hoe zorgen we voor samenhangend overheidsbeleid op het snijvlak van media en technologie?</h2>
+                <p class="tafel-body">Mediabeleid en technologiebeleid worden in Nederland en Europa vaak los van elkaar ontwikkeld, terwijl ze steeds meer verweven zijn. Dat leidt tot tegenstrijdige regels, blinde vlekken en gemiste kansen. Deze tafel bespreekt hoe overheid, toezichthouders en mediasector samen kunnen werken aan een ge&iuml;ntegreerde beleidsagenda.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Pleiten voor en bijdragen aan een ge&iuml;ntegreerde beleidsagenda bij de overheid die media- en technologiebeleid samenbrengt, met de mediasector als volwaardige gesprekspartner.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-wetgeving">Wetgeving &amp; Beleid</span>
+                    <span class="badge badge-thema">Overheidsbeleid</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#ruimte" class="badge-tempel">Ruimte</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Een gefragmenteerde overheid is moeilijk te beïnvloeden voor individuele mediabedrijven. Als sector kun je gezamenlijk pleiten voor beleidscoördinatie — bijvoorbeeld tussen het ministerie van OCW, EZK en de ACM — en als gesprekspartner optreden die media én technologie begrijpt.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Beleid dat media en technologie als gescheiden werelden behandelt, ondermijnt de mogelijkheid om journalistiek te beschermen in een digitaal ecosysteem. Geïntegreerd beleid is een voorwaarde voor een gezonde, pluriforme mediaomgeving die de democratie ondersteunt.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Initiatieven zoals het Nationaal Mediaakkoord; vergelijkbare pogingen in Finland en Denemarken voor geïntegreerd media-tech beleid</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 14 -->
+            <article class="tafel-tile cat-kennis" id="tafel-14">
+                <span class="tafel-prio">14</span>
+                <h2 class="tafel-title">Hoe reguleert de mediasector zichzelf verantwoord op het gebied van data en AI?</h2>
+                <p class="tafel-body">De mediasector maakt in toenemende mate gebruik van data en AI — voor gepersonaliseerde aanbevelingen, geautomatiseerde content en publieksonderzoek. Zonder gedeelde normen en kaders bestaat het risico op misbruik, gebrek aan transparantie en verlies van vertrouwen bij het publiek. Zelfregulering via een sectorbreed kader — zoals DEDA voor Media — voorkomt dat overheden dit van buitenaf opleggen.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Een sectorbreed ethisch kader ontwikkelen voor verantwoord data- en AI-gebruik in de journalistiek, zodat de sector zichzelf reguleert en overheidsingrijpen voorkomt.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-kennis">Kennis, Innovatie &amp; Ethiek</span>
+                    <span class="badge badge-thema">Verantwoord AI-gebruik</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#technologie" class="badge-tempel">Technologie</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele mediabedrijven hanteren elk eigen normen voor data- en AI-gebruik, wat leidt tot inconsistentie en kwetsbaarheid. Een gezamenlijk kader geeft de sector geloofwaardigheid, vergroot het publieke vertrouwen en toont aan dat journalistiek verantwoord omgaat met technologie.</p>
+                        <h4>Democratische impact</h4>
+                        <p>Zelfregulering op data- en AI-gebruik vergroot de kans dat algoritmes en data worden ingezet om burgers beter te informeren in plaats van te manipuleren of te polariseren. Dat versterkt de democratische rol van media en vermindert de noodzaak van overheidsingrijpen.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">DEDA voor Media (Data Ethics Decision Aid); AI-gedragscode NOS; algoritmeverantwoording bij publieke omroepen</div>
+                    </div>
+                </details>
+            </article>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="page-footer">
+            <p>SDM — Stichting Democratie en Media &middot; <a href="index.html">Terug naar overzicht</a></p>
+        </footer>
+
+    </div>
+</body>
+</html>

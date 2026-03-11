@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tempel: democratische rol van media</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0eb;
+    --bg-dark: #e8e0d8;
+    --ink: #1a1a18;
+    --ink-light: #4a4a45;
+    --ink-muted: #8a8a82;
+    --accent: #c23a22;
+    --accent-light: #e8d5cf;
+    --card-bg: #ffffff;
+    --border: #d4cdc4;
+    --col-fundament: #2c3340;
+    --col-vakmanschap: #7a6a58;
+    --col-verantwoordelijkheid: #9e7e4f;
+    --col-technologie: #5d7a6e;
+    --col-impact: #c23a22;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', Georgia, serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  header {
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    position: relative;
+  }
+  header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    margin: 2rem auto 0;
+  }
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  header p {
+    font-size: 1.05rem;
+    color: var(--ink-light);
+    max-width: 560px;
+    margin: 1.2rem auto 0;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .subtitle-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-muted);
+    margin-bottom: 0.8rem;
+  }
+  /* --- TEMPLE --- */
+  .temple-section {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+  .temple-instruction {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    margin-bottom: 2.5rem;
+    font-style: italic;
+  }
+  .category-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-muted);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    margin-top: 1.4rem;
+  }
+  .category-label:first-of-type { margin-top: 0; }
+  .category-label .cat-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+  }
+  /* Side labels */
+  .section-with-label {
+    position: relative;
+  }
+  .side-label {
+    position: absolute;
+    left: -1.2rem;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+  }
+  .side-label-inner {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .side-label-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .side-label-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    border-radius: 1px;
+    opacity: 0.3;
+  }
+  @media (max-width: 600px) {
+    .side-label { display: none; }
+    .section-with-label { margin-left: 0; }
+  }
+  @media (min-width: 601px) {
+    .category-label.desktop-hide { display: none; }
+    .section-with-label { margin-left: 2.5rem; }
+  }
+  /* --- ROOF --- */
+  .roof {
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    transform: translateY(12px);
+    animation: revealEl 0.5s ease forwards;
+    animation-delay: 0.6s;
+  }
+  .roof:hover { transform: scale(1.015); z-index: 10; }
+  .roof-shape {
+    width: 100%;
+    background: var(--col-impact);
+    clip-path: polygon(50% 0%, 2% 100%, 98% 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 2rem 1.4rem;
+    min-height: 110px;
+  }
+  .roof-content {
+    text-align: center;
+    color: #fff;
+    padding-top: 3rem;
+  }
+  .roof-content .el-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.7rem, 1.8vw, 0.88rem);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .roof:hover .roof-shape {
+    background: #d94530;
+    box-shadow: 0 4px 24px rgba(194,58,34,0.25);
+  }
+  /* --- PILLARS --- */
+  .pillars-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+    min-height: 280px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .pillar {
+    flex: 1 1 0;
+    min-width: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: revealEl 0.5s ease forwards;
+  }
+  .pillar:hover { transform: scale(1.02); z-index: 10; }
+  .pillar-vakmanschap {
+    background: var(--col-vakmanschap);
+    color: #e8e4df;
+    animation-delay: 0.35s;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 360'%3E%3C!-- Open newspaper --%3E%3Cpath d='M20 60 Q20 40 40 40 L160 40 Q180 40 180 60 L180 200 Q180 220 160 220 L100 220 L100 220 L40 220 Q20 220 20 200 Z' fill='white' opacity='0.045'/%3E%3Cline x1='100' y1='55' x2='100' y2='205' stroke='white' stroke-width='1' opacity='0.05'/%3E%3C!-- Headline --%3E%3Crect x='35' y='55' rx='2' width='55' height='6' fill='white' opacity='0.06'/%3E%3Crect x='110' y='55' rx='2' width='55' height='6' fill='white' opacity='0.06'/%3E%3C!-- Column lines left --%3E%3Crect x='35' y='70' rx='1' width='50' height='3' fill='white' opacity='0.04'/%3E%3Crect x='35' y='78' rx='1' width='50' height='3' fill='white' opacity='0.04'/%3E%3Crect x='35' y='86' rx='1' width='45' height='3' fill='white' opacity='0.04'/%3E%3Crect x='35' y='94' rx='1' width='50' height='3' fill='white' opacity='0.04'/%3E%3Crect x='35' y='102' rx='1' width='48' height='3' fill='white' opacity='0.04'/%3E%3Crect x='35' y='110' rx='1' width='50' height='3' fill='white' opacity='0.04'/%3E%3Crect x='35' y='118' rx='1' width='42' height='3' fill='white' opacity='0.04'/%3E%3C!-- Image placeholder left --%3E%3Crect x='35' y='130' rx='2' width='50' height='35' fill='white' opacity='0.035'/%3E%3C!-- More lines left --%3E%3Crect x='35' y='174' rx='1' width='50' height='3' fill='white' opacity='0.04'/%3E%3Crect x='35' y='182' rx='1' width='46' height='3' fill='white' opacity='0.04'/%3E%3Crect x='35' y='190' rx='1' width='50' height='3' fill='white' opacity='0.04'/%3E%3C!-- Column lines right --%3E%3Crect x='110' y='70' rx='1' width='55' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='78' rx='1' width='55' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='86' rx='1' width='50' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='94' rx='1' width='55' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='102' rx='1' width='52' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='110' rx='1' width='55' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='118' rx='1' width='48' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='126' rx='1' width='55' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='134' rx='1' width='50' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='142' rx='1' width='55' height='3' fill='white' opacity='0.04'/%3E%3Crect x='110' y='150' rx='1' width='45' height='3' fill='white' opacity='0.04'/%3E%3C!-- Image placeholder right --%3E%3Crect x='110' y='162' rx='2' width='55' height='30' fill='white' opacity='0.035'/%3E%3C!-- Magnifying glass over paper --%3E%3Ccircle cx='145' cy='250' r='28' fill='white' fill-opacity='0.04' stroke='white' stroke-width='2.5' stroke-opacity='0.07'/%3E%3Cline x1='165' y1='272' x2='185' y2='300' stroke='white' stroke-width='4' stroke-linecap='round' opacity='0.07'/%3E%3C!-- Lens highlight --%3E%3Cpath d='M130 238 Q138 230 150 235' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.05'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-left: 3px dashed rgba(255,255,255,0.15);
+    border-right: 3px dashed rgba(255,255,255,0.15);
+  }
+  .pillar-verantwoordelijkheid {
+    background: var(--col-verantwoordelijkheid);
+    color: #fff;
+    animation-delay: 0.42s;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 360'%3E%3C!-- Classical building / courthouse --%3E%3C!-- Pediment triangle --%3E%3Cpath d='M15 130 L100 60 L185 130 Z' fill='white' opacity='0.04'/%3E%3Cpath d='M15 130 L100 60 L185 130' fill='none' stroke='white' stroke-width='2' opacity='0.07'/%3E%3C!-- Tympanum detail --%3E%3Ccircle cx='100' cy='105' r='12' fill='white' opacity='0.035'/%3E%3C!-- Scales inside tympanum --%3E%3Cline x1='100' y1='97' x2='100' y2='112' stroke='white' stroke-width='1' opacity='0.06'/%3E%3Cline x1='90' y1='102' x2='110' y2='102' stroke='white' stroke-width='1' opacity='0.06'/%3E%3Cpath d='M90 102 L87 108 L93 108 Z' fill='white' opacity='0.05'/%3E%3Cpath d='M110 102 L107 108 L113 108 Z' fill='white' opacity='0.05'/%3E%3C!-- Entablature --%3E%3Crect x='10' y='130' width='180' height='10' fill='white' opacity='0.05'/%3E%3C!-- Columns --%3E%3Crect x='28' y='140' width='14' height='120' rx='3' fill='white' opacity='0.05'/%3E%3Crect x='62' y='140' width='14' height='120' rx='3' fill='white' opacity='0.05'/%3E%3Crect x='96' y='140' width='14' height='120' rx='3' fill='white' opacity='0.05'/%3E%3Crect x='130' y='140' width='14' height='120' rx='3' fill='white' opacity='0.05'/%3E%3Crect x='160' y='140' width='14' height='120' rx='3' fill='white' opacity='0.05'/%3E%3C!-- Column fluting --%3E%3Cline x1='35' y1='145' x2='35' y2='255' stroke='white' stroke-width='0.5' opacity='0.04'/%3E%3Cline x1='69' y1='145' x2='69' y2='255' stroke='white' stroke-width='0.5' opacity='0.04'/%3E%3Cline x1='103' y1='145' x2='103' y2='255' stroke='white' stroke-width='0.5' opacity='0.04'/%3E%3Cline x1='137' y1='145' x2='137' y2='255' stroke='white' stroke-width='0.5' opacity='0.04'/%3E%3Cline x1='167' y1='145' x2='167' y2='255' stroke='white' stroke-width='0.5' opacity='0.04'/%3E%3C!-- Stylobate / steps --%3E%3Crect x='5' y='260' width='190' height='8' fill='white' opacity='0.045'/%3E%3Crect x='0' y='270' width='200' height='8' fill='white' opacity='0.04'/%3E%3Crect x='-5' y='280' width='210' height='8' fill='white' opacity='0.035'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-left: 3px dashed rgba(255,255,255,0.15);
+    border-right: 3px dashed rgba(255,255,255,0.15);
+  }
+  .pillar-technologie {
+    background: var(--col-technologie);
+    color: #e8e4df;
+    flex: 1 1 0;
+    min-width: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 360'%3E%3C!-- Broadcast tower --%3E%3Cpath d='M88 100 L78 290 L122 290 L112 100 Z' fill='white' opacity='0.04'/%3E%3C!-- Tower cross braces --%3E%3Cline x1='82' y1='140' x2='118' y2='140' stroke='white' stroke-width='1' opacity='0.05'/%3E%3Cline x1='82' y1='140' x2='116' y2='175' stroke='white' stroke-width='0.8' opacity='0.04'/%3E%3Cline x1='118' y1='140' x2='84' y2='175' stroke='white' stroke-width='0.8' opacity='0.04'/%3E%3Cline x1='81' y1='175' x2='119' y2='175' stroke='white' stroke-width='1' opacity='0.05'/%3E%3Cline x1='81' y1='175' x2='115' y2='210' stroke='white' stroke-width='0.8' opacity='0.04'/%3E%3Cline x1='119' y1='175' x2='85' y2='210' stroke='white' stroke-width='0.8' opacity='0.04'/%3E%3Cline x1='80' y1='210' x2='120' y2='210' stroke='white' stroke-width='1' opacity='0.05'/%3E%3Cline x1='80' y1='210' x2='114' y2='245' stroke='white' stroke-width='0.8' opacity='0.04'/%3E%3Cline x1='120' y1='210' x2='86' y2='245' stroke='white' stroke-width='0.8' opacity='0.04'/%3E%3Cline x1='79' y1='245' x2='121' y2='245' stroke='white' stroke-width='1' opacity='0.05'/%3E%3C!-- Antenna top --%3E%3Cline x1='100' y1='50' x2='100' y2='100' stroke='white' stroke-width='2' opacity='0.06'/%3E%3Ccircle cx='100' cy='48' r='3' fill='white' opacity='0.06'/%3E%3C!-- Signal waves --%3E%3Cpath d='M72 70 Q60 48 72 26' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.05'/%3E%3Cpath d='M58 78 Q40 48 58 18' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.04'/%3E%3Cpath d='M44 86 Q20 48 44 10' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.03'/%3E%3Cpath d='M128 70 Q140 48 128 26' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.05'/%3E%3Cpath d='M142 78 Q160 48 142 18' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.04'/%3E%3Cpath d='M156 86 Q180 48 156 10' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.03'/%3E%3C!-- Base platform --%3E%3Crect x='68' y='290' width='64' height='6' rx='1' fill='white' opacity='0.045'/%3E%3C!-- Small data dots floating --%3E%3Ccircle cx='35' cy='130' r='2' fill='white' opacity='0.04'/%3E%3Ccircle cx='165' cy='145' r='2' fill='white' opacity='0.04'/%3E%3Ccircle cx='28' cy='200' r='1.5' fill='white' opacity='0.03'/%3E%3Ccircle cx='172' cy='215' r='1.5' fill='white' opacity='0.03'/%3E%3Ccircle cx='40' cy='260' r='2' fill='white' opacity='0.03'/%3E%3Ccircle cx='160' cy='270' r='2' fill='white' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-left: 3px dashed rgba(255,255,255,0.15);
+    border-right: 3px dashed rgba(255,255,255,0.15);
+    animation-delay: 0.49s;
+  }
+  .pillar:hover.pillar-vakmanschap { filter: brightness(1.15); box-shadow: 0 4px 24px rgba(122,106,88,0.3); }
+  .pillar:hover.pillar-verantwoordelijkheid { filter: brightness(1.15); box-shadow: 0 4px 24px rgba(158,126,79,0.3); }
+  .pillar:hover.pillar-technologie { filter: brightness(1.15); box-shadow: 0 4px 24px rgba(93,122,110,0.3); }
+  .pillar .el-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.62rem, 1.4vw, 0.78rem);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .pillar .el-subtitle {
+    font-size: 0.72rem;
+    opacity: 0.65;
+    line-height: 1.45;
+    max-width: 180px;
+  }
+  .pillar-enabler-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.45;
+    margin-top: auto;
+    padding-top: 0.8rem;
+    border-top: 1px dashed rgba(255,255,255,0.2);
+  }
+  /* --- CONNECTOR --- */
+  .connector {
+    display: flex;
+    justify-content: center;
+    height: 10px;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: revealEl 0.3s ease forwards;
+    animation-delay: 0.55s;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .connector-line { flex: 1 1 0; position: relative; }
+  .connector-line::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+    transform: translateX(-50%);
+  }
+  .connector-top {
+    height: 6px;
+    opacity: 0;
+    animation: revealEl 0.3s ease forwards;
+    animation-delay: 0.58s;
+  }
+  /* --- FOUNDATION --- */
+  .foundation-layer {
+    position: relative;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 56px;
+    padding: 0.7rem 1rem;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: revealEl 0.5s ease forwards;
+  }
+  .foundation-layer:hover { transform: scale(1.02); z-index: 10; }
+  .fl-3 {
+    width: 80%;
+    clip-path: polygon(2.5% 0, 97.5% 0, 100% 100%, 0 100%);
+    background: #3e4755;
+    color: #e8e4df;
+    animation-delay: 0.14s;
+  }
+  .fl-2 {
+    width: 90%;
+    clip-path: polygon(2% 0, 98% 0, 100% 100%, 0 100%);
+    background: #2c3340;
+    color: #e8e4df;
+    animation-delay: 0.07s;
+  }
+  .fl-1 {
+    width: 100%;
+    clip-path: polygon(1.5% 0, 98.5% 0, 100% 100%, 0 100%);
+    background: #1a1f2e;
+    color: #e8e4df;
+    animation-delay: 0s;
+  }
+  .fl-3:hover { background: #4f5a6b; box-shadow: 0 4px 24px rgba(62,71,85,0.3); }
+  .fl-2:hover { background: #3a4356; box-shadow: 0 4px 24px rgba(44,51,64,0.3); }
+  .fl-1:hover { background: #252b3d; box-shadow: 0 4px 24px rgba(26,31,46,0.3); }
+  .foundation-layer .el-number {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-right: 0.6rem;
+    flex-shrink: 0;
+  }
+  .foundation-layer .el-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.65rem, 1.6vw, 0.82rem);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  @keyframes revealEl {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* --- DETAIL PANEL --- */
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(26,26,24,0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease;
+  }
+  .detail-overlay.visible {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .detail-panel {
+    background: var(--card-bg);
+    width: 92%;
+    max-width: 720px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    animation: slideUp 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .detail-panel-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--card-bg);
+    padding: 1.8rem 2.2rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .detail-panel-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+  .layer-num-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.3rem;
+  }
+  .detail-domain-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    margin-top: 0.4rem;
+    display: inline-block;
+  }
+  .domain-fundament { background: #e2e5ea; color: #2c3340; }
+  .domain-vakmanschap { background: #eae5de; color: #7a6a58; }
+  .domain-verantwoordelijkheid { background: #f0ebe2; color: #9e7e4f; }
+  .domain-technologie { background: #dfe8e4; color: #4a6b5c; }
+  .domain-impact { background: var(--accent-light); color: var(--accent); }
+  .close-btn {
+    width: 36px; height: 36px;
+    border: none; background: var(--bg); border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; color: var(--ink-muted); flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .close-btn:hover { background: var(--bg-dark); color: var(--ink); }
+  .detail-panel-body { padding: 1.5rem 2.2rem 2.2rem; }
+  .detail-description {
+    font-size: 0.95rem; color: var(--ink-light); line-height: 1.75;
+    margin-bottom: 1.8rem; font-weight: 300;
+    border-left: 3px solid var(--border); padding-left: 1rem;
+  }
+  .detail-section { margin-bottom: 2rem; }
+  .detail-section h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700; font-size: 1rem; margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-icon { font-size: 0.85rem; opacity: 0.6; }
+  .detail-section ul { list-style: none; padding: 0; }
+  .detail-section ul li {
+    position: relative; padding: 0.4rem 0 0.4rem 1.2rem;
+    font-size: 0.88rem; line-height: 1.65; color: var(--ink-light);
+  }
+  .detail-section ul li::before {
+    content: '\2014'; position: absolute; left: 0; color: var(--ink-muted);
+  }
+  .intl-examples { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .intl-card {
+    background: var(--bg); padding: 0.8rem 1rem;
+    border-radius: 3px; border: 1px solid var(--border);
+  }
+  .intl-card strong {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 0.82rem; display: block; margin-bottom: 0.25rem;
+  }
+  .intl-card p { font-size: 0.78rem; color: var(--ink-light); line-height: 1.55; }
+  .trends-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .trend-item {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    padding: 0.6rem 0.8rem; background: var(--bg);
+    border-radius: 3px; border: 1px solid var(--border);
+  }
+  .trend-badge {
+    flex-shrink: 0; font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 0.15rem 0.45rem; border-radius: 2px; margin-top: 0.15rem;
+  }
+  .trend-badge.threat { background: #f8d7da; color: #8b1a2b; }
+  .trend-badge.opportunity { background: #d4edda; color: #1b5e2e; }
+  .trend-badge.dual { background: #fff3cd; color: #7a6b2f; }
+  .trend-content strong { font-size: 0.82rem; display: block; margin-bottom: 0.15rem; }
+  .trend-content p { font-size: 0.78rem; color: var(--ink-light); line-height: 1.55; }
+  /* ── INITIATIVE LINKS ── */
+  .initiatives-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .initiatives-section h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700; font-size: 1rem; margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .initiatives-section p.init-intro {
+    font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 0.8rem;
+    font-style: italic; line-height: 1.55;
+  }
+  .init-link-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .init-link-card {
+    display: flex; align-items: flex-start; gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 3px;
+    text-decoration: none; color: inherit;
+    transition: all 0.2s;
+  }
+  .init-link-card:hover {
+    border-color: var(--accent); background: #faf5f3;
+    transform: translateX(3px);
+  }
+  .init-link-badge {
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 0.2rem 0.5rem; border-radius: 2px;
+    margin-top: 0.1rem;
+  }
+  .init-link-badge.primary { background: #faf5f3; border: 1px solid var(--accent); color: var(--accent); }
+  .init-link-badge.secondary { background: var(--bg-dark); border: 1px solid var(--border); color: var(--ink-muted); }
+  .init-link-content { flex: 1; min-width: 0; }
+  .init-link-content strong {
+    font-size: 0.85rem; display: block; margin-bottom: 0.15rem; color: var(--ink);
+  }
+  .init-link-content span {
+    font-size: 0.78rem; color: var(--ink-light); line-height: 1.5;
+  }
+  .init-link-arrow {
+    flex-shrink: 0; color: var(--ink-muted); font-size: 0.9rem;
+    align-self: center; transition: transform 0.2s;
+  }
+  .init-link-card:hover .init-link-arrow { color: var(--accent); transform: translateX(3px); }
+  .panel-nav {
+    display: flex; justify-content: space-between;
+    padding: 1rem 2.2rem 1.5rem; border-top: 1px solid var(--border);
+  }
+  .panel-nav button {
+    font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem;
+    padding: 0.5rem 1rem; border: 1px solid var(--border);
+    background: var(--bg); color: var(--ink-light);
+    border-radius: 3px; cursor: pointer; transition: all 0.2s;
+  }
+  .panel-nav button:hover { background: var(--bg-dark); color: var(--ink); }
+  .panel-nav button:disabled { opacity: 0.3; cursor: default; }
+  footer {
+    text-align: center; padding: 2rem;
+    border-top: 1px solid var(--border); margin-top: 1rem;
+  }
+  footer p {
+    font-size: 0.75rem; color: var(--ink-muted);
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;
+  }
+  @media (max-width: 600px) {
+    header { padding: 3rem 1.5rem 2rem; }
+    .temple-section { padding: 0 1rem 3rem; }
+    .foundation-layer { min-height: 48px; padding: 0.6rem 0.6rem; }
+    .foundation-layer .el-title { font-size: 0.7rem; }
+    .foundation-layer .el-number { font-size: 0.65rem; margin-right: 0.3rem; }
+    .pillar .el-title { font-size: 0.78rem; }
+    .pillar .el-subtitle { display: none; }
+    .pillar-enabler-note { display: none; }
+    .pillars-wrapper { min-height: 180px; gap: 0.35rem; }
+    .detail-panel-header, .detail-panel-body, .panel-nav { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .intl-examples { grid-template-columns: 1fr; }
+  }
+  .detail-panel::-webkit-scrollbar { width: 6px; }
+  .detail-panel::-webkit-scrollbar-track { background: transparent; }
+  .detail-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+<header>
+  <p class="subtitle-note">Framework</p>
+  <h1>Tempel: democratische rol van media</h1>
+  <p>Wat heeft een journalistieke organisatie nodig om haar rol in de democratie te vervullen? Van fundament tot impact — klik op een element.</p>
+</header>
+<section class="temple-section">
+  <p class="temple-instruction">Klik op een element om voorbeelden, internationale vergelijkingen en trends te bekijken &#8595;</p>
+  <div class="roof" onclick="openElement('impact')">
+    <div class="roof-shape">
+      <div class="roof-content">
+        <span class="el-title">Democratische impact</span>
+      </div>
+    </div>
+  </div>
+  <div class="connector-top"></div>
+  <div class="category-label desktop-hide">Journalistiek handelen en ontwerpen</div>
+  <div class="section-with-label">
+    <div class="side-label">
+      <div class="side-label-line" style="background:var(--col-verantwoordelijkheid)"></div>
+      <div class="side-label-inner">
+        <span class="side-label-dot" style="background:var(--col-verantwoordelijkheid);display:none"></span>
+        Journalistiek handelen en ontwerpen
+      </div>
+    </div>
+    <div class="pillars-wrapper">
+      <div class="pillar pillar-vakmanschap" onclick="openElement('vakmanschap')">
+        <span class="el-title">Vakmanschap</span>
+        <span class="el-subtitle">Brongebruik, feitelijkheid, onderzoeksdiepte, onafhankelijkheid</span>
+        <span class="pillar-enabler-note">Domein van de redactie</span>
+      </div>
+      <div class="pillar pillar-verantwoordelijkheid" onclick="openElement('verantwoordelijkheid')">
+        <span class="el-title">Verantwoordelijkheid</span>
+        <span class="el-subtitle">Onderwerpkeuze, framing, presentatie, vertrouwen, democratische rol</span>
+        <span class="pillar-enabler-note">Domein van de redactie</span>
+      </div>
+      <div class="pillar pillar-technologie" onclick="openElement('technologie')">
+        <span class="el-title">Technologie</span>
+        <span class="el-subtitle">AI, algoritmische distributie, data-infra, verificatietools</span>
+        <span class="pillar-enabler-note">Samenspel directie, redactie &amp; tech</span>
+      </div>
+    </div>
+  </div>
+  <div class="connector">
+    <div class="connector-line"></div>
+    <div class="connector-line"></div>
+    <div class="connector-line"></div>
+  </div>
+  <div class="category-label desktop-hide">Fundament</div>
+  <div class="section-with-label">
+    <div class="side-label">
+      <div class="side-label-line" style="background:var(--col-fundament)"></div>
+      <div class="side-label-inner">
+        <span class="side-label-dot" style="background:var(--col-fundament);display:none"></span>
+        Fundament
+      </div>
+    </div>
+    <div class="foundation">
+    <div class="foundation-layer fl-3" onclick="openElement('publieksbereik')">
+      <span class="el-number">3</span>
+      <span class="el-title">Publieksbereik</span>
+    </div>
+    <div class="foundation-layer fl-2" onclick="openElement('levensvatbaarheid')">
+      <span class="el-number">2</span>
+      <span class="el-title">Organisatorische levensvatbaarheid</span>
+    </div>
+    <div class="foundation-layer fl-1" onclick="openElement('ruimte')">
+      <span class="el-number">1</span>
+      <span class="el-title">Maatschappelijke en politieke ruimte</span>
+    </div>
+    </div>
+  </div>
+</section>
+<div class="detail-overlay" id="overlay">
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-panel-header" id="panelHeader"></div>
+    <div class="detail-panel-body" id="panelBody"></div>
+    <div class="panel-nav">
+      <button id="prevBtn" onclick="navigateEl(-1)">&larr; Vorig</button>
+      <button id="nextBtn" onclick="navigateEl(1)">Volgend &rarr;</button>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>Tempel: democratische rol van media &mdash; Gespreksframework 2026</p>
+</footer>
+<script>
+const elements = [
+  {
+    id: 'ruimte',
+    title: "Maatschappelijke en politieke ruimte",
+    domain: "Extern gegeven",
+    domainClass: "domain-fundament",
+    category: "Fundament",
+    description: "De bodem waarop alles rust: persvrijheid, rechtsstaat, wettelijke bescherming. Een mediabedrijf kan deze laag maar beperkt be\u00efnvloeden \u2014 het is de politieke en maatschappelijke realiteit waarbinnen het opereert.",
+    examples: [
+      "De moord op Peter R. de Vries (2021) liet zien dat zelfs in Nederland de fysieke veiligheid van journalisten niet vanzelfsprekend is",
+      "SLAPP-suits: rechtszaken gericht op het intimideren en financieel uitputten van journalisten, groeiend in Europa",
+      "De Europese Media Freedom Act (EMFA, 2024) biedt een nieuw juridisch kader voor bescherming van journalistieke onafhankelijkheid",
+      "Toenemende bedreigingen aan het adres van journalisten, met name bij verslaggeving over georganiseerde misdaad"
+    ],
+    international: [
+      { country: "Hongarije", text: "Systematische ondermijning van persvrijheid via selectieve overheidsadvertenties en overname door bevriende oligarchen (KESMA)" },
+      { country: "Polen", text: "Na PiS-controle over publieke omroep: democratisch herstel na 2023, maar toont kwetsbaarheid" },
+      { country: "Scandinavi\u00eb", text: "Sterke wettelijke bescherming, openbaarheid van overheidsdocumenten als grondrecht (Zweden, sinds 1766)" },
+      { country: "Verenigde Staten", text: "Toenemende politieke druk op media via retoriek en rechtszaken" }
+    ],
+    trends: [
+      { type: "threat", name: "Bedreigingen van journalisten", desc: "Fysiek en online, ook in West-Europa. PersVeilig registreert honderden incidenten per jaar." },
+      { type: "opportunity", name: "EU-regelgeving als beschermingslaag", desc: "EMFA en anti-SLAPP-richtlijn bieden nieuwe juridische instrumenten." },
+      { type: "threat", name: "Autoritair-populistische politiek", desc: "Groeiende retoriek die de legitimiteit van onafhankelijke media ondermijnt." },
+      { type: "threat", name: "Digitale surveillance", desc: "Technologische mogelijkheden voor het achterhalen van journalistieke bronnen nemen toe." }
+    ],
+    initiatives: [
+      { name: "European Media Industry Alliance (EMIA)", anchor: "emia", primary: true, note: "Lobbyt bij EU-instellingen voor betere wetgeving rond platformregulering en auteursrecht \u2014 direct gericht op de politieke ruimte." },
+      { name: "Publieke Mediadienst", anchor: "publiek", primary: false, note: "Europese culturele soevereiniteit als politieke randvoorwaarde voor publieke media." }
+    ]
+  },
+  {
+    id: 'levensvatbaarheid',
+    title: "Organisatorische levensvatbaarheid",
+    domain: "Directie",
+    domainClass: "domain-fundament",
+    category: "Fundament",
+    description: "Een journalistieke organisatie kan alleen haar democratische functie vervullen als ze financieel gezond is en een duurzaam businessmodel heeft. Dit is de materi\u00eble basis van onafhankelijke journalistiek.",
+    examples: [
+      "Verschuiving van advertentie-inkomsten naar techplatforms: meer dan 60% van digitale advertenties gaat naar Google en Meta",
+      "Grote uitgevers zetten in op consolidatie, diversificatie (e-commerce, marktplaatsen) en abonnementsmodellen",
+      "Regionale en lokale media staan onder de zwaarste druk \u2014 titels verdwijnen, hele regio\u2019s dreigen journalistieke woestijnen te worden",
+      "Het Stimuleringsfonds voor de Journalistiek biedt publieke financiering, maar het volume is beperkt",
+      "Trusted Web: DPG Media bouwt een eigen advertentie-ecosysteem onafhankelijk van big tech, met eigen first-party data, privacybescherming en advertentieformats. Doel: minder afhankelijkheid van Google en Meta, betere controle over consumentendata, en hogere advertentie-inkomsten. Onderdeel van een bredere beweging waarin ook de Nederlandse Datakluis \u2014 een initiatief van vijf grote Nederlandse mediabedrijven \u2014 burgers controle over hun eigen data wil geven."
+    ],
+    international: [
+      { country: "New York Times", text: "10+ miljoen digitale abonnees door diversificatie (Cooking, Games, Wirecutter). Alleen haalbaar voor een handvol mondiale titels." },
+      { country: "The Guardian", text: "Membership-model zonder paywall. Financieel gezond via vrijwillige bijdragen en filantropie (Scott Trust)." },
+      { country: "Noorwegen", text: "Directe overheidssubsidies voor journalistiek, ook voor commerci\u00eble kranten, met waarborgen voor onafhankelijkheid." },
+      { country: "Frankrijk", text: "Uitgebreid subsidiestelsel inclusief verlaagd btw-tarief. Keerzijde: afhankelijkheid van de overheid." }
+    ],
+    trends: [
+      { type: "opportunity", name: "Lezer-gefinancierd model", desc: "Abonnementen en memberships groeien. Versterkt de band met het publiek." },
+      { type: "dual", name: "Consolidatie en schaalvergroting", desc: "Schaal biedt effici\u00ebntie, maar bedreigt pluriformiteit." },
+      { type: "dual", name: "AI als kostendruk \u00e9n -reductie", desc: "Kan processen effici\u00ebnter maken, maar bedreigt ook de unieke positie van journalistiek." },
+      { type: "threat", name: "Verdwijning lokale media", desc: "Lokale journalistieke woestijnen ondermijnen democratische controle op gemeentelijk niveau." },
+      { type: "opportunity", name: "Filantropische financiering", desc: "Groeiende interesse van fondsen in het financieren van journalistiek als publiek goed." }
+    ],
+    initiatives: [
+      { name: "Trusted Web", anchor: "trustedweb", primary: true, note: "DPG Media\u2019s eigen advertentie-ecosysteem: hogere inkomsten en minder afhankelijkheid van Google en Meta." },
+      { name: "De Nederlandse Datakluis", anchor: "datakluis", primary: false, note: "Betere first-party data voor adverteerders versterkt het verdienmodel van mediabedrijven." },
+      { name: "LEDE Foundation", anchor: "lede", primary: false, note: "Gedeelde open-source infrastructuur verlaagt de kosten voor individuele mediabedrijven." },
+      { name: "EMIA", anchor: "emia", primary: false, note: "Lobby voor eerlijke compensatie via wetgeving (auteursrecht, platformheffingen) versterkt de inkomstenbasis." }
+    ]
+  },
+  {
+    id: 'publieksbereik',
+    title: "Publieksbereik",
+    domain: "Directie",
+    domainClass: "domain-fundament",
+    category: "Fundament",
+    description: "Je kunt alleen democratische impact hebben als je een publiek bereikt. In een tijd waarin aandacht schaars is en platforms minder doorverwijzen, is dit een steeds grotere uitdaging.",
+    examples: [
+      "Het bereik van traditionele nieuwsmedia daalt, met name onder jongeren \u2014 steeds meer mensen komen nieuws \u2018toevallig\u2019 tegen via social media",
+      "Meta heeft nieuws grotendeels uit Facebook en Threads verwijderd. Google\u2019s AI Overviews beantwoorden vragen zonder door te klikken",
+      "TikTok, Instagram en YouTube zijn voor jongeren belangrijkere nieuwsbronnen dan nieuwssites",
+      "Nieuwsbrieven en podcasts bieden directe relaties met het publiek, buiten platformafhankelijkheid om"
+    ],
+    international: [
+      { country: "Australi\u00eb", text: "News Media Bargaining Code dwong platforms te betalen. Maar Meta trok zich terug uit nieuws." },
+      { country: "Canada", text: "Online News Act leidde ertoe dat Meta nieuws volledig blokkeerde voor Canadezen." },
+      { country: "Zuid-Korea / Japan", text: "Hoge penetratie van eigen nieuwsportals (Naver, Yahoo Japan). Minder afhankelijk van westerse techplatforms." },
+      { country: "BBC", text: "Behoudt groot bereik door combinatie van lineair, online, podcasts en social media. Publiek model maakt dit mogelijk." },
+      { country: "Rappler Communities (Filipijnen)", text: "Bouwt eigen gedecentraliseerde communities op het Matrix-protocol, waardoor nieuwsorganisaties hun publiek direct bereiken zonder afhankelijkheid van Facebook of X. Journalist-gemodereerde chats met end-to-end encryptie." }
+    ],
+    trends: [
+      { type: "threat", name: "Platformontkoppeling van nieuws", desc: "Google en Meta verwijzen minder door. AI-antwoorden vervangen klikken. De \u2018link\u2019 als model staat onder druk." },
+      { type: "threat", name: "Nieuwsmoeheid en -vermijding", desc: "Groeiend aandeel vermijdt bewust nieuws, deels door negativiteitsbias in berichtgeving." },
+      { type: "opportunity", name: "Directe publieksrelaties", desc: "Nieuwsbrieven, podcasts, eigen apps cre\u00ebren een directe band zonder platformtussenpersoon." },
+      { type: "threat", name: "Concurrentie niet-journalistieke content", desc: "Journalistiek concurreert met Netflix, TikTok, gaming \u2014 alles wat om aandacht vraagt." },
+      { type: "threat", name: "Jongeren als verloren generatie?", desc: "Als jongeren geen nieuwsgewoonte opbouwen, is het de vraag of ze dat later alsnog doen." }
+    ],
+    initiatives: [
+      { name: "Publieke Mediadienst", anchor: "publiek", primary: true, note: "Een Europees publiek platform als antwoord op het bereikprobleem van publieke media in het digitale tijdperk." },
+      { name: "News Over Algorithms", anchor: "noa", primary: false, note: "Onderzoek naar algoritmische distributie: wie bepaalt wat mensen te zien krijgen?" }
+    ]
+  },
+  {
+    id: 'vakmanschap',
+    title: "Vakmanschap",
+    domain: "Redactie",
+    domainClass: "domain-vakmanschap",
+    category: "Journalistiek handelen en ontwerpen",
+    description: "Het ambachtelijke hart van journalistiek: brongebruik, feitelijkheid, hoor en wederhoor, onderzoeksdiepte, onafhankelijkheid. Zonder vakmanschap is geen enkele inhoudelijke of strategische keuze geloofwaardig.",
+    examples: [
+      "Bezuinigingen leiden tot minder tijd voor research, hoor en wederhoor, en diepgang",
+      "AI-tools worden ingezet voor transcriptie, samenvatting en dataverwerking \u2014 roept vragen op over verantwoordelijkheid",
+      "Datajournalistiek en OSINT hebben het arsenaal uitgebreid \u2014 de toeslagenaffaire was mede mogelijk door systematisch onderzoek",
+      "De Leidraad van de Raad voor de Journalistiek biedt een normatief kader, maar naleving is vrijwillig"
+    ],
+    international: [
+      { country: "ProPublica (VS)", text: "Non-profit onderzoeksjournalistiek: diep, langdurig onderzoek gefinancierd door filantropie. Vakmanschap en impact hand in hand." },
+      { country: "Bellingcat", text: "Nederlandse oorsprong. Pionierde OSINT-journalistiek: geolocatie, beeldanalyse, databankonderzoek." },
+      { country: "BBC Verify", text: "Dedicated team voor verificatie en factchecking, zichtbaar ge\u00efntegreerd in reguliere berichtgeving." },
+      { country: "Zetland (DK)", text: "Bewuste keuze voor diepgang boven snelheid, met een businessmodel dat dit ondersteunt." }
+    ],
+    trends: [
+      { type: "threat", name: "Tijdsdruk en productiedruk", desc: "Minder journalisten moeten meer produceren. Dit gaat ten koste van verificatie en diepgang." },
+      { type: "dual", name: "AI als redactioneel gereedschap", desc: "Kan routinewerk versnellen, maar kan vakmanschap uithollen als het kritiekloos wordt ingezet." },
+      { type: "opportunity", name: "OSINT en datajournalistiek", desc: "Nieuwe methoden vergroten het vermogen om macht te controleren." },
+      { type: "threat", name: "Erosie van sectorstandaarden", desc: "Zonder sterke beroepsorganisaties dreigt vakmanschap te eroderen." },
+      { type: "opportunity", name: "Samenwerking tussen redacties", desc: "Verbanden als Investico en ICIJ maken onderzoek mogelijk dat individuele redacties niet aankunnen." }
+    ],
+    initiatives: [
+      { name: "DEDA voor Media", anchor: "deda", primary: false, note: "Het ethisch stappenplan raakt ook aan vakmanschap: het helpt redacties de impact van AI op journalistieke kwaliteit te beoordelen." }
+    ]
+  },
+  {
+    id: 'verantwoordelijkheid',
+    title: "Verantwoordelijkheid",
+    domain: "Redactie",
+    domainClass: "domain-verantwoordelijkheid",
+    category: "Journalistiek handelen en ontwerpen",
+    description: "De normatieve pilaar: welke onderwerpen kies je, hoe frame je ze, hoe prominent maak je ze, en hoe bouw je vertrouwen op bij je publiek? Dit is waar een redactie haar democratische rol bewust vormgeeft \u2014 of verwaarloost.",
+    examples: [
+      "Onderwerpkeuze als democratische daad: structurele aandacht voor rechtstaat en instituties versus engagement-gedreven agendabepaling",
+      "Framing: draagt verslaggeving bij aan democratisch bewustzijn of normaliseert het anti-democratische standpunten?",
+      "Presentatie: een onderzoeksverhaal over de rechtsstaat op de voorpagina versus weggestopt in een binnenlandsectie",
+      "Vertrouwen: transparantie over werkwijze, foutencorrectie, openheid over belangen",
+      "Horse race-journalistiek: focus op peilingen en politiek spel ten koste van inhoudelijke duiding",
+      "Het vertrouwensverschil langs opleidingslijnen: media worden door een groeiend deel niet als \u2018van hen\u2019 ervaren"
+    ],
+    international: [
+      { country: "Tortoise Media (VK)", text: "Laat leden meebeslissen over de nieuwsagenda via \u2018ThinkIns\u2019. Experiment in democratisering van de agenda." },
+      { country: "Duitsland \u2014 AfD-debat", text: "Worsteling: hoe verslag doen over een partij met anti-democratische standpunten? Hoeveel zendtijd, hoe frame je het?" },
+      { country: "Solutions Journalism (VS)", text: "Methodologie voor rigoureuze verslaggeving over evidence-based oplossingen. Niet feel-good, maar wat werkt en waarom." },
+      { country: "Trust Project", text: "Internationaal consortium dat transparantie-indicatoren ontwikkelt (auteur, bronnen, financiering)." }
+    ],
+    trends: [
+      { type: "threat", name: "Engagement-gedreven agenda", desc: "Clicks bepalen de agenda: democratisch essenti\u00eble maar \u2018saaie\u2019 onderwerpen verdwijnen." },
+      { type: "threat", name: "Normalisering anti-democratische retoriek", desc: "Extremistische standpunten zonder context behandelen verschuift het Overton window." },
+      { type: "opportunity", name: "Constructieve journalistiek", desc: "Groeiende evidence base dat het publieksbetrokkenheid vergroot zonder aan scherpte in te boeten." },
+      { type: "opportunity", name: "Transparantie als strategie", desc: "Openlijk uitleggen hoe je werkt kan vertrouwen herbouwen." },
+      { type: "opportunity", name: "Curatie als onderscheidende waarde", desc: "Betrouwbare selectie door een redactie kan in een tijd van overvloed juist aan waarde winnen." },
+      { type: "threat", name: "Politisering van mediavertrouwen", desc: "Wanneer politici actief vertrouwen ondermijnen als strategie, raakt dit de hele sector." }
+    ],
+    initiatives: [
+      { name: "DEDA voor Media", anchor: "deda", primary: true, note: "Helpt redacties en directies ethische afwegingen te maken bij AI-inzet \u2014 een instrument voor bewuste verantwoordelijkheid." },
+      { name: "De Nederlandse Datakluis", anchor: "datakluis", primary: false, note: "Gebaseerd op het democratische principe van burgercontrole over eigen informatie." },
+      { name: "News Over Algorithms", anchor: "noa", primary: false, note: "De vraag wie bepaalt wat mensen te zien krijgen raakt direct aan journalistieke verantwoordelijkheid." }
+    ]
+  },
+  {
+    id: 'technologie',
+    title: "Technologie",
+    domain: "Organisatiebreed",
+    domainClass: "domain-technologie",
+    category: "Enabler",
+    description: "Technologie is geen doel op zich maar een kracht die elke andere dimensie van journalistiek transformeert. AI, algoritmische distributie, data-infrastructuur en verificatietools veranderen zowel het vakmanschap als de verantwoordelijkheid van redacties. De vraag is niet \u00f3f technologie ingezet wordt, maar hoe bewust en ten dienste van welke waarden.",
+    examples: [
+      "AI-tools voor transcriptie, samenvatting en dataverwerking versnellen redactionele processen maar roepen vragen op over verantwoordelijkheid",
+      "Algoritmische personalisatie op nieuwssites kan democratisch relevante content onzichtbaar maken",
+      "Push-notificaties als de nieuwe voorpagina: de keuze welke verhalen een push krijgen is een technologisch-redactionele beslissing",
+      "Generatieve AI maakt synthetische content overtuigender, waardoor het onderscheid met journalistiek vervaagt",
+      "OSINT-tools (geolocatie, beeldanalyse, databankonderzoek) vergroten het onderzoeksvermogen van individuele journalisten",
+      "Data-infrastructuur bepaalt welke inzichten een redactie over haar publiek en bereik heeft",
+      "DEDA voor Media: ethisch stappenplan voor data- en AI-projecten in de mediasector, ontwikkeld door de Universiteit Utrecht en DPG Media. Vanaf 2026 beschikbaar voor de hele sector."
+    ],
+    international: [
+      { country: "Bellingcat", text: "Pionierde het gebruik van digitale tools voor open source intelligence \u2014 technologie als vermenigvuldiger van vakmanschap." },
+      { country: "BBC Verify", text: "Dedicated verificatieteam dat technologische tools structureel inzet voor factchecking." },
+      { country: "Naver (Zuid-Korea)", text: "Eigen technologisch ecosysteem voor nieuwsdistributie, waardoor afhankelijkheid van westerse platforms kleiner is." },
+      { country: "New York Times", text: "Zwaar ge\u00efnvesteerd in eigen data-infrastructuur, personalisatie en innovatie-lab voor nieuwe vertelvormen." },
+      { country: "Rappler Communities (Filipijnen)", text: "Gedecentraliseerd communityplatform op het open-source Matrix-protocol. Vertrouwde nieuwsorganisaties koppelen hun communities aan elkaar \u2014 eigen distributie-infrastructuur, onafhankelijk van Big Tech." }
+    ],
+    trends: [
+      { type: "dual", name: "AI in de redactie", desc: "Kan routinewerk versnellen en ruimte cre\u00ebren voor diepgang, maar kan vakmanschap uithollen bij kritiekloos gebruik." },
+      { type: "threat", name: "AI-gegenereerde content", desc: "Overspoelt het informatie-ecosysteem en maakt het onderscheid met journalistiek lastiger." },
+      { type: "threat", name: "Algoritmische personalisatie", desc: "Wanneer algoritmes bepalen wat lezers zien, verdwijnt de redactionele curatiefunctie." },
+      { type: "opportunity", name: "OSINT en verificatietools", desc: "Technologie vergroot het vermogen van journalisten om macht te controleren en feiten te checken." },
+      { type: "opportunity", name: "Format-innovatie", desc: "Interactieve verhalen, visuele journalistiek en podcasts maken complexe thema\u2019s toegankelijker." },
+      { type: "threat", name: "Platformmacht en afhankelijkheid", desc: "Technologische keuzes van Google, Meta en Apple bepalen mede het bereik en businessmodel van journalistiek." }
+    ],
+    initiatives: [
+      { name: "LEDE Foundation", anchor: "lede", primary: true, note: "Open-source technologische infrastructuur door en voor Europese nieuwsmedia \u2014 het sectorale alternatief voor big tech-afhankelijkheid." },
+      { name: "News Over Algorithms", anchor: "noa", primary: true, note: "Onderzoek naar en alternatieven voor algoritmische nieuwsdistributie." },
+      { name: "De Nederlandse Datakluis", anchor: "datakluis", primary: true, note: "Data-infrastructuur die burgers controle geeft en mediabedrijven onafhankelijk maakt van platformdata." },
+      { name: "Trusted Web", anchor: "trustedweb", primary: false, note: "DPG Media\u2019s eigen tech-stack voor advertenties \u2014 technologische onafhankelijkheid in de praktijk." },
+      { name: "DEDA voor Media", anchor: "deda", primary: false, note: "Ethisch kompas voor de inzet van AI en data-technologie in de mediasector." }
+    ]
+  },
+  {
+    id: 'impact',
+    title: "Democratische impact",
+    domain: "Uitkomst",
+    domainClass: "domain-impact",
+    category: "Uitkomst",
+    description: "Dit is geen actie maar een effect \u2014 de resultante van een stevig fundament, sterk vakmanschap, bewuste verantwoordelijkheid en slim gebruik van technologie. Wanneer alles samenkomt, kan journalistiek daadwerkelijk bijdragen aan een gezonde democratie.",
+    examples: [
+      "De toeslagenaffaire: jarenlang onderzoek door Trouw en RTL leidde tot een parlementaire enqu\u00eate en kabinetval",
+      "Panama Papers en Pandora Papers: internationale samenwerking met ongekende impact",
+      "Impact is ook dagelijks: verslaggeving die burgers helpt ge\u00efnformeerd te stemmen",
+      "Impact meten is moeilijk: wanneer heeft journalistiek \u2018gewerkt\u2019?"
+    ],
+    international: [
+      { country: "ICIJ", text: "Samenwerkingsmodel achter Panama Papers. Grootste impact via grensoverschrijdende samenwerking." },
+      { country: "Rappler (Filipijnen)", text: "Maria Ressa\u2019s platform: journalistiek als democratische daad onder extreme druk. Nobelprijs voor de Vrede 2021. Met Rappler Communities (2024) bouwt het team een gedecentraliseerd ecosysteem van vertrouwde nieuwscommunities op het Matrix-protocol \u2014 onafhankelijk van Big Tech." },
+      { country: "Mediapart (Frankrijk)", text: "Onafhankelijk onderzoeksplatform, volledig lezer-gefinancierd. Meerdere politieke schandalen blootgelegd." },
+      { country: "Watergate", text: "Het archetype \u2014 maar ook gevaarlijk: suggereert dat impact altijd groot en dramatisch moet zijn." }
+    ],
+    trends: [
+      { type: "threat", name: "Afnemend bereik = afnemende impact?", desc: "Minder consumenten betekent minder potenti\u00eble impact, zelfs bij hoge kwaliteit." },
+      { type: "opportunity", name: "Samenwerkingsjournalistiek", desc: "Internationale verbanden vergroten bereik en slagkracht van onderzoek." },
+      { type: "opportunity", name: "Impact meten als discipline", desc: "Systematisch meten maakt het gesprek over democratische bijdrage concreter." },
+      { type: "threat", name: "Snelheid van het ecosysteem", desc: "Journalistieke impact vereist tijd. In een ecosysteem dat op snelheid draait, is die er steeds minder." },
+      { type: "opportunity", name: "Journalistiek als gemeenschapsfunctie", desc: "Community journalism vergroot impact door betrokkenheid." }
+    ]
+  }
+];
+const elementOrder = ['ruimte','levensvatbaarheid','publieksbereik','vakmanschap','verantwoordelijkheid','technologie','impact'];
+let currentElement = null;
+function openElement(id) {
+  currentElement = id;
+  const el = elements.find(x => x.id === id);
+  const overlay = document.getElementById('overlay');
+  const header = document.getElementById('panelHeader');
+  const body = document.getElementById('panelBody');
+  header.innerHTML = `
+    <div>
+      <div class="layer-num-badge">${el.category}</div>
+      <h2>${el.title}</h2>
+      <span class="detail-domain-tag ${el.domainClass}">${el.domain}</span>
+    </div>
+    <button class="close-btn" onclick="closePanel()" aria-label="Sluiten">\u2715</button>
+  `;
+  const trendBadgeLabel = (t) => t === 'threat' ? 'Bedreiging' : t === 'opportunity' ? 'Kans' : 'Dubbelzijdig';
+  body.innerHTML = `
+    <p class="detail-description">${el.description}</p>
+    <div class="detail-section">
+      <h3><span class="section-icon">\u25c6</span> Ontwikkelingen</h3>
+      <ul>${el.examples.map(e => `<li>${e}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <h3><span class="section-icon">\u25c8</span> Internationale voorbeelden</h3>
+      <div class="intl-examples">
+        ${el.international.map(i => `<div class="intl-card"><strong>${i.country}</strong><p>${i.text}</p></div>`).join('')}
+      </div>
+    </div>
+    <div class="detail-section">
+      <h3><span class="section-icon">\u25c7</span> Trends</h3>
+      <div class="trends-list">
+        ${el.trends.map(t => `
+          <div class="trend-item">
+            <span class="trend-badge ${t.type}">${trendBadgeLabel(t.type)}</span>
+            <div class="trend-content"><strong>${t.name}</strong><p>${t.desc}</p></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    ${el.initiatives && el.initiatives.length > 0 ? `
+    <div class="initiatives-section">
+      <h3><span class="section-icon">\u2192</span> Initiatieven op dit niveau</h3>
+      <p class="init-intro">Samenwerkingsinitiatieven die op deze laag van de tempel inspelen \u2014 klik om meer te lezen.</p>
+      <div class="init-link-list">
+        ${el.initiatives.map(i => `
+          <a href="voorbeelden.html#${i.anchor}" class="init-link-card">
+            <span class="init-link-badge ${i.primary ? 'primary' : 'secondary'}">${i.primary ? 'Primair' : 'Ook'}</span>
+            <div class="init-link-content">
+              <strong>${i.name}</strong>
+              <span>${i.note}</span>
+            </div>
+            <span class="init-link-arrow">\u2192</span>
+          </a>
+        `).join('')}
+      </div>
+    </div>` : ''}
+  `;
+  const idx = elementOrder.indexOf(id);
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === elementOrder.length - 1);
+  overlay.classList.add('visible');
+  document.getElementById('detailPanel').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closePanel() {
+  document.getElementById('overlay').classList.remove('visible');
+  document.body.style.overflow = '';
+  currentElement = null;
+}
+function navigateEl(dir) {
+  const idx = elementOrder.indexOf(currentElement);
+  const next = idx + dir;
+  if (next >= 0 && next < elementOrder.length) openElement(elementOrder[next]);
+}
+document.getElementById('overlay').addEventListener('click', function(e) {
+  if (e.target === this) closePanel();
+});
+document.addEventListener('keydown', (e) => {
+  if (!currentElement) return;
+  if (e.key === 'Escape') closePanel();
+  if (e.key === 'ArrowLeft') navigateEl(-1);
+  if (e.key === 'ArrowRight') navigateEl(1);
+});
+// Open panel from URL hash (e.g. tempel.html#technologie)
+if (window.location.hash) {
+  const hashId = window.location.hash.slice(1);
+  if (elementOrder.includes(hashId)) {
+    setTimeout(() => openElement(hashId), 400);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDM | Voorbereidingen tafels</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0eb;
+    --bg-dark: #e8e0d8;
+    --ink: #1a1a18;
+    --ink-light: #4a4a45;
+    --ink-muted: #8a8a82;
+    --accent: #c23a22;
+    --card-bg: #ffffff;
+    --border: #d4cdc4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', Georgia, serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 4rem 0 3rem;
+  }
+  .org-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+    margin-bottom: 0.6rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  header p {
+    font-size: 1.05rem;
+    color: var(--ink-light);
+    max-width: 520px;
+    margin: 0 auto;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .header-line {
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    margin: 2rem auto 0;
+  }
+  /* ── CARDS ── */
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 3rem;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: 6rem 1fr auto;
+    align-items: stretch;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: cardReveal 0.5s ease forwards;
+  }
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.2s; }
+  .card:nth-child(3) { animation-delay: 0.3s; }
+  .card:nth-child(4) { animation-delay: 0.4s; }
+  .card-num-4 { background: #8b6914; }
+  .card-num-4 span { color: #fff; opacity: 0.35; }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border-color: transparent;
+  }
+  @keyframes cardReveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Card number panel */
+  .card-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .card-num span {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 2rem;
+    opacity: 0.15;
+  }
+  .card-num-1 { background: #c23a22; }
+  .card-num-1 span { color: #fff; opacity: 0.4; }
+  .card-num-2 { background: #1a2e4a; }
+  .card-num-2 span { color: #fff; opacity: 0.35; }
+  .card-num-3 { background: #5d7a6e; }
+  .card-num-3 span { color: #fff; opacity: 0.35; }
+  /* Card body */
+  .card-body {
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 120px;
+  }
+  .card-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-muted);
+    margin-bottom: 0.4rem;
+  }
+  .card-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .card-desc {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    font-weight: 300;
+    line-height: 1.55;
+    max-width: 460px;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.7rem;
+  }
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    background: var(--bg);
+    color: var(--ink-muted);
+    border: 1px solid var(--border);
+  }
+  /* Card illustration */
+  .card-illust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.8rem;
+    opacity: 0.08;
+    transition: opacity 0.4s;
+  }
+  .card-illust svg {
+    width: 182px;
+    height: 182px;
+    transform: rotate(4deg);
+  }
+  .card:hover .card-illust {
+    opacity: 0.16;
+  }
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 3rem 0 1rem;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+  footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+  footer a {
+    color: var(--ink-muted);
+    text-decoration: none;
+  }
+  footer a:hover { color: var(--ink); }
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .page { padding: 0 1rem 3rem; }
+    header { padding: 3rem 0 2rem; }
+    .card {
+      grid-template-columns: 3.5rem 1fr auto;
+    }
+    .card-num { padding: 1rem 0.8rem; }
+    .card-num span { font-size: 1.3rem; }
+    .card-body { padding: 1rem 1.2rem; min-height: auto; }
+    .card-title { font-size: 1.05rem; }
+    .card-illust { padding: 0.5rem 0.4rem; }
+    .card-illust svg { width: 78px; height: 78px; }
+    .card-tags { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <p class="org-label">Stichting Democratie en Media</p>
+    <h1>Voorbereidingen tafels</h1>
+    <p>Achtergrondmateriaal en frameworks ter voorbereiding op de tafelgesprekken over de toekomst van de Nederlandse media.</p>
+    <span class="header-line"></span>
+  </header>
+
+  <nav class="cards">
+    <a href="tempel.html" class="card">
+      <div class="card-num card-num-1"><span>1</span></div>
+      <div class="card-body">
+        <span class="card-kicker">Framework</span>
+        <h2 class="card-title">Tempel-model: democratische rol van media</h2>
+        <p class="card-desc">Interactief framework &mdash; wat heeft een journalistieke organisatie nodig om haar democratische rol te vervullen? Van fundament tot impact.</p>
+        <div class="card-tags">
+          <span class="card-tag">Interactief</span>
+          <span class="card-tag">7 lagen</span>
+          <span class="card-tag">Trends &amp; voorbeelden</span>
+        </div>
+      </div>
+      <div class="card-illust">
+        <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <!-- Steps -->
+          <rect x="8" y="88" width="84" height="4" rx="1"/>
+          <rect x="12" y="83" width="76" height="5" rx="1"/>
+          <rect x="16" y="78" width="68" height="5" rx="1"/>
+          <!-- Base platform -->
+          <rect x="14" y="73" width="72" height="5" rx="1"/>
+          <!-- Columns with capitals -->
+          <rect x="20" y="34" width="5" height="39" rx="1"/>
+          <rect x="19" y="32" width="7" height="3" rx="1"/>
+          <rect x="18" y="71" width="9" height="3" rx="1"/>
+          <rect x="33" y="34" width="5" height="39" rx="1"/>
+          <rect x="32" y="32" width="7" height="3" rx="1"/>
+          <rect x="31" y="71" width="9" height="3" rx="1"/>
+          <rect x="62" y="34" width="5" height="39" rx="1"/>
+          <rect x="61" y="32" width="7" height="3" rx="1"/>
+          <rect x="60" y="71" width="9" height="3" rx="1"/>
+          <rect x="75" y="34" width="5" height="39" rx="1"/>
+          <rect x="74" y="32" width="7" height="3" rx="1"/>
+          <rect x="73" y="71" width="9" height="3" rx="1"/>
+          <!-- Inner space (open) -->
+          <!-- Entablature -->
+          <rect x="14" y="28" width="72" height="5" rx="1"/>
+          <!-- Pediment -->
+          <polygon points="50,6 86,28 14,28"/>
+          <polygon points="50,12 78,26 22,26" opacity="0.7"/>
+          <!-- Acroterion -->
+          <circle cx="50" cy="8" r="3"/>
+          <circle cx="16" cy="27" r="2.5"/>
+          <circle cx="84" cy="27" r="2.5"/>
+        </svg>
+      </div>
+    </a>
+
+    <a href="personen.html" class="card">
+      <div class="card-num card-num-2"><span>2</span></div>
+      <div class="card-body">
+        <span class="card-kicker">Personen</span>
+        <h2 class="card-title">Zes stemmen in het medialandschap</h2>
+        <p class="card-desc">Thematische analyse en individuele profielen van zes sleutelfiguren: hun visie op AI, verdienmodellen, politiek en de democratische rol van media.</p>
+        <div class="card-tags">
+          <span class="card-tag">6 profielen</span>
+          <span class="card-tag">3 thema's</span>
+          <span class="card-tag">Sectorbrief Buma</span>
+        </div>
+      </div>
+      <div class="card-illust">
+        <svg viewBox="0 0 100 66" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <!-- Person left — woman, half-profile -->
+          <ellipse cx="22" cy="24" rx="9" ry="10.5"/>
+          <path d="M14,22 Q12,16 14,12 Q18,8 24,10 Q26,10 26,14" fill="currentColor"/>
+          <path d="M18,34 L18,38 Q18,40 16,40 L8,44 Q2,47 2,54 L2,66 L42,66 L42,54 Q42,47 36,44 L28,40 Q26,40 26,38 L26,34" />
+          <!-- Person center — man, tallest, facing forward -->
+          <ellipse cx="50" cy="16" rx="10" ry="12"/>
+          <path d="M42,14 Q40,8 44,5 Q48,3 52,3 Q56,3 58,6 Q60,9 58,14" fill="currentColor"/>
+          <path d="M44,27 L44,32 Q44,34 42,34 L34,38 Q28,41 28,48 L28,66 L72,66 L72,48 Q72,41 66,38 L58,34 Q56,34 56,32 L56,27"/>
+          <!-- Person right — woman, different style -->
+          <ellipse cx="78" cy="22" rx="9" ry="10.5"/>
+          <path d="M70,18 Q68,12 72,9 Q76,7 80,8 Q84,9 86,14 Q87,18 86,20" fill="currentColor"/>
+          <path d="M74,32 L74,36 Q74,38 72,38 L64,42 Q58,45 58,52 L58,66 L98,66 L98,52 Q98,45 92,42 L84,38 Q82,38 82,36 L82,32"/>
+        </svg>
+      </div>
+    </a>
+
+    <a href="voorbeelden.html" class="card">
+      <div class="card-num card-num-3"><span>3</span></div>
+      <div class="card-body">
+        <span class="card-kicker">Internationale context</span>
+        <h2 class="card-title">De strijd en de antwoorden</h2>
+        <p class="card-desc">Nieuwsmedia versus big tech wereldwijd &mdash; wetgeving, rechtszaken en licentiedeals. Gevolgd door zeven samenwerkingsinitiatieven als respons.</p>
+        <div class="card-tags">
+          <span class="card-tag">8 landen</span>
+          <span class="card-tag">7 initiatieven</span>
+          <span class="card-tag">AI &amp; auteursrecht</span>
+        </div>
+      </div>
+      <div class="card-illust">
+        <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <!-- Left half of torn newspaper, pulling away left -->
+          <g transform="rotate(-4 30 50)">
+            <path d="M2,10 L46,10 L48,18 L44,26 L49,34 L45,42 L50,50 L44,58 L48,66 L45,74 L47,82 L2,82 Q0,82 0,80 L0,12 Q0,10 2,10Z"/>
+            <!-- Masthead left half -->
+            <rect x="5" y="15" width="34" height="5" rx="1" fill="white" opacity="0.3"/>
+            <!-- Rule -->
+            <rect x="5" y="22" width="36" height="1" fill="white" opacity="0.2"/>
+            <!-- Headline fragment -->
+            <rect x="5" y="26" width="28" height="3" rx="0.5" fill="white" opacity="0.25"/>
+            <rect x="5" y="31" width="22" height="2" rx="0.5" fill="white" opacity="0.15"/>
+            <!-- Column text -->
+            <rect x="5" y="37" width="18" height="1.5" rx="0.5" fill="white" opacity="0.12"/>
+            <rect x="5" y="41" width="18" height="1.5" rx="0.5" fill="white" opacity="0.12"/>
+            <rect x="5" y="45" width="14" height="1.5" rx="0.5" fill="white" opacity="0.1"/>
+            <rect x="5" y="49" width="18" height="1.5" rx="0.5" fill="white" opacity="0.1"/>
+            <!-- Image block -->
+            <rect x="5" y="55" width="14" height="12" rx="1" fill="white" opacity="0.08"/>
+            <rect x="22" y="55" width="14" height="1.5" rx="0.5" fill="white" opacity="0.1"/>
+            <rect x="22" y="59" width="14" height="1.5" rx="0.5" fill="white" opacity="0.1"/>
+            <rect x="22" y="63" width="10" height="1.5" rx="0.5" fill="white" opacity="0.08"/>
+          </g>
+          <!-- Right half of torn newspaper, pulling away right -->
+          <g transform="rotate(4 70 50)">
+            <path d="M53,18 L50,10 L98,10 Q100,10 100,12 L100,80 Q100,82 98,82 L55,82 L53,74 L56,66 L52,58 L56,50 L51,42 L56,34 L52,26Z" opacity="0.85"/>
+            <!-- Masthead right half -->
+            <rect x="60" y="15" width="34" height="5" rx="1" fill="white" opacity="0.25"/>
+            <!-- Rule -->
+            <rect x="58" y="22" width="36" height="1" fill="white" opacity="0.18"/>
+            <!-- Headline fragment -->
+            <rect x="58" y="26" width="24" height="3" rx="0.5" fill="white" opacity="0.2"/>
+            <rect x="58" y="31" width="18" height="2" rx="0.5" fill="white" opacity="0.12"/>
+            <!-- Column text -->
+            <rect x="58" y="37" width="20" height="1.5" rx="0.5" fill="white" opacity="0.1"/>
+            <rect x="58" y="41" width="20" height="1.5" rx="0.5" fill="white" opacity="0.1"/>
+            <rect x="58" y="45" width="16" height="1.5" rx="0.5" fill="white" opacity="0.08"/>
+            <rect x="58" y="49" width="20" height="1.5" rx="0.5" fill="white" opacity="0.08"/>
+            <!-- Image block -->
+            <rect x="58" y="55" width="20" height="12" rx="1" fill="white" opacity="0.06"/>
+          </g>
+        </svg>
+      </div>
+    </a>
+    <a href="tafels.html" class="card">
+      <div class="card-num card-num-4"><span>4</span></div>
+      <div class="card-body">
+        <span class="card-kicker">Tafels</span>
+        <h2 class="card-title">Kansen om gezamenlijk op te trekken</h2>
+        <p class="card-desc">Veertien onderwerpen voor gezamenlijke actie in de mediasector &mdash; van licenties en platformonafhankelijkheid tot zelfregulering op AI.</p>
+        <div class="card-tags">
+          <span class="card-tag">14 tafels</span>
+          <span class="card-tag">4 categorie&euml;n</span>
+          <span class="card-tag">Tempellinks</span>
+        </div>
+      </div>
+      <div class="card-illust">
+        <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <!-- Round table from above -->
+          <circle cx="50" cy="50" r="28" opacity="0.4"/>
+          <circle cx="50" cy="50" r="24" opacity="0.25"/>
+          <!-- People around the table (top-down: head + shoulders arc) -->
+          <!-- Top -->
+          <circle cx="50" cy="11" r="6.5"/>
+          <ellipse cx="50" cy="22" rx="10" ry="5"/>
+          <!-- Top-right -->
+          <circle cx="83" cy="27" r="6.5"/>
+          <ellipse cx="79" cy="36" rx="5" ry="10" transform="rotate(-60 79 36)"/>
+          <!-- Bottom-right -->
+          <circle cx="83" cy="73" r="6.5"/>
+          <ellipse cx="79" cy="64" rx="5" ry="10" transform="rotate(60 79 64)"/>
+          <!-- Bottom -->
+          <circle cx="50" cy="89" r="6.5"/>
+          <ellipse cx="50" cy="78" rx="10" ry="5"/>
+          <!-- Bottom-left -->
+          <circle cx="17" cy="73" r="6.5"/>
+          <ellipse cx="21" cy="64" rx="5" ry="10" transform="rotate(-60 21 64)"/>
+          <!-- Top-left -->
+          <circle cx="17" cy="27" r="6.5"/>
+          <ellipse cx="21" cy="36" rx="5" ry="10" transform="rotate(60 21 36)"/>
+          <!-- Documents on table -->
+          <rect x="40" y="42" width="10" height="7" rx="1" opacity="0.3" transform="rotate(-10 45 45)"/>
+          <rect x="50" y="44" width="10" height="7" rx="1" opacity="0.25" transform="rotate(8 55 47)"/>
+          <rect x="44" y="50" width="10" height="7" rx="1" opacity="0.2" transform="rotate(3 49 53)"/>
+        </svg>
+      </div>
+    </a>
+  </nav>
+
+  <footer>
+    <p>SDM &middot; Voorbereidingen tafels &middot; 2026</p>
+  </footer>
+</div>
+</body>
+</html>

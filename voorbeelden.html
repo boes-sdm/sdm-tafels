@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De strijd en de antwoorden &mdash; Nieuwsmedia versus big tech</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0eb;
+    --bg-dark: #e8e0d8;
+    --ink: #1a1a18;
+    --ink-light: #4a4a45;
+    --ink-muted: #8a8a82;
+    --accent: #c23a22;
+    --accent-light: #d94530;
+    --card-bg: #ffffff;
+    --border: #d4cdc4;
+    --quote-bg: #faf5f3;
+    --quote-border: #d4a89a;
+    --threat: #8b1a2b;
+    --threat-bg: #f8d7da;
+    --opp: #1b5e2e;
+    --opp-bg: #d4edda;
+    --dual-bg: #fff3cd;
+    --dual: #7a6b2f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', Georgia, serif;
+    line-height: 1.7;
+  }
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    background: var(--card-bg);
+    box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    min-height: 100vh;
+  }
+  /* ── NAV ── */
+  .top-nav { padding: 1.5rem 0 0; }
+  .back-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent-light);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+  .back-link:hover { text-decoration: underline; }
+  /* ── HEADER ── */
+  .cover {
+    text-align: center;
+    padding: 4rem 0 3rem;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 3rem;
+  }
+  .cover .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent-light);
+    margin-bottom: 1rem;
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4.5vw, 2.4rem);
+    line-height: 1.2;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+  .cover .subtitle {
+    font-size: 1.05rem;
+    color: var(--ink-light);
+    font-weight: 300;
+    max-width: 540px;
+    margin: 0 auto 1.5rem;
+  }
+  .cover .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+  /* ── TABLE OF CONTENTS ── */
+  .toc {
+    background: var(--quote-bg);
+    border-left: 4px solid var(--accent-light);
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 3rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .toc h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .toc-part {
+    margin-bottom: 0;
+  }
+  .toc-part-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  .toc-items {
+    list-style: none;
+    padding: 0;
+  }
+  .toc-items li {
+    padding: 0.15rem 0 0.15rem 1rem;
+    font-size: 0.82rem;
+    color: var(--ink-light);
+    position: relative;
+  }
+  .toc-items li::before {
+    content: '\2192';
+    position: absolute;
+    left: 0;
+    color: var(--accent-light);
+    font-size: 0.75rem;
+  }
+  .toc-items a {
+    color: var(--ink-light);
+    text-decoration: none;
+  }
+  .toc-items a:hover { color: var(--accent); text-decoration: underline; }
+  /* ── PART DIVIDER ── */
+  .part-divider {
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    margin: 3rem -2rem 2.5rem;
+  }
+  .part-divider .part-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.5rem;
+  }
+  .part-divider h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+  .part-divider p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 300;
+    max-width: 480px;
+    margin: 0.6rem auto 0;
+  }
+  /* ── COUNTRY / SECTION HEADERS ── */
+  .country-header {
+    margin: 3rem 0 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent);
+  }
+  .country-header:first-child { margin-top: 0; }
+  .country-header .country-flag {
+    font-size: 1.4rem;
+    margin-bottom: 0.2rem;
+  }
+  .country-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--accent);
+    line-height: 1.3;
+  }
+  .country-header .country-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-top: 0.2rem;
+  }
+  /* ── CONTENT ── */
+  p { margin-bottom: 1rem; font-size: 0.95rem; }
+  blockquote {
+    background: var(--quote-bg);
+    border-left: 3px solid var(--quote-border);
+    padding: 1rem 1.4rem;
+    margin: 1rem 0 1.2rem;
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    color: #5a3a3a;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+  ul {
+    margin: 0.8rem 0 1.2rem;
+    padding-left: 0;
+    list-style: none;
+  }
+  ul li {
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--ink-light);
+  }
+  ul li::before {
+    content: '\2014';
+    position: absolute;
+    left: 0;
+    color: var(--ink-muted);
+  }
+  strong { font-weight: 700; }
+  h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-light);
+    margin: 2rem 0 0.6rem;
+  }
+  /* ── IMPACT BADGE ── */
+  .impact-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+  .badge-wetgeving { background: #e8d5cf; color: #8b2a1a; }
+  .badge-rechtszaak { background: var(--threat-bg); color: var(--threat); }
+  .badge-deal { background: var(--dual-bg); color: var(--dual); }
+  .badge-initiatief { background: var(--opp-bg); color: var(--opp); }
+  /* ── KEY FACT BOX ── */
+  .keyfact {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0 1.2rem;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+  .keyfact-icon {
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    margin-top: 0.1rem;
+  }
+  .keyfact-body { flex: 1; }
+  .keyfact-body strong {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 0.2rem;
+  }
+  .keyfact-body p { font-size: 0.82rem; margin-bottom: 0; color: var(--ink-light); }
+  .alert-box {
+    background: #fef9e7;
+    border: 1px solid #f0d56e;
+    border-left: 4px solid #e6b800;
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    margin: 1.5rem 0;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+  .alert-box .alert-icon {
+    flex-shrink: 0;
+    font-size: 1.3rem;
+    margin-top: 0.05rem;
+  }
+  .alert-box .alert-body {
+    flex: 1;
+    font-size: 0.88rem;
+    color: #6b5900;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  /* ── INITIATIVE CARDS ── */
+  .initiative-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem 1.8rem;
+    margin: 2rem 0;
+    border-left: 4px solid var(--accent-light);
+  }
+  .initiative-card .init-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 0.3rem;
+  }
+  .initiative-card h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--accent);
+    line-height: 1.3;
+    margin-bottom: 0.2rem;
+  }
+  .initiative-card .init-org {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.8rem;
+    font-style: italic;
+  }
+  .initiative-card p { font-size: 0.9rem; }
+  .initiative-card h3 { margin-top: 1.2rem; }
+  .initiative-card ul li { font-size: 0.85rem; }
+  /* ── TEMPEL LAYER TAGS ── */
+  .tempel-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .tempel-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--ink-light);
+    background: var(--bg);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .tempel-tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .tempel-tag .tag-icon {
+    font-style: normal;
+    font-size: 0.72rem;
+  }
+  .tempel-tag.tag-primary {
+    background: #faf5f3;
+    border-color: var(--quote-border);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .tempel-tag.tag-primary:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .tempel-link-note {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  /* ── PART SWITCHER ── */
+  .part-switcher {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--card-bg);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .part-switcher button {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border: none;
+    background: var(--card-bg);
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    border-right: 1px solid var(--border);
+  }
+  .part-switcher button:last-child { border-right: none; }
+  .part-switcher button:hover { background: var(--bg); color: var(--ink); }
+  .part-switcher button.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .part-switcher .sw-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+  }
+  .part-switcher button.active .sw-label { opacity: 0.7; }
+  /* ── DEEP DIVE CARDS ── */
+  .deepdive {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-light);
+    border-radius: 4px;
+    margin: 1.5rem 0;
+    background: var(--card-bg);
+    transition: border-color 0.2s;
+  }
+  .deepdive:hover { border-color: var(--accent); }
+  .deepdive summary {
+    cursor: pointer;
+    padding: 1.2rem 1.5rem;
+    list-style: none;
+  }
+  .deepdive summary::-webkit-details-marker { display: none; }
+  .deepdive summary::marker { display: none; content: ''; }
+  .deepdive .dd-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 0.25rem;
+  }
+  .deepdive .dd-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent);
+    line-height: 1.3;
+    margin-bottom: 0.15rem;
+  }
+  .deepdive .dd-org {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-bottom: 0.4rem;
+  }
+  .deepdive .dd-summary {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+  .deepdive .dd-expand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent-light);
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .deepdive[open] .dd-expand { display: none; }
+  .deepdive .dd-body {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .deepdive .dd-body h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-light);
+    margin: 1.8rem 0 0.6rem;
+  }
+  .deepdive .dd-body h4:first-child { margin-top: 1.2rem; }
+  .deepdive .dd-body p { font-size: 0.9rem; }
+  .deepdive .dd-body ul li { font-size: 0.85rem; }
+  .deepdive .dd-body blockquote { font-size: 0.85rem; }
+  .deepdive .dd-body .quote-attr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--ink-muted);
+    margin-top: 0.5rem;
+    font-style: normal;
+  }
+  /* ── CONCLUSION ── */
+  .conclusion-box {
+    background: var(--accent);
+    color: #fff;
+    padding: 2.5rem 2.2rem;
+    margin: 3rem -2rem 0;
+    border-radius: 0;
+  }
+  .conclusion-box h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .conclusion-box p { color: #f0d4cc; font-size: 0.92rem; }
+  .conclusion-box ul li { color: #f0d4cc; }
+  .conclusion-box ul li::before { color: #e8a090; }
+  .conclusion-box blockquote {
+    background: rgba(255,255,255,0.07);
+    border-left: 3px solid #e8a090;
+    color: #fce8e4;
+  }
+  /* ── FOOTER ── */
+  .page-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .page-footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 600px) {
+    .page { padding: 0 1.2rem 3rem; }
+    .cover { padding: 3rem 0 2rem; }
+    .part-divider { margin: 3rem -1.2rem 2.5rem; padding: 2rem 1.2rem; }
+    .conclusion-box { margin: 3rem -1.2rem 0; padding: 2rem 1.2rem; }
+    .toc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-nav">
+    <a href="index.html" class="back-link">&larr; Terug naar overzicht</a>
+  </div>
+
+  <div class="cover">
+    <div class="kicker">Onderdeel 3 &middot; Internationale context</div>
+    <h1>De strijd en de antwoorden</h1>
+    <p class="subtitle">Hoe nieuwsmedia wereldwijd terugvechten tegen de dominantie van big tech &mdash; en welke samenwerkingsinitiatieven vorm krijgen als respons.</p>
+    <div class="meta">Samengesteld op basis van publieke bronnen &middot; Maart 2026</div>
+  </div>
+
+  <!-- PART SWITCHER -->
+  <div class="part-switcher">
+    <button class="active" onclick="scrollToPart('strijd', this)">
+      <span class="sw-label">Deel I</span>
+      De strijd
+    </button>
+    <button onclick="scrollToPart('antwoorden', this)">
+      <span class="sw-label">Deel II</span>
+      De antwoorden
+    </button>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <h2>Inhoud</h2>
+    <div class="toc-grid">
+    <div class="toc-part">
+      <div class="toc-part-title">Deel I &mdash; De strijd</div>
+      <ul class="toc-items">
+        <li><a href="#betalen-voor-nieuws">Sociale media betalen voor nieuws</a></li>
+        <li><a href="#frankrijk">Frankrijk: naburige rechten als wapen</a></li>
+        <li><a href="#vs">Verenigde Staten: rechtszaken en wetgeving</a></li>
+        <li><a href="#ai">AI en auteursrecht: het nieuwe front</a></li>
+        <li><a href="#deals">Licentiedeals: pragmatisme of capitulatie?</a></li>
+      </ul>
+    </div>
+    <div class="toc-part">
+      <div class="toc-part-title">Deel II &mdash; De antwoorden</div>
+      <ul class="toc-items">
+        <li><a href="#lede">LEDE Foundation</a></li>
+        <li><a href="#emia">European Media Industry Alliance</a></li>
+        <li><a href="#trustedweb">Trusted Web (DPG Media)</a></li>
+        <li><a href="#datakluis">De Nederlandse Datakluis</a></li>
+        <li><a href="#deda">DEDA voor Media</a></li>
+        <li><a href="#publiek">Publieke Mediadienst</a></li>
+        <li><a href="#noa">News Over Algorithms</a></li>
+        <li><a href="#pai">Partnership on AI &mdash; Synthetic Media</a></li>
+        <li><a href="#rappler">Rappler Communities</a></li>
+      </ul>
+    </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!--          DEEL I: DE STRIJD              -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="part-divider" id="part-strijd">
+    <div class="part-label">Deel I</div>
+    <h2>De strijd</h2>
+    <p>Nieuwsmedia versus big tech &mdash; wetgeving, rechtszaken en licentiedeals wereldwijd</p>
+  </div>
+
+  <!-- SOCIALE MEDIA BETALEN VOOR NIEUWS -->
+  <div class="country-header" id="betalen-voor-nieuws">
+    <div class="country-flag">&#127462;&#127482; &#127464;&#127462;</div>
+    <h2>Sociale media betalen voor nieuws</h2>
+    <div class="country-sub">Australi&euml; (2021) &amp; Canada (2023) &middot; Wetgeving</div>
+  </div>
+  <div class="alert-box" style="margin-top:1.2rem;">
+    <div class="alert-icon">&#9888;&#65039;</div>
+    <div class="alert-body">Hoe kunnen we bij het invoeren van licenties ons verhouden tot de valkuilen en lessen uit deze voorbeelden?</div>
+  </div>
+  <p style="margin-top:1rem;"><span class="impact-badge badge-wetgeving">Wetgeving</span></p>
+  <p>Australi&euml; was in 2021 het eerste land dat techplatforms wettelijk verplichtte te onderhandelen met nieuwsuitgevers over betaling voor content. De <strong>News Media Bargaining Code</strong> dwong Google en Meta aan tafel. Canada volgde in 2023 met de <strong>Online News Act</strong> (Bill C-18).</p>
+
+  <h3>Australi&euml;: de pionier</h3>
+  <ul>
+    <li>Google sloot deals met grote en kleine uitgevers, geschat op meer dan A$200 miljoen per jaar</li>
+    <li>Meta blokkeerde eerst &aacute;lle nieuwscontent voor Australische gebruikers (februari 2021) &mdash; inclusief overheidspagina&rsquo;s voor noodhulp en gezondheid</li>
+    <li>Na publieke verontwaardiging sloot Meta alsnog deals, maar kondigde in 2024 aan deze niet te verlengen</li>
+    <li>In maart 2024 verwijderde Meta nieuws definitief uit Facebook voor Australische gebruikers</li>
+  </ul>
+
+  <h3>Canada: de blokkade</h3>
+  <ul>
+    <li>Meta blokkeerde direct en permanent &aacute;lle nieuwscontent voor Canadese gebruikers op Facebook en Instagram</li>
+    <li>Canadese nieuwsmedia verloren tot 30% van hun verwijzingsverkeer van social media</li>
+    <li>Google onderhandelde wel en sloot een deal van C$100 miljoen per jaar via een collectief fonds</li>
+  </ul>
+
+  <h3>De paradox</h3>
+  <p>Beide wetten waren bedoeld om de positie van nieuwsmedia te versterken, maar Meta&rsquo;s volledige terugtrekking beschadigde het bereik van media structureel. Onderzoekers stelden vast dat in de nieuwsvac&uuml;ms desinformatie op Facebook toenam. Wetgeving kan platforms aan tafel dwingen, maar platforms zijn bereid nieuws volledig los te laten als de kosten te hoog worden.</p>
+
+  <!-- FRANKRIJK -->
+  <div class="country-header" id="frankrijk">
+    <div class="country-flag">&#127467;&#127479;</div>
+    <h2>Frankrijk</h2>
+    <div class="country-sub">Naburige rechten &middot; EU-richtlijn &middot; Sinds 2019</div>
+  </div>
+  <div class="alert-box" style="margin-top:1.2rem;">
+    <div class="alert-icon">&#9888;&#65039;</div>
+    <div class="alert-body">Hiervan leren voor copyrightwetgeving</div>
+  </div>
+  <p style="margin-top:1rem;"><span class="impact-badge badge-rechtszaak">Rechtszaak &amp; wetgeving</span></p>
+  <p>Frankrijk was het eerste EU-land dat de <strong>Europese richtlijn voor naburige rechten</strong> (2019) in nationale wetgeving omzette &mdash; en het land dat het meest agressief handhaafde.</p>
+  <h3>De juridische strijd</h3>
+  <ul>
+    <li>In 2021 legde de Franse mededingingsautoriteit een boete van &euro;500 miljoen op aan Google voor het niet te goeder trouw onderhandelen met uitgevers</li>
+    <li>In 2024 volgde nog een boete van &euro;250 miljoen, specifiek voor het trainen van AI (Bard/Gemini) op content van Franse uitgevers zonder toestemming</li>
+    <li>Google sloot uiteindelijk individuele deals met grote Franse uitgevers (Le Monde, Le Figaro, AFP)</li>
+  </ul>
+  <div class="keyfact">
+    <div class="keyfact-icon">&#9878;</div>
+    <div class="keyfact-body">
+      <strong>Precedent</strong>
+      <p>De Franse boetes cre&euml;erden het eerste juridische precedent voor het standpunt dat AI-training op journalistieke content onder het auteursrecht valt &mdash; een argument dat nu wereldwijd wordt gebruikt.</p>
+    </div>
+  </div>
+
+  <!-- VS -->
+  <div class="country-header" id="vs">
+    <div class="country-flag">&#127482;&#127480;</div>
+    <h2>Verenigde Staten</h2>
+    <div class="country-sub">Rechtszaken en wetgevingspogingen</div>
+  </div>
+  <p style="margin-top:1.5rem;"><span class="impact-badge badge-rechtszaak">Rechtszaken</span></p>
+  <p>De VS kent geen federale equivalent van de Australische of Europese aanpak. De strijd wordt vooral via de rechtbank gevoerd.</p>
+  <h3>JCPA: de wet die niet kwam</h3>
+  <p>De <strong>Journalism Competition and Preservation Act</strong> (JCPA) zou uitgevers toestaan collectief met platforms te onderhandelen. Het wetsvoorstel werd herhaaldelijk ingediend maar nooit aangenomen &mdash; tech-lobby en politieke verdeeldheid blokkeerden het steeds.</p>
+  <h3>Staatsniveau</h3>
+  <p>Californi&euml; nam in 2024 de <strong>California Journalism Preservation Act</strong> aan, die platforms verplicht een percentage van hun advertentie-inkomsten af te dragen aan een fonds voor lokale journalistiek. Andere staten overwegen vergelijkbare wetgeving.</p>
+
+  <!-- AI FRONT -->
+  <div class="country-header" id="ai">
+    <div class="country-flag">&#129302;</div>
+    <h2>AI en auteursrecht</h2>
+    <div class="country-sub">Het nieuwe front &middot; 2023&ndash;heden</div>
+  </div>
+  <p style="margin-top:1.5rem;"><span class="impact-badge badge-rechtszaak">Rechtszaken</span></p>
+  <p>De opkomst van generatieve AI opende een geheel nieuw front in de strijd tussen media en tech. De kernvraag: mogen AI-bedrijven journalistieke content gebruiken om hun modellen te trainen &mdash; en zo nee, hoe wordt dat gecompenseerd?</p>
+  <h3>Belangrijke rechtszaken</h3>
+  <ul>
+    <li><strong>New York Times vs. OpenAI &amp; Microsoft</strong> (december 2023): de meest prominente zaak. De NYT eist miljarden aan schadevergoeding voor het zonder toestemming trainen van GPT-modellen op Times-artikelen. De zaak loopt nog.</li>
+    <li><strong>Intercept, Raw Story, AlterNet vs. OpenAI</strong>: meerdere kleinere uitgevers volgen met eigen claims</li>
+    <li><strong>Getty Images vs. Stability AI</strong>: beeldrechtenzaak die parallellen toont met de tekstuele claims van nieuwsmedia</li>
+    <li><strong>Coali&shy;tie van Canadese uitgevers vs. OpenAI</strong> (2024): collectieve claim namens Toronto Star, Postmedia en anderen</li>
+  </ul>
+  <h3>De kern van het juridische debat</h3>
+  <p>AI-bedrijven beroepen zich op <strong>fair use</strong> (VS) of vergelijkbare uitzonderingen: het trainen van modellen is &ldquo;transformatief gebruik.&rdquo; Uitgevers stellen dat het resultaat &mdash; AI die journalistiek-achtige antwoorden geeft &mdash; hun markt kannibali&shy;seert en dus geen fair use is. De uitkomst van de NYT-zaak zal wereldwijd precedent scheppen.</p>
+
+  <!-- DEALS -->
+  <div class="country-header" id="deals">
+    <div class="country-flag">&#129309;</div>
+    <h2>Licentiedeals</h2>
+    <div class="country-sub">Pragmatisme of capitulatie?</div>
+  </div>
+  <p style="margin-top:1.5rem;"><span class="impact-badge badge-deal">Deals</span></p>
+  <p>Parallel aan de juridische strijd sluiten sommige uitgevers juist deals met AI-bedrijven &mdash; een strategische keuze die de sector verdeelt.</p>
+  <h3>Bekende deals</h3>
+  <ul>
+    <li><strong>OpenAI</strong> sloot licentieovereenkomsten met Associated Press, Axel Springer, Le Monde, Financial Times, Dotdash Meredith en Vox Media. Geschatte waarden: $5&ndash;$250 miljoen per deal, afhankelijk van omvang</li>
+    <li><strong>Google</strong> betaalt uitgevers via het Extended News Licensing Program. In Australi&euml; meer dan A$200 miljoen per jaar; in Europa lopen vergelijkbare programma&rsquo;s</li>
+    <li><strong>Apple News</strong> biedt uitgevers een revenueshare-model maar met beperkte transparantie over verdeling</li>
+  </ul>
+  <h3>De strategische spanning</h3>
+  <p>Critici &mdash; waaronder de New York Times &mdash; betogen dat licentiedeals de onderhandelingspositie van de sector verzwakken: als sommige uitgevers tekenen, vervalt het collectieve drukmiddel. Voorstanders stellen dat pragmatische deals op korte termijn broodnodige inkomsten genereren terwijl de juridische strijd jaren kan duren.</p>
+  <div class="keyfact">
+    <div class="keyfact-icon">&#8264;</div>
+    <div class="keyfact-body">
+      <strong>De onbeantwoorde vraag</strong>
+      <p>Zijn licentiedeals een brug naar een eerlijker model, of legitimeren ze het gratis gebruik van journalistiek door een prijs te betalen die ver onder de werkelijke waarde ligt?</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!--          DEEL II: HET ANTWOORD          -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="part-divider" id="part-antwoorden">
+    <div class="part-label">Deel II</div>
+    <h2>De antwoorden</h2>
+    <p>Negen samenwerkingsinitiatieven die de mediasector weerbaar maken</p>
+  </div>
+
+  <!-- 1. LEDE -->
+  <div class="initiative-card" id="lede">
+    <div class="init-num">Initiatief 1 van 9</div>
+    <h2>LEDE Foundation</h2>
+    <div class="init-org">Europees &middot; Open-source technologie voor media</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#technologie" class="tempel-tag tag-primary"><i class="tag-icon">&#9653;</i> Technologie</a>
+      <a href="tempel.html#levensvatbaarheid" class="tempel-tag"><i class="tag-icon">&#9643;</i> Levensvatbaarheid</a>
+    </div>
+    <p class="tempel-link-note">Primair technologie-infrastructuur &mdash; maar door gedeelde kosten en onafhankelijkheid van Big Tech ook een bijdrage aan de levensvatbaarheid van individuele mediabedrijven.</p>
+    <p>De <strong>LEDE Foundation</strong> ontwikkelt open-source technologische infrastructuur specifiek voor Europese nieuwsmedia. Het doel: een gedeelde technologische basis die individuele mediabedrijven in staat stelt digitaal te innoveren zonder volledig afhankelijk te zijn van Amerikaanse techbedrijven.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li>Open-source CMS- en distributietools gebouwd door en voor nieuwsmedia</li>
+      <li>Gedeelde data-infrastructuur die mediabedrijven controle geeft over hun eigen publieksdata</li>
+      <li>Alternatief voor proprietary systemen van Google, Meta en Apple</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>LEDE belichaamt het principe van technologische soevereiniteit op sectorniveau &mdash; dezelfde filosofie die Follow the Money op organisatieniveau toepast.</p>
+  </div>
+
+  <!-- 2. EMIA -->
+  <div class="initiative-card" id="emia">
+    <div class="init-num">Initiatief 2 van 9</div>
+    <h2>European Media Industry Alliance (EMIA)</h2>
+    <div class="init-org">Europees &middot; Sectorale lobby en co&ouml;rdinatie</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#ruimte" class="tempel-tag tag-primary"><i class="tag-icon">&#9643;</i> Ruimte</a>
+      <a href="tempel.html#levensvatbaarheid" class="tempel-tag"><i class="tag-icon">&#9643;</i> Levensvatbaarheid</a>
+    </div>
+    <p class="tempel-link-note">Primair gericht op de politieke en wettelijke ruimte waarin media opereren (auteursrecht, platformregulering). Indirect ook levensvatbaarheid: eerlijke compensatie via wetgeving versterkt het verdienmodel.</p>
+    <p>De <strong>EMIA</strong> is een alliantie van Europese mediabedrijven die gezamenlijk lobbyt bij EU-instellingen. Het initiatief bundelt de belangen van uitgevers, omroepen en persbureaus in het debat over platformregulering, AI en auteursrecht.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li>Co&ouml;rdinatie van Europese medialobby richting Europese Commissie en Parlement</li>
+      <li>Gezamenlijke positie op AI Act, DMA en auteursrechthandhaving</li>
+      <li>Platform voor kennisuitwisseling tussen Europese mediabedrijven</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>De sectorbrief aan informateur Buma was de Nederlandse variant van wat EMIA op Europees niveau doet: met &eacute;&eacute;n stem spreken tegenover de politiek.</p>
+  </div>
+
+  <!-- 3. TRUSTED WEB -->
+  <div class="initiative-card" id="trustedweb">
+    <div class="init-num">Initiatief 3 van 9</div>
+    <h2>Trusted Web</h2>
+    <div class="init-org">DPG Media &middot; Eigen advertentie-ecosysteem</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#levensvatbaarheid" class="tempel-tag tag-primary"><i class="tag-icon">&#9643;</i> Levensvatbaarheid</a>
+      <a href="tempel.html#technologie" class="tempel-tag"><i class="tag-icon">&#9653;</i> Technologie</a>
+    </div>
+    <p class="tempel-link-note">Primair een verdienmodel-initiatief: hogere advertentie-inkomsten en minder afhankelijkheid. Maar het vereist eigen technologische infrastructuur &mdash; vandaar ook de link met technologie.</p>
+    <p><strong>Trusted Web</strong> is DPG Media&rsquo;s strategie om een eigen advertentie-ecosysteem te bouwen, onafhankelijk van Google en Meta. Het project combineert first-party data, privacybescherming en eigen advertentieformats.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li>Eigen first-party datacollectie met expliciete toestemming van gebruikers</li>
+      <li>Privacyvriendelijke advertentieformats als alternatief voor programmatic via Big Tech</li>
+      <li>Doel: hogere advertentie-inkomsten en minder afhankelijkheid van Google/Meta</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>Trusted Web is het meest concrete voorbeeld van een Nederlands mediabedrijf dat zijn eigen technologische infrastructuur bouwt &mdash; het commerci&euml;le equivalent van FTM&rsquo;s digitale soevereiniteit.</p>
+  </div>
+
+  <!-- 4. DATAKLUIS -->
+  <div class="initiative-card" id="datakluis">
+    <div class="init-num">Initiatief 4 van 9</div>
+    <h2>De Nederlandse Datakluis</h2>
+    <div class="init-org">5 mediabedrijven &middot; Burgercontrole over data</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#technologie" class="tempel-tag tag-primary"><i class="tag-icon">&#9653;</i> Technologie</a>
+      <a href="tempel.html#verantwoordelijkheid" class="tempel-tag"><i class="tag-icon">&#9650;</i> Verantwoordelijkheid</a>
+      <a href="tempel.html#levensvatbaarheid" class="tempel-tag"><i class="tag-icon">&#9643;</i> Levensvatbaarheid</a>
+    </div>
+    <p class="tempel-link-note">Data-infrastructuur (technologie), maar gebaseerd op het democratische principe van burgercontrole (verantwoordelijkheid). Betere first-party data versterkt ook het verdienmodel (levensvatbaarheid).</p>
+    <p>De <strong>Nederlandse Datakluis</strong> is een initiatief van vijf grote Nederlandse mediabedrijven dat burgers controle wil geven over hun eigen data. In plaats van data op te slaan bij individuele platforms, beheert de burger zelf welke data met welke dienstverlener wordt gedeeld.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li>Consortium van vijf Nederlandse mediabedrijven</li>
+      <li>Burgers bepalen zelf welke data ze delen en met wie</li>
+      <li>Alternatief voor het data-extractiemodel van Big Tech</li>
+      <li>Onderdeel van de bredere beweging richting Europese datasoevereiniteit</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>De Datakluis verbindt het commerci&euml;le belang (betere data voor adverteerders) met een democratisch principe (burgercontrole over eigen informatie).</p>
+  </div>
+
+  <!-- 5. DEDA -->
+  <div class="initiative-card" id="deda">
+    <div class="init-num">Initiatief 5 van 9</div>
+    <h2>DEDA voor Media</h2>
+    <div class="init-org">Universiteit Utrecht &amp; DPG Media &middot; Ethisch AI-stappenplan</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#verantwoordelijkheid" class="tempel-tag tag-primary"><i class="tag-icon">&#9650;</i> Verantwoordelijkheid</a>
+      <a href="tempel.html#technologie" class="tempel-tag"><i class="tag-icon">&#9653;</i> Technologie</a>
+      <a href="tempel.html#vakmanschap" class="tempel-tag"><i class="tag-icon">&#9650;</i> Vakmanschap</a>
+    </div>
+    <p class="tempel-link-note">Primair een verantwoordelijkheidsinstrument: het helpt redacties ethische keuzes te maken. Raakt ook aan technologie (AI-inzet) en vakmanschap (impact op journalistieke kwaliteit).</p>
+    <p><strong>DEDA voor Media</strong> (Data Ethics Decision Aid) is een ethisch stappenplan voor data- en AI-projecten in de mediasector, ontwikkeld door de Universiteit Utrecht in samenwerking met DPG Media. Vanaf 2026 beschikbaar voor de hele sector.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li>Gestructureerd stappenplan dat redacties en directies helpt ethische afwegingen te maken bij AI-inzet</li>
+      <li>Vragen over bias, transparantie, verantwoordelijkheid en impact op journalistiek vakmanschap</li>
+      <li>Bruikbaar voor zowel grote mediabedrijven als kleine redacties</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>DEDA voor Media vertaalt het &ldquo;mens-machine-mens&rdquo;-principe van het ANP naar een concreet instrument dat elke redactie kan gebruiken. Het is de brug tussen individuele principes en sectorwijde standaarden.</p>
+  </div>
+
+  <!-- 6. PUBLIEKE MEDIADIENST -->
+  <div class="initiative-card" id="publiek">
+    <div class="init-num">Initiatief 6 van 9</div>
+    <h2>Publieke Mediadienst</h2>
+    <div class="init-org">Europees &middot; Europese publieke streamingdienst</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#publieksbereik" class="tempel-tag tag-primary"><i class="tag-icon">&#9643;</i> Publieksbereik</a>
+      <a href="tempel.html#ruimte" class="tempel-tag"><i class="tag-icon">&#9643;</i> Ruimte</a>
+    </div>
+    <p class="tempel-link-note">Primair een antwoord op het bereikprobleem van publieke media in het digitale tijdperk. Raakt ook aan ruimte: Europese culturele soevereiniteit als politieke randvoorwaarde.</p>
+    <p>Het concept van een <strong>Europese Publieke Mediadienst</strong> &mdash; een soort &ldquo;publiek Europees Netflix&rdquo; &mdash; wint aan steun als alternatief voor de dominantie van Amerikaanse streamingplatforms. De NPO, onder leiding van Jet de Ranitz, is een van de meest vocale voorstanders.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li>Gedeeld Europees platform voor publieke content: journalistiek, documentaires, cultuur</li>
+      <li>Alternatief voor de afhankelijkheid van Netflix, YouTube en Amazon Prime</li>
+      <li>Versterking van Europese culturele soevereiniteit</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>Een Europese publieke mediadienst zou het bereikprobleem van publieke omroepen in het digitale tijdperk kunnen verlichten &mdash; het &ldquo;fundament&rdquo;-niveau uit de tempel.</p>
+  </div>
+
+  <!-- 7. NOA -->
+  <div class="initiative-card" id="noa">
+    <div class="init-num">Initiatief 7 van 9</div>
+    <h2>News Over Algorithms</h2>
+    <div class="init-org">Internationaal &middot; Onderzoeksconsortium</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#technologie" class="tempel-tag tag-primary"><i class="tag-icon">&#9653;</i> Technologie</a>
+      <a href="tempel.html#publieksbereik" class="tempel-tag"><i class="tag-icon">&#9643;</i> Publieksbereik</a>
+      <a href="tempel.html#verantwoordelijkheid" class="tempel-tag"><i class="tag-icon">&#9650;</i> Verantwoordelijkheid</a>
+    </div>
+    <p class="tempel-link-note">Primair technologie: onderzoek naar en alternatieven voor algoritmische distributie. Raakt aan publieksbereik (wie bepaalt wat mensen zien?) en verantwoordelijkheid (journalistieke waarden vs. platformlogica).</p>
+    <p><strong>News Over Algorithms</strong> is een internationaal consortium van onderzoekers, journalisten en mediaorganisaties dat de impact van algoritmische distributie op nieuwsconsumptie onderzoekt en alternatieven ontwikkelt.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li>Onderzoek naar hoe algoritmes van Google, Meta en TikTok de zichtbaarheid van nieuws be&iuml;nvloeden</li>
+      <li>Ontwikkeling van alternatieve aanbevelingssystemen die journalistieke waarden prioriteren</li>
+      <li>Samenwerking met Europese toezichthouders bij implementatie van DMA en DSA</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>News Over Algorithms raakt direct aan het &ldquo;technologie&rdquo;-niveau in de tempel: de vraag wie bepaalt wat mensen te zien krijgen &mdash; een algoritme of een redactie.</p>
+  </div>
+
+  <!-- 8. PAI -->
+  <div class="initiative-card" id="pai">
+    <div class="init-num">Initiatief 8 van 9</div>
+    <h2>Partnership on AI &mdash; Responsible Practices for Synthetic Media</h2>
+    <div class="init-org">Internationaal &middot; Industri&euml;le zelfregulering voor deepfakes</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#verantwoordelijkheid" class="tempel-tag tag-primary"><i class="tag-icon">&#9650;</i> Verantwoordelijkheid</a>
+      <a href="tempel.html#technologie" class="tempel-tag"><i class="tag-icon">&#9653;</i> Technologie</a>
+    </div>
+    <p class="tempel-link-note">Primair een verantwoordelijkheidsinitiatief: vrijwillige zelfregulering van synthetische media door techbedrijven. Raakt aan technologie via AI-detectie en cryptografische herkomststandaarden (C2PA).</p>
+    <p>Vrijwillig framework met 20 richtlijnen rond Consent, Disclosure en Transparency, gesteund door 18 organisaties waaronder Google, Meta, Microsoft en Adobe. Partnership on AI (PAI) werd in 2016 opgericht door Amazon, Facebook, Google/DeepMind, Microsoft en IBM. Het synthetische-mediawerk werd geleid door <strong>Claire Leibowicz</strong>. Het framework werd bewust gepositioneerd om <strong>vooruit te lopen op regulering</strong>.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li><strong>Bouwers</strong>: transparantie over capaciteiten, disclosure-mechanismen, C2PA-standaard voor cryptografische herkomst</li>
+      <li><strong>Creators</strong>: transparantie over ge&iuml;nformeerde toestemming en disclosure van synthetische elementen</li>
+      <li><strong>Distributeurs/uitgevers</strong>: identificatie van schadelijke synthetische media, snelle interventie, consumenteneducatie</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>Eerste kader in zijn soort voor multistakeholder-governance van synthetische media &mdash; maar effectiviteit fundamenteel beperkt door vrijwilligheid. Slechts 18 van duizenden AI-bedrijven wereldwijd zijn supporter. Kritiek betreft &ldquo;ethics washing&rdquo;: Access Now nam in 2020 ontslag uit PAI omdat het de houding van techbedrijven niet be&iuml;nvloedde.</p>
+  </div>
+
+  <!-- 9. RAPPLER COMMUNITIES -->
+  <div class="initiative-card" id="rappler">
+    <div class="init-num">Initiatief 9 van 9</div>
+    <h2>Rappler Communities</h2>
+    <div class="init-org">Filipijnen &middot; Gedecentraliseerd nieuwsplatform op open-source protocol</div>
+    <div class="tempel-tags">
+      <a href="tempel.html#technologie" class="tempel-tag tag-primary"><i class="tag-icon">&#9653;</i> Technologie</a>
+      <a href="tempel.html#publieksbereik" class="tempel-tag"><i class="tag-icon">&#9643;</i> Publieksbereik</a>
+    </div>
+    <p class="tempel-link-note">Primair technologie-infrastructuur: eigen distributieplatform onafhankelijk van Big Tech. Raakt aan publieksbereik door directe verbinding tussen redacties en hun gemeenschappen.</p>
+    <p><strong>Rappler Communities</strong> is het gedecentraliseerde communityplatform van Maria Ressa&rsquo;s Rappler (Nobelprijs voor de Vrede 2021). Gelanceerd in 2024, bouwt het een ecosysteem van vertrouwde nieuwscommunities op het open-source <strong>Matrix-protocol</strong> &mdash; volledig onafhankelijk van Facebook, X of andere Big Tech-platforms.</p>
+    <h3>Kern</h3>
+    <ul>
+      <li>Journalist-gemodereerde chatgroepen met end-to-end encryptie op het Matrix-protocol</li>
+      <li>Vertrouwde nieuwsorganisaties koppelen hun communities aan elkaar &mdash; eigen distributie-infrastructuur</li>
+      <li>Geen afhankelijkheid van algoritmes of advertentiemodellen van Big Tech</li>
+      <li>Gedecentraliseerde architectuur: geen enkel bedrijf controleert het netwerk</li>
+    </ul>
+    <h3>Relevantie</h3>
+    <p>Rappler Communities bewijst dat het mogelijk is om een directe relatie met het publiek te bouwen zonder tussenkomst van platforms. Het is het meest radicale voorbeeld van technologische soevereiniteit: niet alleen eigen tools, maar een volledig eigen distributie-ecosysteem.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!--              CONCLUSIE                  -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="conclusion-box">
+    <h2>Conclusie: de contouren van een tegenstrategie</h2>
+    <p>De internationale strijd tussen nieuwsmedia en big tech laat een duidelijk patroon zien:</p>
+    <ul>
+      <li><strong>Wetgeving werkt, maar platforms slaan terug.</strong> Australi&euml; en Canada tonen dat juridische druk platforms aan tafel brengt, maar ook dat die platforms bereid zijn nieuws volledig los te laten.</li>
+      <li><strong>De EU bouwt het meest ambitieuze kader.</strong> Met de combinatie van auteursrechtrichtlijn, DMA, EMFA en AI Act heeft Europa meer instrumenten dan welke andere regio ook.</li>
+      <li><strong>AI opent een nieuw front.</strong> De rechtszaken over trainingsdata zullen de komende jaren bepalen of journalistieke content een beschermd goed is of gratis grondstof voor AI-modellen.</li>
+      <li><strong>De antwoorden liggen in samenwerking.</strong> De zeven initiatieven tonen dat de sector niet alleen terugvecht via wetgeving en rechtszaken, maar ook eigen alternatieven bouwt &mdash; van open-source technologie tot ethische kaders. Internationaal bewijst Rappler Communities (Filipijnen) dat dit kan: een gedecentraliseerd ecosysteem van vertrouwde nieuwscommunities, gebouwd op het open-source Matrix-protocol, volledig onafhankelijk van Big Tech.</li>
+    </ul>
+    <p>De centrale vraag blijft: kan de Europese en Nederlandse mediasector snel genoeg bewegen om een eigen, democratisch gedreven infrastructuur te bouwen &mdash; voordat de platformeconomie het journalistieke model definitief marginaliseert?</p>
+  </div>
+
+  <div class="page-footer">
+    <p>Samengesteld op basis van publieke bronnen &middot; SDM &middot; Maart 2026</p>
+  </div>
+</div>
+<script>
+function scrollToPart(part, btn) {
+  const target = document.getElementById('part-' + part);
+  if (target) {
+    const switcher = document.querySelector('.part-switcher');
+    const offset = switcher ? switcher.offsetHeight + 8 : 0;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+  }
+  document.querySelectorAll('.part-switcher button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+// Update active button on scroll
+window.addEventListener('scroll', function() {
+  const switcher = document.querySelector('.part-switcher');
+  if (!switcher) return;
+  const offset = switcher.offsetHeight + 40;
+  const antwoorden = document.getElementById('part-antwoorden');
+  const btns = switcher.querySelectorAll('button');
+  if (!antwoorden) return;
+  btns.forEach(b => b.classList.remove('active'));
+  if (antwoorden.getBoundingClientRect().top <= offset) {
+    btns[1].classList.add('active');
+  } else {
+    btns[0].classList.add('active');
+  }
+});
+</script>
+</body>
+</html>
