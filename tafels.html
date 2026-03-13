@@ -429,6 +429,60 @@
             color: var(--accent);
         }
 
+        /* 17 maart toggle */
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .toggle-17maart {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        .toggle-17maart input {
+            display: none;
+        }
+        .toggle-switch {
+            width: 36px;
+            height: 20px;
+            background: var(--border);
+            border-radius: 10px;
+            position: relative;
+            transition: background 0.2s;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+        }
+        .toggle-17maart input:checked + .toggle-switch {
+            background: var(--accent);
+        }
+        .toggle-17maart input:checked + .toggle-switch::after {
+            transform: translateX(16px);
+        }
+        .toggle-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--ink-muted);
+            letter-spacing: 0.04em;
+        }
+        .tafel-tile.filtered-out,
+        .index-list li.filtered-out {
+            display: none;
+        }
+
         /* Responsive */
         @media (max-width: 640px) {
             .page-container {
@@ -484,6 +538,15 @@
             <div class="accent-line"></div>
         </header>
 
+        <!-- Filter -->
+        <div class="filter-bar">
+            <label class="toggle-17maart">
+                <input type="checkbox" id="filter17maart">
+                <span class="toggle-switch"></span>
+                <span class="toggle-label">17 maart</span>
+            </label>
+        </div>
+
         <!-- Compact index -->
         <nav class="compact-index">
             <div class="compact-index-title">Overzicht</div>
@@ -493,30 +556,30 @@
                 <ol class="index-list">
                     <li><a href="#tafel-1"><span class="index-num">1.</span> Licenties voor content-gebruik</a></li>
                     <li><a href="#tafel-2"><span class="index-num">2.</span> Hoe krijgen Europese mediabedrijven grip op hun eigen technologische infrastructuur?</a></li>
-                    <li><a href="#tafel-3"><span class="index-num">3.</span> Hoe vermindert de sector de afhankelijkheid van Facebook, Instagram en X voor bereik?</a></li>
-                    <li><a href="#tafel-4"><span class="index-num">4.</span> Verplichte keuzevrijheid voor nieuwsaanbevelingsmodules</a></li>
-                    <li><a href="#tafel-8"><span class="index-num">8.</span> Gedeelde UX, algoritmes en functionaliteiten als sectorbreed alternatief voor Big Tech</a></li>
-                    <li><a href="#tafel-10"><span class="index-num">10.</span> Kenniscentrum Big Tech als fundament voor sectorale onderhandelingen</a></li>
-                    <li><a href="#tafel-11"><span class="index-num">11.</span> Gezamenlijke benchmarking van search- en social verkeer</a></li>
-                    <li><a href="#tafel-13"><span class="index-num">13.</span> De journalistieke vertaalslag voor GPT-NL</a></li>
+                    <li><a href="#tafel-3"><span class="index-num">3.</span> Verplichte keuzevrijheid voor nieuwsaanbevelingsmodules</a></li>
+                    <li><a href="#tafel-7"><span class="index-num">7.</span> Gedeelde UX, algoritmes en functionaliteiten als sectorbreed alternatief voor Big Tech</a></li>
+                    <li><a href="#tafel-9"><span class="index-num">9.</span> Kenniscentrum Big Tech als fundament voor sectorale onderhandelingen</a></li>
+                    <li><a href="#tafel-10"><span class="index-num">10.</span> Gezamenlijke benchmarking van search- en social verkeer</a></li>
+                    <li><a href="#tafel-12"><span class="index-num">12.</span> De journalistieke vertaalslag voor GPT-NL</a></li>
+                    <li><a href="#tafel-14"><span class="index-num">14.</span> Hoe vermindert de sector de afhankelijkheid van Facebook, Instagram en X voor bereik?</a></li>
                 </ol>
             </div>
 
             <div class="index-group">
                 <div class="index-group-header cat-publiek">Publiek &amp; Product</div>
                 <ol class="index-list">
-                    <li><a href="#tafel-5"><span class="index-num">5.</span> Gezamenlijke visie op de aanpak van nieuwsvermijding</a></li>
-                    <li><a href="#tafel-6"><span class="index-num">6.</span> Welke hardware-strategie vervangt print op lange termijn?</a></li>
-                    <li><a href="#tafel-12"><span class="index-num">12.</span> Hoe gaan journalistieke media om met de affordances die Big Tech heeft gecre&euml;erd?</a></li>
+                    <li><a href="#tafel-4"><span class="index-num">4.</span> Gezamenlijke visie op de aanpak van nieuwsvermijding</a></li>
+                    <li><a href="#tafel-5"><span class="index-num">5.</span> Welke hardware-strategie vervangt print op lange termijn?</a></li>
+                    <li><a href="#tafel-11"><span class="index-num">11.</span> Hoe gaan journalistieke media om met de affordances die Big Tech heeft gecre&euml;erd?</a></li>
                 </ol>
             </div>
 
             <div class="index-group">
                 <div class="index-group-header cat-kennis">Kennis, Innovatie &amp; Ethiek</div>
                 <ol class="index-list">
-                    <li><a href="#tafel-7"><span class="index-num">7.</span> Oprichten van een sectorbreed innovatielab voor mediabedrijven</a></li>
-                    <li><a href="#tafel-9"><span class="index-num">9.</span> Gezamenlijke AI-verificatie als gedeelde basislaag</a></li>
-                    <li><a href="#tafel-14"><span class="index-num">14.</span> Centrale inzichten over pluriformiteit, diversiteit en politieke relevantie van journalistiek</a></li>
+                    <li><a href="#tafel-6"><span class="index-num">6.</span> Oprichten van een sectorbreed innovatielab voor mediabedrijven</a></li>
+                    <li><a href="#tafel-8"><span class="index-num">8.</span> Gezamenlijke AI-verificatie als gedeelde basislaag</a></li>
+                    <li><a href="#tafel-13"><span class="index-num">13.</span> Centrale inzichten over pluriformiteit, diversiteit en politieke relevantie van journalistiek</a></li>
                     <li><a href="#tafel-18"><span class="index-num">18.</span> Hoe reguleert de mediasector zichzelf verantwoord op het gebied van data en AI?</a></li>
                 </ol>
             </div>
@@ -593,7 +656,7 @@
                         <h4>Democratische impact</h4>
                         <p>Onafhankelijke journalistiek vereist onafhankelijke infrastructuur. Als de technologische basis van nieuwsmedia in handen is van buitenlandse partijen, is de vrijheid van de pers structureel kwetsbaar — en daarmee ook de democratische informatievoorziening.</p>
                         <h4>Voorbeeld</h4>
-                        <div class="detail-voorbeeld">Hetzner, OVHcloud en SURF als Europese alternatieven voor AWS; Gaia-X (Europese cloud-infrastructuurinitiatief)</div>
+                        <div class="detail-voorbeeld">De Correspondent en Follow the Money die bewust afstappen van Big Tech-infrastructuur; Hetzner, OVHcloud en SURF als Europese alternatieven voor AWS; Gaia-X (Europees cloud-infrastructuurinitiatief)</div>
                     </div>
                 </details>
             </article>
@@ -601,35 +664,6 @@
             <!-- Tafel 3 -->
             <article class="tafel-tile cat-onafhankelijkheid" id="tafel-3">
                 <span class="tafel-prio">3</span>
-                <h2 class="tafel-title">Hoe vermindert de sector de afhankelijkheid van Facebook, Instagram en X voor bereik?</h2>
-                <p class="tafel-body">Mediabedrijven zijn voor een groot deel van hun bereik afhankelijk van sociale mediaplatforms. Die platforms veranderen voortdurend hun algoritmes, bereikregels en verdienmodellen — met directe impact op verkeer en inkomsten van uitgevers.</p>
-                <div class="tafel-doel">
-                    <div class="tafel-doel-label">Doel</div>
-                    <p class="tafel-doel-text">Gezamenlijk alternatieven ontwikkelen voor sociale media als distributiekanaal en minder afhankelijk worden van de grillen van big tech, om zo de betrokkenheid van gebruikers te verhogen.</p>
-                </div>
-                <div class="tafel-meta">
-                    <span class="badge badge-cat cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</span>
-                    <span class="badge badge-thema">Onafhankelijke distributie</span>
-                    <span class="meta-spacer"></span>
-                    <a href="tempel.html#publieksbereik" class="badge-tempel">Publieksbereik</a>
-                </div>
-            
-                <details class="tafel-details">
-                    <summary>Meer details</summary>
-                    <div class="tafel-detail-content">
-                        <h4>Waarom gezamenlijk?</h4>
-                        <p>Individuele uitgevers staan zwak tegenover de platforms. Gezamenlijk kunnen ze alternatieven ontwikkelen voor distributie, eigen publiekskanalen opbouwen (zoals nieuwsbrieven of apps) en met één stem onderhandelen of lobbyen over eerlijke bereikregels. Zo kunnen ze ook afdwingen dat in de alternatieven andere keuzes worden gemaakt voor een pluriformer, meer feitgedreven, gemodereerde, veilige omgeving waar ruimte is voor deliberatie in plaats van moddergevechten, etc. </p>
-                        <h4>Democratische impact</h4>
-                        <p>Als nieuws uitsluitend via sociale mediaplatforms bereikt wordt, zijn burgers overgeleverd aan commerciële algoritmes die polarisatie en engagement boven informatie stellen. Minder afhankelijkheid van social versterkt het kwalitetisaanbod van nieuws.</p>
-                        <h4>Voorbeeld</h4>
-                        <div class="detail-voorbeeld">Afname Facebook-verkeer na algoritmewijziging 2023; NOS en RTL die inzetten op eigen apps als alternatief voor social</div>
-                    </div>
-                </details>
-            </article>
-
-            <!-- Tafel 4 -->
-            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-4">
-                <span class="tafel-prio">4</span>
                 <h2 class="tafel-title">Verplichte keuzevrijheid voor nieuwsaanbevelingsmodules</h2>
                 <p class="tafel-body">Mediabedrijven zijn sterk afhankelijk van grillige platforms voor hun bereik. Op sommige platforms is ruimte voor een alternatief naast het huidige monopolie. Zo krijgen consumenten invloed op hoe nieuws voor hen geselecteerd wordt (in bijvoorbeeld voorge&iuml;nstalleerde feeds op hun telefoon.)</p>
                 <div class="tafel-doel">
@@ -652,6 +686,8 @@
                         <p>Keuzevrijheid in nieuwsaanbeveling versterkt de informatiediversiteit en vermindert de macht van commerciële algoritmes over het publieke debat.</p>
                         <h4>Voorbeeld</h4>
                         <div class="detail-voorbeeld">DMA-keuzescherm zoekmachine (sinds 2023 verplicht op Android en Windows)</div>
+                        <h4>Notitie</h4>
+                        <p>We willen dit graag eens bespreken met NDP, om te polsen wat zij van dit idee vinden.</p>
                         <div class="betrokkenen">
                             <div class="betrokkenen-label">Betrokkenen</div>
                             <div class="betrokkenen-tags">
@@ -662,11 +698,11 @@
                 </details>
             </article>
 
-            <!-- Tafel 5 -->
-            <article class="tafel-tile cat-publiek" id="tafel-5">
-                <span class="tafel-prio">5</span>
+            <!-- Tafel 4 -->
+            <article class="tafel-tile cat-publiek" id="tafel-4">
+                <span class="tafel-prio">4</span>
                 <h2 class="tafel-title">Gezamenlijke visie op de aanpak van nieuwsvermijding</h2>
-                <p class="tafel-body">Een groeiende groep Nederlanders ervaart nieuws als niet-relevant of ontoegankelijk, of wordt zelfs afgeschrikt door de constante stroom aan negatief nieuws. Als sector moeten we gezamenlijk werken aan toegankelijker taalgebruik en inclusie, zodat iedereen zich gezien voelt en meer balans in de berichtgeving.</p>
+                <p class="tafel-body">Een groeiende groep Nederlanders ervaart nieuws als niet-relevant of ontoegankelijk, of wordt zelfs afgeschrikt door de constante stroom aan negatief nieuws. Als sector moeten we gezamenlijk werken aan toegankelijker taalgebruik en inclusie, zodat iedereen zich gezien voelt en meer balans in de berichtgeving. Dit is een project van de lange adem.</p>
                 <div class="tafel-doel">
                     <div class="tafel-doel-label">Doel</div>
                     <p class="tafel-doel-text">Brede, sectorbrede aanpak ontwikkelen om nieuwsmijders weer te interesseren in en binden aan goede journalistiek.</p>
@@ -691,9 +727,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 6 -->
-            <article class="tafel-tile cat-publiek" id="tafel-6">
-                <span class="tafel-prio">6</span>
+            <!-- Tafel 5 -->
+            <article class="tafel-tile cat-publiek" id="tafel-5" data-17maart="nee">
+                <span class="tafel-prio">5</span>
                 <h2 class="tafel-title">Welke hardware-strategie vervangt print op lange termijn?</h2>
                 <p class="tafel-body">Printkosten stijgen structureel. E-ink schermen in groot formaat (vergelijkbaar met tabloid/A4) zijn technisch beschikbaar en goed leesbaar. Een gesubsidieerd hardware-abonnement — waarbij abonnees een e-reader gespreid meebetalen, vergelijkbaar met telefoonabonnementen — kan een realistisch alternatief zijn voor de dure papieren krant.</p>
                 <div class="tafel-doel">
@@ -714,6 +750,8 @@
                         <p>Dit kan geen individueel mediabedrijf alleen oplossen. Gezamenlijke inkoop van hardware, gedeelde distributie-infrastructuur en sectorbreed onderhandelen met leveranciers maakt het financieel haalbaar en verlaagt de drempel voor abonnees.</p>
                         <h4>Democratische impact</h4>
                         <p>Toegang tot kwalitatief nieuws mag niet afhangen van of iemand een dure smartphone of abonnement kan betalen. Een betaalbaar hardware-alternatief voor print houdt serieuze journalistiek bereikbaar voor een brede groep burgers en zou print-liefhebbers kunnen overhalen. </p>
+                        <h4>Notitie</h4>
+                        <p>We willen dit graag eens bespreken met NDP, om te polsen wat zij van dit idee vinden.</p>
                         <div class="betrokkenen">
                             <div class="betrokkenen-label">Betrokkenen</div>
                             <div class="betrokkenen-tags">
@@ -724,9 +762,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 7 -->
-            <article class="tafel-tile cat-kennis" id="tafel-7">
-                <span class="tafel-prio">7</span>
+            <!-- Tafel 6 -->
+            <article class="tafel-tile cat-kennis" id="tafel-6">
+                <span class="tafel-prio">6</span>
                 <h2 class="tafel-title">Oprichten van een sectorbreed innovatielab voor mediabedrijven</h2>
                 <p class="tafel-body">Traditionele uitgevers en redacties komen nauwelijks toe aan echte vernieuwing — de dagelijkse operatie gaat voor. Een gezamenlijk innovatielab biedt ruimte om los van bestaande structuren te experimenteren met platforms en verdienmodellen van de toekomst.</p>
                 <div class="tafel-doel">
@@ -753,9 +791,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 8 -->
-            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-8">
-                <span class="tafel-prio">8</span>
+            <!-- Tafel 7 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-7">
+                <span class="tafel-prio">7</span>
                 <h2 class="tafel-title">Gedeelde UX, algoritmes en functionaliteiten als sectorbreed alternatief voor Big Tech</h2>
                 <p class="tafel-body">Individuele uitgevers kunnen qua UX, personalisatie en functionaliteit niet concurreren met Google of Meta. Door gezamenlijk een gedeeld productplatform te ontwikkelen — met een eigen aanbevelingsalgoritme, zoekfunctie en gebruikerservaring — kunnen uitgevers samen een waardig alternatief bieden.</p>
                 <div class="tafel-doel">
@@ -782,9 +820,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 9 -->
-            <article class="tafel-tile cat-kennis" id="tafel-9">
-                <span class="tafel-prio">9</span>
+            <!-- Tafel 8 -->
+            <article class="tafel-tile cat-kennis" id="tafel-8">
+                <span class="tafel-prio">8</span>
                 <h2 class="tafel-title">Gezamenlijke AI-verificatie als gedeelde basislaag</h2>
                 <p class="tafel-body">De komende jaren komt een lawine aan AI-gegenereerde video&rsquo;s en foto&rsquo;s op ons af, met een waarheidspretentie die veel groter is dan individuele redacties kunnen factchecken. De belangrijkste bestaansgrond voor media in de komende decennia is betrouwbaarheid &mdash; de veilige informatiehaven. Door sectorbreed samen te werken aan de basisvraag &ldquo;is deze content met AI gemaakt of echt gebeurd? Zijn er elementen aan toegevoegd of verwijderd?&rdquo; ontstaat een gedeelde verificatielaag die snelheid en expertise bundelt. Het ANP, dat als persbureau alle Nederlandse redacties bedient en al beschikt over verificatie-infrastructuur, zou in zo&rsquo;n proces een natuurlijke regisseursrol kunnen vervullen &mdash; eventueel in samenwerking met de aangesloten media. Die gedeelde laag is het begin &mdash; geen vervanging &mdash; van het eigen redactieproces in de verschillende mediahuizen. De duiding en het verhaal erna blijven de taak van individuele redacties. Gezamenlijke tools en processen die uit deze samenwerking voortkomen bieden elke redactie een steviger vertrekpunt, zonder dat het een concurrentievoordeel wegneemt.</p>
                 <div class="tafel-doel">
@@ -817,9 +855,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 10 -->
-            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-10">
-                <span class="tafel-prio">10</span>
+            <!-- Tafel 9 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-9">
+                <span class="tafel-prio">9</span>
                 <h2 class="tafel-title">Kenniscentrum Big Tech als fundament voor sectorale onderhandelingen</h2>
                 <p class="tafel-body">De Nederlandse mediasector mist een gespecialiseerd kenniscentrum dat de snelle ontwikkelingen bij techreuzen structureel bijhoudt en vertaalt naar strategie. Een kleine kernorganisatie die diepgaande expertise bundelt op het gebied van zoekmachines, social media, AI, Google Discover en platformstrategie&euml;n, maakt de sector een volwassener gesprekspartner en ondersteunt de centrale onderhandelingen die door NDP worden gevoerd. Met een flexibele schil van adviseurs wordt dit zowel een kennisbasis als een serieuze gesprekspartner voor techreuzen aan de poort van het Nederlandse taalgebied. Urgent dossier: referral traffic, vergoedingen en businessmodellen vanuit externe LLM&rsquo;s zoals ChatGPT. Op langere termijn speelt ook de vraag of de sector gezamenlijk Nederlandse datacenters zonder Amerikaans eigenaarschap kan ondersteunen.</p>
                 <div class="tafel-doel">
@@ -852,9 +890,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 11 -->
-            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-11">
-                <span class="tafel-prio">11</span>
+            <!-- Tafel 10 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-10">
+                <span class="tafel-prio">10</span>
                 <h2 class="tafel-title">Gezamenlijke benchmarking van search- en social verkeer</h2>
                 <p class="tafel-body">Mediabedrijven beschikken individueel over waardevolle data over hun afhankelijkheid van externe platformen &mdash; van Google Search en Discover tot social media en steeds vaker ook AI-gestuurde verwijzingen. Die data worden nu niet gedeeld, waardoor niemand het totaalplaatje ziet. Door geanonimiseerde verkeersdata sectorbreed te benchmarken &mdash; niet op onderwerpniveau (te gevoelig) maar op trends in search- en social verkeer &mdash; ontstaat een gedeeld feitenbeeld. Dat feitenbeeld dient een concreet doel: het onderbouwen van de onderhandelingspositie richting techreuzen. Dalingen in referral traffic, verschuivingen naar AI-antwoorden, veranderingen in Discover-algoritmes &mdash; als de sector dit gezamenlijk in kaart brengt, sta je met cijfers aan tafel in plaats van met vermoedens.</p>
                 <div class="tafel-doel">
@@ -887,9 +925,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 12 -->
-            <article class="tafel-tile cat-publiek" id="tafel-12">
-                <span class="tafel-prio">12</span>
+            <!-- Tafel 11 -->
+            <article class="tafel-tile cat-publiek" id="tafel-11">
+                <span class="tafel-prio">11</span>
                 <h2 class="tafel-title">Hoe gaan journalistieke media om met de affordances die Big Tech heeft gecre&euml;erd?</h2>
                 <p class="tafel-body">Publiek is door TikTok, Gen AI en andere platforms gewend geraakt aan razendsnel gepersonaliseerde content, merkkeuzevrijheid en intu&iuml;tieve interactie. Die gewenning schept verwachtingen die traditionele nieuwsmedia nauwelijks kunnen waarmaken.</p>
                 <div class="tafel-doel">
@@ -916,9 +954,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 13 -->
-            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-13">
-                <span class="tafel-prio">13</span>
+            <!-- Tafel 12 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-12">
+                <span class="tafel-prio">12</span>
                 <h2 class="tafel-title">De journalistieke vertaalslag voor GPT-NL</h2>
                 <p class="tafel-body">Met GPT-NL beschikt Nederland sinds begin 2026 over een eigen open taalmodel, gebouwd door TNO, SURF en NFI en getraind op hoogwaardige Nederlandse data &mdash; waaronder content van Nederlandse media. Het model draait op lokale infrastructuur, is AVG-compliant en wordt momenteel getest door launching customers uit de overheid en financi&euml;le sector. Maar een taalmodel an sich is nog niets &mdash; het gaat erom wat je ermee doet en hoe je het implementeert. Voor de journalistiek ligt er een kans om hier richting aan te geven. Een tafel kan allereerst beoordelen of GPT-NL &uuml;berhaupt geschikt is voor journalistieke toepassingen, en zo ja, ervoor zorgen dat het model ook journalistiek relevant wordt: door gezamenlijk te defini&euml;ren welke toepassingen prioriteit hebben (factchecking, samenvatten, onderzoeksondersteuning), welke journalistieke kwaliteitscriteria in de fine-tuning moeten zitten, en hoe redacties het model verantwoord kunnen inzetten met menselijke controle.</p>
                 <div class="tafel-doel">
@@ -945,9 +983,9 @@
                 </details>
             </article>
 
-            <!-- Tafel 14 -->
-            <article class="tafel-tile cat-kennis" id="tafel-14">
-                <span class="tafel-prio">14</span>
+            <!-- Tafel 13 -->
+            <article class="tafel-tile cat-kennis" id="tafel-13">
+                <span class="tafel-prio">13</span>
                 <h2 class="tafel-title">Centrale inzichten over pluriformiteit, diversiteit en politieke relevantie van journalistiek</h2>
                 <p class="tafel-body">De journalistiek mist een gedeelde kennisbasis om haar democratische waarde te onderbouwen en zichtbaar te maken. Door inzichten over pluriformiteit, diversiteit en politieke relevantie te vergaren, kan de sector aantonen hoe het gaat — en waar het schuurt.</p>
                 <div class="tafel-doel">
@@ -970,6 +1008,35 @@
                         <p>Door systematisch te meten hoe pluriform en divers de journalistiek is, kan de sector aantonen waar de democratische waarde van media onder druk staat of juist floreert en daar gericht op handelen. Zonder inzicht geen verantwoording.</p>
                         <h4>Voorbeeld</h4>
                         <div class="detail-voorbeeld">Reuters Institute Digital News Report (jaarlijkse internationale benchmark); Mediamonitor NL (Commissariaat voor de Media)</div>
+                    </div>
+                </details>
+            </article>
+
+            <!-- Tafel 14 -->
+            <article class="tafel-tile cat-onafhankelijkheid" id="tafel-14">
+                <span class="tafel-prio">14</span>
+                <h2 class="tafel-title">Hoe vermindert de sector de afhankelijkheid van Facebook, Instagram en X voor bereik?</h2>
+                <p class="tafel-body">Mediabedrijven zijn voor een groot deel van hun bereik afhankelijk van sociale mediaplatforms. Die platforms veranderen voortdurend hun algoritmes, bereikregels en verdienmodellen — met directe impact op verkeer en inkomsten van uitgevers.</p>
+                <div class="tafel-doel">
+                    <div class="tafel-doel-label">Doel</div>
+                    <p class="tafel-doel-text">Gezamenlijk alternatieven ontwikkelen voor sociale media als distributiekanaal en minder afhankelijk worden van de grillen van big tech, om zo de betrokkenheid van gebruikers te verhogen.</p>
+                </div>
+                <div class="tafel-meta">
+                    <span class="badge badge-cat cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</span>
+                    <span class="badge badge-thema">Onafhankelijke distributie</span>
+                    <span class="meta-spacer"></span>
+                    <a href="tempel.html#publieksbereik" class="badge-tempel">Publieksbereik</a>
+                </div>
+            
+                <details class="tafel-details">
+                    <summary>Meer details</summary>
+                    <div class="tafel-detail-content">
+                        <h4>Waarom gezamenlijk?</h4>
+                        <p>Individuele uitgevers staan zwak tegenover de platforms. Gezamenlijk kunnen ze alternatieven ontwikkelen voor distributie, eigen publiekskanalen opbouwen (zoals nieuwsbrieven of apps) en met één stem onderhandelen of lobbyen over eerlijke bereikregels. Zo kunnen ze ook afdwingen dat in de alternatieven andere keuzes worden gemaakt voor een pluriformer, meer feitgedreven, gemodereerde, veilige omgeving waar ruimte is voor deliberatie in plaats van moddergevechten, etc. </p>
+                        <h4>Democratische impact</h4>
+                        <p>Als nieuws uitsluitend via sociale mediaplatforms bereikt wordt, zijn burgers overgeleverd aan commerciële algoritmes die polarisatie en engagement boven informatie stellen. Minder afhankelijkheid van social versterkt het kwalitetisaanbod van nieuws.</p>
+                        <h4>Voorbeeld</h4>
+                        <div class="detail-voorbeeld">Afname Facebook-verkeer na algoritmewijziging 2023; NOS en RTL die inzetten op eigen apps als alternatief voor social</div>
                     </div>
                 </details>
             </article>
@@ -1098,5 +1165,33 @@
         </footer>
 
     </div>
+
+    <script>
+    (function() {
+        var toggle = document.getElementById('filter17maart');
+        toggle.addEventListener('change', function() {
+            var active = toggle.checked;
+            // Filter artikel-tiles
+            document.querySelectorAll('.tafel-tile').forEach(function(tile) {
+                if (active && tile.getAttribute('data-17maart') === 'nee') {
+                    tile.classList.add('filtered-out');
+                } else {
+                    tile.classList.remove('filtered-out');
+                }
+            });
+            // Filter nav-items
+            document.querySelectorAll('.index-list a').forEach(function(link) {
+                var id = link.getAttribute('href').replace('#', '');
+                var tile = document.getElementById(id);
+                var li = link.closest('li');
+                if (active && tile && tile.getAttribute('data-17maart') === 'nee') {
+                    li.classList.add('filtered-out');
+                } else {
+                    li.classList.remove('filtered-out');
+                }
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
