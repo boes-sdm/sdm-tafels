@@ -373,6 +373,39 @@
             color: var(--ink-light);
         }
 
+        /* Betrokkenen tags */
+        .betrokkenen {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--border);
+        }
+        .betrokkenen-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink-muted);
+            margin-bottom: 0.4rem;
+        }
+        .betrokkenen-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+        .betrokkenen-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 3px;
+            background: var(--bg-dark);
+            color: var(--ink-light);
+            line-height: 1;
+            white-space: nowrap;
+        }
+
         /* Footer */
         .page-footer {
             margin-top: 4rem;
@@ -526,6 +559,12 @@
                         <p>Eerlijke vergoeding voor journalistieke content houdt redacties financieel gezond. Gezonde redacties kunnen blijven investeren in onafhankelijke, kwalitatieve journalistiek — de ruggengraat van een goed geïnformeerde samenleving.</p>
                         <h4>Voorbeeld</h4>
                         <div class="detail-voorbeeld">Franse naburige rechten (2021): Google betaalt uitgevers via Ancine-akkoord; Australische News Media Bargaining Code (2021); lopende onderhandelingen NDP met AI-partijen</div>
+                        <div class="betrokkenen">
+                            <div class="betrokkenen-label">Betrokkenen</div>
+                            <div class="betrokkenen-tags">
+                                <span class="betrokkenen-tag">NDP</span>
+                            </div>
+                        </div>
                     </div>
                 </details>
             </article>
@@ -613,6 +652,12 @@
                         <p>Keuzevrijheid in nieuwsaanbeveling versterkt de informatiediversiteit en vermindert de macht van commerciële algoritmes over het publieke debat.</p>
                         <h4>Voorbeeld</h4>
                         <div class="detail-voorbeeld">DMA-keuzescherm zoekmachine (sinds 2023 verplicht op Android en Windows)</div>
+                        <div class="betrokkenen">
+                            <div class="betrokkenen-label">Betrokkenen</div>
+                            <div class="betrokkenen-tags">
+                                <span class="betrokkenen-tag">NDP</span>
+                            </div>
+                        </div>
                     </div>
                 </details>
             </article>
@@ -669,6 +714,12 @@
                         <p>Dit kan geen individueel mediabedrijf alleen oplossen. Gezamenlijke inkoop van hardware, gedeelde distributie-infrastructuur en sectorbreed onderhandelen met leveranciers maakt het financieel haalbaar en verlaagt de drempel voor abonnees.</p>
                         <h4>Democratische impact</h4>
                         <p>Toegang tot kwalitatief nieuws mag niet afhangen van of iemand een dure smartphone of abonnement kan betalen. Een betaalbaar hardware-alternatief voor print houdt serieuze journalistiek bereikbaar voor een brede groep burgers en zou print-liefhebbers kunnen overhalen. </p>
+                        <div class="betrokkenen">
+                            <div class="betrokkenen-label">Betrokkenen</div>
+                            <div class="betrokkenen-tags">
+                                <span class="betrokkenen-tag">NDP</span>
+                            </div>
+                        </div>
                     </div>
                 </details>
             </article>
@@ -735,7 +786,7 @@
             <article class="tafel-tile cat-kennis" id="tafel-9">
                 <span class="tafel-prio">9</span>
                 <h2 class="tafel-title">Gezamenlijke AI-verificatie als gedeelde basislaag</h2>
-                <p class="tafel-body">De komende jaren komt een lawine aan AI-gegenereerde video&rsquo;s en foto&rsquo;s op ons af, met een waarheidspretentie die veel groter is dan individuele redacties kunnen factchecken. De belangrijkste bestaansgrond voor media in de komende decennia is betrouwbaarheid &mdash; de veilige informatiehaven. Door sectorbreed samen te werken aan de basisvraag &ldquo;is deze content met AI gemaakt of echt gebeurd? Zijn er elementen aan toegevoegd of verwijderd?&rdquo; ontstaat een gedeelde verificatielaag die snelheid en expertise bundelt. Die laag is het begin &mdash; geen vervanging &mdash; van het eigen redactieproces in de verschillende mediahuizen. De duiding en het verhaal erna blijven de taak van individuele redacties. Gezamenlijke tools en processen die uit deze samenwerking voortkomen bieden elke redactie een steviger vertrekpunt, zonder dat het een concurrentievoordeel wegneemt.</p>
+                <p class="tafel-body">De komende jaren komt een lawine aan AI-gegenereerde video&rsquo;s en foto&rsquo;s op ons af, met een waarheidspretentie die veel groter is dan individuele redacties kunnen factchecken. De belangrijkste bestaansgrond voor media in de komende decennia is betrouwbaarheid &mdash; de veilige informatiehaven. Door sectorbreed samen te werken aan de basisvraag &ldquo;is deze content met AI gemaakt of echt gebeurd? Zijn er elementen aan toegevoegd of verwijderd?&rdquo; ontstaat een gedeelde verificatielaag die snelheid en expertise bundelt. Een centrale rol in zo&rsquo;n verificatieproces is weggelegd voor het ANP, dat als persbureau alle Nederlandse redacties bedient en al beschikt over verificatie-infrastructuur en -expertise. Die gedeelde laag is het begin &mdash; geen vervanging &mdash; van het eigen redactieproces in de verschillende mediahuizen. De duiding en het verhaal erna blijven de taak van individuele redacties. Gezamenlijke tools en processen die uit deze samenwerking voortkomen bieden elke redactie een steviger vertrekpunt, zonder dat het een concurrentievoordeel wegneemt.</p>
                 <div class="tafel-doel">
                     <div class="tafel-doel-label">Doel</div>
                     <p class="tafel-doel-text">Een sectorbreed AI-verificatieproces en bijbehorende tools ontwikkelen waarmee redacties snel kunnen vaststellen of beeld- en videomateriaal AI-gegenereerd of gemanipuleerd is &mdash; als gedeelde basislaag waarop elk mediabedrijf zijn eigen journalistieke duiding bouwt.</p>
@@ -756,6 +807,12 @@
                         <p>Als burgers niet meer kunnen vertrouwen op het onderscheid tussen echt en nep, erodeert het fundament van publiek debat. Mediabedrijven die gezamenlijk snel en betrouwbaar AI-manipulatie kunnen identificeren, versterken hun positie als anker van betrouwbare informatievoorziening &mdash; en daarmee de weerbaarheid van de democratie tegen desinformatie.</p>
                         <h4>Voorbeeld</h4>
                         <div class="detail-voorbeeld">BBC Verify (dedicated verificatie-eenheid met AI-detectietools); Content Authenticity Initiative (Adobe, Microsoft, BBC &mdash; open standaard voor contentherkomst); Bellingcat&rsquo;s open-source verificatiemethoden</div>
+                        <div class="betrokkenen">
+                            <div class="betrokkenen-label">Betrokkenen</div>
+                            <div class="betrokkenen-tags">
+                                <span class="betrokkenen-tag">ANP</span>
+                            </div>
+                        </div>
                     </div>
                 </details>
             </article>
@@ -785,6 +842,12 @@
                         <p>Wie de toegangspoort tot informatie beheert, be&iuml;nvloedt de democratie. Zonder inhoudelijke kennis en slagkracht aan mediazijde bepalen buitenlandse techbedrijven eenzijdig hoe Nederlandstalig nieuws wordt gevonden, verspreid en gemonetariseerd &mdash; met directe gevolgen voor pluriformiteit en journalistieke onafhankelijkheid.</p>
                         <h4>Voorbeeld</h4>
                         <div class="detail-voorbeeld">News Media Europe (Europese koepel die namens uitgevers onderhandelt met platforms); Deense mediasector die via Danske Medier collectief met Google onderhandelde; NDP-onderhandelingen met AI-partijen over naburige rechten</div>
+                        <div class="betrokkenen">
+                            <div class="betrokkenen-label">Betrokkenen</div>
+                            <div class="betrokkenen-tags">
+                                <span class="betrokkenen-tag">NDP</span>
+                            </div>
+                        </div>
                     </div>
                 </details>
             </article>
@@ -814,6 +877,12 @@
                         <p>De verschuiving van verkeer naar AI-platformen raakt direct de financi&euml;le basis van redacties. Zonder harde cijfers over de omvang van die verschuiving kan de sector niet effectief pleiten voor eerlijke vergoedingen of spelregels &mdash; en verliest de journalistiek geleidelijk haar economische fundament zonder dat iemand de totale schade ziet.</p>
                         <h4>Voorbeeld</h4>
                         <div class="detail-voorbeeld">Benchmarking-initiatieven in de Scandinavische mediasector; Chartbeat/Piano-data die individuele uitgevers al gebruiken maar niet sectorbreed delen; Reuters Institute Digital News Report als model voor gedeelde inzichten</div>
+                        <div class="betrokkenen">
+                            <div class="betrokkenen-label">Betrokkenen</div>
+                            <div class="betrokkenen-tags">
+                                <span class="betrokkenen-tag">NDP</span>
+                            </div>
+                        </div>
                     </div>
                 </details>
             </article>
