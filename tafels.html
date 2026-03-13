@@ -430,11 +430,14 @@
         }
 
         /* 17 maart toggle */
-        .filter-bar {
+        .compact-index-header {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+        .compact-index-header .compact-index-title {
+            margin-bottom: 0;
         }
         .toggle-17maart {
             display: flex;
@@ -538,18 +541,16 @@
             <div class="accent-line"></div>
         </header>
 
-        <!-- Filter -->
-        <div class="filter-bar">
-            <label class="toggle-17maart">
-                <input type="checkbox" id="filter17maart">
-                <span class="toggle-switch"></span>
-                <span class="toggle-label">17 maart</span>
-            </label>
-        </div>
-
         <!-- Compact index -->
         <nav class="compact-index">
-            <div class="compact-index-title">Overzicht</div>
+            <div class="compact-index-header">
+                <div class="compact-index-title">Overzicht</div>
+                <label class="toggle-17maart">
+                    <input type="checkbox" id="filter17maart">
+                    <span class="toggle-switch"></span>
+                    <span class="toggle-label">17 maart</span>
+                </label>
+            </div>
 
             <div class="index-group">
                 <div class="index-group-header cat-onafhankelijkheid">Onafhankelijkheid &amp; Verdienmodellen</div>
