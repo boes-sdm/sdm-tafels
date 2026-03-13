@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Stem op de tafels &mdash; SDM</title>
+    <script src="gate.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f0eb;
+            --bg-dark: #e8e0d8;
+            --ink: #1a1a18;
+            --ink-light: #4a4a45;
+            --ink-muted: #8a8a82;
+            --accent: #c23a22;
+            --card-bg: #ffffff;
+            --border: #d4cdc4;
+            --green: #2e7d32;
+            --green-light: #e8f5e9;
+            --red: #c23a22;
+            --red-light: #fbe9e7;
+            --cat-onafhankelijkheid: #c23a22;
+            --cat-publiek: #1a2e4a;
+            --cat-kennis: #5d7a6e;
+            --cat-wetgeving: #8b6914;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            min-height: 100dvh;
+        }
+
+        .page-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1.5rem 1.25rem 3rem;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink-light);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent); }
+        .back-link svg { width: 16px; height: 16px; }
+
+        /* Screens */
+        .screen { display: none; flex-direction: column; flex: 1; }
+        .screen.active { display: flex; }
+
+        /* ===== SCREEN 1: Person select ===== */
+        .select-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .select-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 2rem;
+            margin-bottom: 0.4rem;
+        }
+        .select-header p {
+            color: var(--ink-light);
+            font-size: 1.05rem;
+        }
+
+        .person-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .person-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+            position: relative;
+        }
+        .person-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+        .person-card:active {
+            transform: scale(0.97);
+        }
+
+        .person-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 0.6rem;
+            border: 2px solid var(--border);
+        }
+
+        .person-card .name {
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--ink);
+            line-height: 1.3;
+        }
+        .person-card .org {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.78rem;
+            color: var(--ink-muted);
+            margin-top: 0.15rem;
+        }
+
+        .person-card .voted-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 22px;
+            height: 22px;
+            background: var(--green);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .person-card.has-voted .voted-badge { display: flex; }
+
+        /* ===== SCREEN 2: Swipe ===== */
+        .swipe-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .swipe-who {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ink-muted);
+        }
+        .swipe-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--ink-muted);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: var(--bg-dark);
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .card-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 320px;
+            perspective: 800px;
+        }
+
+        .swipe-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem 1.5rem;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            cursor: grab;
+            touch-action: pan-y;
+            transition: transform 0.08s ease-out;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border-top: 4px solid var(--border);
+            user-select: none;
+        }
+        .swipe-card:active { cursor: grabbing; }
+
+        .swipe-card.cat-onafhankelijkheid { border-top-color: var(--cat-onafhankelijkheid); }
+        .swipe-card.cat-publiek { border-top-color: var(--cat-publiek); }
+        .swipe-card.cat-kennis { border-top-color: var(--cat-kennis); }
+        .swipe-card.cat-wetgeving { border-top-color: var(--cat-wetgeving); }
+
+        .swipe-card .card-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            color: #fff;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .swipe-card .card-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            line-height: 1.3;
+            color: var(--ink);
+            margin-bottom: 0.85rem;
+        }
+
+        .swipe-card .card-body {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--ink-light);
+        }
+
+        /* Swipe overlays */
+        .swipe-overlay {
+            position: absolute;
+            top: 16px;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.1s;
+        }
+        .swipe-overlay.like {
+            right: 16px;
+            color: var(--green);
+            border: 2px solid var(--green);
+            background: var(--green-light);
+        }
+        .swipe-overlay.nope {
+            left: 16px;
+            color: var(--red);
+            border: 2px solid var(--red);
+            background: var(--red-light);
+        }
+
+        /* Swipe exit animation */
+        .swipe-card.exit-right {
+            transition: transform 0.35s ease-in, opacity 0.35s ease-in;
+            transform: translateX(150%) rotate(15deg) !important;
+            opacity: 0;
+        }
+        .swipe-card.exit-left {
+            transition: transform 0.35s ease-in, opacity 0.35s ease-in;
+            transform: translateX(-150%) rotate(-15deg) !important;
+            opacity: 0;
+        }
+        .swipe-card.enter {
+            animation: cardEnter 0.3s ease-out;
+        }
+        @keyframes cardEnter {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Swipe buttons */
+        .swipe-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-bottom: 1rem;
+        }
+        .swipe-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--card-bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.15s, border-color 0.15s, background 0.15s;
+        }
+        .swipe-btn:hover { transform: scale(1.1); }
+        .swipe-btn:active { transform: scale(0.95); }
+        .swipe-btn.btn-nope:hover {
+            border-color: var(--red);
+            background: var(--red-light);
+        }
+        .swipe-btn.btn-like:hover {
+            border-color: var(--green);
+            background: var(--green-light);
+        }
+
+        /* ===== SCREEN 3: Results ===== */
+        .results-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .results-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 2rem;
+            margin-bottom: 0.4rem;
+        }
+        .results-header p {
+            color: var(--ink-light);
+            font-size: 0.95rem;
+        }
+
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-row {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 0.6rem;
+            align-items: center;
+        }
+
+        .result-left-votes,
+        .result-right-votes {
+            display: flex;
+            gap: -4px;
+        }
+        .result-left-votes { justify-content: flex-end; }
+        .result-right-votes { justify-content: flex-start; }
+
+        .result-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--red-light);
+            margin: 0 -3px;
+        }
+        .result-right-votes .result-avatar {
+            border-color: var(--green-light);
+        }
+
+        .result-center {
+            text-align: center;
+            min-width: 0;
+        }
+        .result-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--ink-muted);
+            display: block;
+        }
+        .result-title {
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: var(--ink);
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .results-summary {
+            text-align: center;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            margin-bottom: 1.5rem;
+            padding: 0.75rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .results-btn {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .results-btn:active { transform: scale(0.97); }
+        .results-btn-primary {
+            background: var(--ink);
+            color: #fff;
+        }
+        .results-btn-primary:hover { background: var(--ink-light); }
+        .results-btn-secondary {
+            background: var(--bg-dark);
+            color: var(--ink-light);
+        }
+        .results-btn-secondary:hover { background: var(--border); }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--ink-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .person-grid { gap: 0.7rem; }
+            .person-avatar { width: 56px; height: 56px; }
+            .person-card .name { font-size: 0.85rem; }
+            .swipe-card .card-title { font-size: 1.15rem; }
+            .swipe-card { padding: 1.5rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+
+        <a href="tafels.html" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Terug naar kansen
+        </a>
+
+        <!-- SCREEN 1: Person select -->
+        <div id="screen-select" class="screen active">
+            <div class="select-header">
+                <h1>Stem op de tafels</h1>
+                <p>Kies wie je bent</p>
+            </div>
+            <div class="person-grid" id="personGrid"></div>
+        </div>
+
+        <!-- SCREEN 2: Swipe -->
+        <div id="screen-swipe" class="screen">
+            <div class="swipe-header">
+                <span class="swipe-who" id="swipeWho"></span>
+                <span class="swipe-count" id="swipeCount"></span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="card-area" id="cardArea"></div>
+            <div class="swipe-buttons">
+                <button class="swipe-btn btn-nope" id="btnNope" title="Hoeft niet">&times;</button>
+                <button class="swipe-btn btn-like" id="btnLike" title="Goed idee">&check;</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Results -->
+        <div id="screen-results" class="screen">
+            <div class="results-header">
+                <h1>Resultaten</h1>
+                <p id="resultsSubtitle"></p>
+            </div>
+            <div class="results-list" id="resultsList"></div>
+            <div class="results-summary" id="resultsSummary"></div>
+            <div class="results-actions">
+                <button class="results-btn results-btn-secondary" id="btnReset">Opnieuw stemmen</button>
+                <a href="tafels.html" class="results-btn results-btn-primary">Terug naar kansen</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    (function() {
+        /* ===== DATA ===== */
+        var BIN_URL = 'https://jsonblob.com/api/jsonBlob/019ce737-10c4-75bc-ab3f-781827dfd617';
+
+        var PERSONEN = [
+            { key: 'rien', name: 'Rien van Beemen', org: 'Mediahuis / NDP', img: 'https://www.mediahuis.nl/app/uploads/2019/09/Rien-van-Beemen-1024x683.jpg' },
+            { key: 'jet', name: 'Jet de Ranitz', org: 'NPO', img: 'https://media.prod.cc.bijnpo.nl/xlarge_Jet_de_Ranitz_0b15f4dda6.jpg' },
+            { key: 'janwillem', name: 'Jan-Willem Sanders', org: 'Follow the Money', img: 'https://cdn.theorg.com/978ce44f-0b24-48b5-9545-f777a3385aa1_medium.jpg' },
+            { key: 'maarten', name: 'Maarten Meijs', org: 'Talpa Network', img: 'https://secure.brunico.com/gimages/delegatephotos/large/665835.jpg' },
+            { key: 'martha', name: 'Martha Riemsma', org: 'ANP', img: 'https://anp.fra1.cdn.digitaloceanspaces.com/thumbs/anp-508189996-a1330_1680x.jpg' },
+            { key: 'erik', name: 'Erik Roddenhof', org: 'DPG Media', img: 'https://cdn.theorg.com/86afa350-7798-42fc-8e8a-299cd2611725_medium.jpg' }
+        ];
+
+        var KANSEN = [
+            { id: 1, title: 'Licenties voor content-gebruik', body: 'Uitgevers zien hun journalistieke content gratis gebruikt worden door grote platforms en AI-bedrijven, zonder eerlijke vergoeding. Via licentieafspraken kunnen mediabedrijven aanspraak maken op een eerlijk deel van de waarde die hun content genereert.', cat: 'onafhankelijkheid' },
+            { id: 2, title: 'Hoe krijgen Europese mediabedrijven grip op hun eigen technologische infrastructuur?', body: 'De meeste Europese mediabedrijven draaien op Amerikaanse cloud-infrastructuur en software. Dat maakt hen kwetsbaar: een politieke of commerci\u00eble beslissing aan de andere kant van de oceaan kan de operatie van nieuwsmedia direct raken.', cat: 'onafhankelijkheid' },
+            { id: 3, title: 'Verplichte keuzevrijheid voor nieuwsaanbevelingsmodules', body: 'Mediabedrijven zijn sterk afhankelijk van grillige platforms voor hun bereik. Op sommige platforms is ruimte voor een alternatief naast het huidige monopolie. Zo krijgen consumenten invloed op hoe nieuws voor hen geselecteerd wordt.', cat: 'onafhankelijkheid' },
+            { id: 4, title: 'Gezamenlijke visie op de aanpak van nieuwsvermijding', body: 'Een groeiende groep Nederlanders ervaart nieuws als niet-relevant of ontoegankelijk, of wordt zelfs afgeschrikt door de constante stroom aan negatief nieuws. Dit is een project van de lange adem.', cat: 'publiek' },
+            { id: 5, title: 'Welke hardware-strategie vervangt print op lange termijn?', body: 'Printkosten stijgen structureel. E-ink schermen in groot formaat zijn technisch beschikbaar en goed leesbaar. Een gesubsidieerd hardware-abonnement kan een realistisch alternatief zijn voor de dure papieren krant.', cat: 'publiek' },
+            { id: 6, title: 'Oprichten van een sectorbreed innovatielab voor mediabedrijven', body: 'Traditionele uitgevers en redacties komen nauwelijks toe aan echte vernieuwing \u2014 de dagelijkse operatie gaat voor. Een gezamenlijk innovatielab biedt ruimte om los van bestaande structuren te experimenteren.', cat: 'kennis' },
+            { id: 7, title: 'Gedeelde UX, algoritmes en functionaliteiten als sectorbreed alternatief voor Big Tech', body: 'Individuele uitgevers kunnen qua UX, personalisatie en functionaliteit niet concurreren met Google of Meta. Door gezamenlijk een gedeeld productplatform te ontwikkelen kunnen uitgevers samen een waardig alternatief bieden.', cat: 'onafhankelijkheid' },
+            { id: 8, title: 'Gezamenlijke AI-verificatie als gedeelde basislaag', body: 'De komende jaren komt een lawine aan AI-gegenereerde video\u2019s en foto\u2019s op ons af. De belangrijkste bestaansgrond voor media is betrouwbaarheid. Door sectorbreed samen te werken aan verificatie ontstaat een gedeelde basislaag.', cat: 'kennis' },
+            { id: 9, title: 'Kenniscentrum Big Tech als fundament voor sectorale onderhandelingen', body: 'De Nederlandse mediasector mist een gespecialiseerd kenniscentrum dat de snelle ontwikkelingen bij techreuzen structureel bijhoudt en vertaalt naar strategie.', cat: 'onafhankelijkheid' },
+            { id: 10, title: 'Gezamenlijke benchmarking van search- en social verkeer', body: 'Mediabedrijven beschikken individueel over waardevolle data over hun afhankelijkheid van externe platformen. Die data worden nu niet gedeeld, waardoor niemand het totaalplaatje ziet.', cat: 'onafhankelijkheid' },
+            { id: 11, title: 'Hoe gaan journalistieke media om met de affordances die Big Tech heeft gecre\u00eberd?', body: 'Publiek is door TikTok, Gen AI en andere platforms gewend geraakt aan razendsnel gepersonaliseerde content. Die gewenning schept verwachtingen die traditionele nieuwsmedia nauwelijks kunnen waarmaken.', cat: 'publiek' },
+            { id: 12, title: 'De journalistieke vertaalslag voor GPT-NL', body: 'Met GPT-NL beschikt Nederland sinds begin 2026 over een eigen open taalmodel. Voor de journalistiek ligt er een kans om hier richting aan te geven en het model journalistiek relevant te maken.', cat: 'onafhankelijkheid' },
+            { id: 13, title: 'Centrale inzichten over pluriformiteit, diversiteit en politieke relevantie van journalistiek', body: 'De journalistiek mist een gedeelde kennisbasis om haar democratische waarde te onderbouwen en zichtbaar te maken.', cat: 'kennis' },
+            { id: 14, title: 'Hoe vermindert de sector de afhankelijkheid van Facebook, Instagram en X voor bereik?', body: 'Mediabedrijven zijn voor een groot deel van hun bereik afhankelijk van sociale mediaplatforms. Die platforms veranderen voortdurend hun algoritmes, bereikregels en verdienmodellen.', cat: 'onafhankelijkheid' },
+            { id: 15, title: 'Aan welke knoppen valt nog te draaien bij EMFA, DSA, DMA en AI Act?', body: 'De implementatie van Europese mediawetgeving biedt ruimte voor interpretatie en invulling. Als sector kunnen we bepalen hoe die ruimte benut kan worden op een manier die innovatie faciliteert.', cat: 'wetgeving' },
+            { id: 16, title: 'Welke wet- en regelgeving zit innovatie in de weg?', body: 'De mediasector loopt regelmatig aan tegen wet- en regelgeving die innovatie onbedoeld belemmert \u2014 denk aan auteursrecht, privacy, mededingingsregels of omroepwetgeving.', cat: 'wetgeving' },
+            { id: 17, title: 'Hoe zorgen we voor samenhangend overheidsbeleid op het snijvlak van media en technologie?', body: 'Mediabeleid en technologiebeleid worden in Nederland en Europa vaak los van elkaar ontwikkeld, terwijl ze steeds meer verweven zijn.', cat: 'wetgeving' },
+            { id: 18, title: 'Hoe reguleert de mediasector zichzelf verantwoord op het gebied van data en AI?', body: 'De mediasector maakt in toenemende mate gebruik van data en AI. Zonder gedeelde normen en kaders bestaat het risico op misbruik, gebrek aan transparantie en verlies van vertrouwen bij het publiek.', cat: 'kennis' }
+        ];
+
+        var CAT_LABELS = {
+            onafhankelijkheid: 'Onafhankelijkheid & Verdienmodellen',
+            publiek: 'Publiek & Product',
+            kennis: 'Kennis, Innovatie & Ethiek',
+            wetgeving: 'Wetgeving & Beleid'
+        };
+
+        /* ===== STATE ===== */
+        var currentPerson = null;
+        var shuffled = [];
+        var currentIndex = 0;
+        var myVotes = {};
+        var allVotes = {};
+        var isDragging = false;
+        var startX = 0;
+        var currentX = 0;
+
+        /* ===== API ===== */
+        function loadVotes(cb) {
+            fetch(BIN_URL, { headers: { 'Accept': 'application/json' } })
+                .then(function(r) { return r.json(); })
+                .then(function(data) { allVotes = data || {}; cb(null); })
+                .catch(function(e) { console.error('Load error:', e); cb(e); });
+        }
+
+        function saveVotes(cb) {
+            allVotes[currentPerson.key] = myVotes;
+            fetch(BIN_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(allVotes)
+            })
+            .then(function() { cb && cb(null); })
+            .catch(function(e) { console.error('Save error:', e); cb && cb(e); });
+        }
+
+        /* ===== SHUFFLE ===== */
+        function shuffle(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+
+        /* ===== SCREEN 1: Person Select ===== */
+        function renderPersonGrid() {
+            var grid = document.getElementById('personGrid');
+            grid.innerHTML = '';
+            PERSONEN.forEach(function(p) {
+                var card = document.createElement('div');
+                card.className = 'person-card';
+                if (allVotes[p.key] && Object.keys(allVotes[p.key]).length > 0) {
+                    card.classList.add('has-voted');
+                }
+                card.innerHTML =
+                    '<div class="voted-badge">\u2713</div>' +
+                    '<img class="person-avatar" src="' + p.img + '" alt="' + p.name + '">' +
+                    '<div class="name">' + p.name + '</div>' +
+                    '<div class="org">' + p.org + '</div>';
+                card.addEventListener('click', function() { selectPerson(p); });
+                grid.appendChild(card);
+            });
+        }
+
+        function selectPerson(p) {
+            currentPerson = p;
+            myVotes = allVotes[p.key] && Object.keys(allVotes[p.key]).length > 0
+                ? Object.assign({}, allVotes[p.key])
+                : {};
+            if (Object.keys(myVotes).length >= KANSEN.length) {
+                showResults();
+            } else {
+                startSwiping();
+            }
+        }
+
+        /* ===== SCREEN 2: Swipe ===== */
+        function startSwiping() {
+            var remaining = KANSEN.filter(function(k) { return !myVotes[k.id]; });
+            shuffled = shuffle(remaining);
+            currentIndex = 0;
+            showScreen('screen-swipe');
+            document.getElementById('swipeWho').textContent = currentPerson.name;
+            renderCard();
+        }
+
+        function renderCard() {
+            var done = Object.keys(myVotes).length;
+            var total = KANSEN.length;
+            document.getElementById('swipeCount').textContent = (done + 1) + ' van ' + total;
+            document.getElementById('progressFill').style.width = (done / total * 100) + '%';
+
+            if (currentIndex >= shuffled.length) {
+                saveVotes(function() { showResults(); });
+                return;
+            }
+
+            var k = shuffled[currentIndex];
+            var area = document.getElementById('cardArea');
+            area.innerHTML = '';
+
+            var card = document.createElement('div');
+            card.className = 'swipe-card cat-' + k.cat + ' enter';
+            card.innerHTML =
+                '<span class="card-badge" style="background:var(--cat-' + k.cat + ')">' + CAT_LABELS[k.cat] + '</span>' +
+                '<div class="swipe-overlay like">Goed idee</div>' +
+                '<div class="swipe-overlay nope">Hoeft niet</div>' +
+                '<h2 class="card-title">' + k.title + '</h2>' +
+                '<p class="card-body">' + k.body + '</p>';
+
+            // Touch events
+            card.addEventListener('touchstart', onTouchStart, { passive: true });
+            card.addEventListener('touchmove', onTouchMove, { passive: false });
+            card.addEventListener('touchend', onTouchEnd);
+
+            // Mouse events
+            card.addEventListener('mousedown', onMouseDown);
+
+            area.appendChild(card);
+        }
+
+        function onTouchStart(e) {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            currentX = 0;
+        }
+        function onTouchMove(e) {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX - startX;
+            updateCardPosition(currentX);
+            e.preventDefault();
+        }
+        function onTouchEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            resolveSwipe(currentX);
+        }
+
+        function onMouseDown(e) {
+            isDragging = true;
+            startX = e.clientX;
+            currentX = 0;
+            var onMove = function(e2) {
+                currentX = e2.clientX - startX;
+                updateCardPosition(currentX);
+            };
+            var onUp = function() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onUp);
+                resolveSwipe(currentX);
+            };
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+        }
+
+        function updateCardPosition(dx) {
+            var card = document.querySelector('.swipe-card');
+            if (!card) return;
+            var rotate = dx * 0.08;
+            card.style.transform = 'translateX(' + dx + 'px) rotate(' + rotate + 'deg)';
+            card.style.transition = 'none';
+
+            var likeOverlay = card.querySelector('.swipe-overlay.like');
+            var nopeOverlay = card.querySelector('.swipe-overlay.nope');
+            var progress = Math.min(Math.abs(dx) / 100, 1);
+            if (dx > 0) {
+                likeOverlay.style.opacity = progress;
+                nopeOverlay.style.opacity = 0;
+            } else {
+                nopeOverlay.style.opacity = progress;
+                likeOverlay.style.opacity = 0;
+            }
+        }
+
+        function resolveSwipe(dx) {
+            var threshold = 80;
+            if (Math.abs(dx) > threshold) {
+                vote(dx > 0 ? 'right' : 'left');
+            } else {
+                // Snap back
+                var card = document.querySelector('.swipe-card');
+                if (card) {
+                    card.style.transition = 'transform 0.3s ease';
+                    card.style.transform = '';
+                    var overlays = card.querySelectorAll('.swipe-overlay');
+                    overlays.forEach(function(o) { o.style.opacity = 0; });
+                }
+            }
+        }
+
+        function vote(direction) {
+            var card = document.querySelector('.swipe-card');
+            if (!card) return;
+
+            card.classList.add(direction === 'right' ? 'exit-right' : 'exit-left');
+
+            var k = shuffled[currentIndex];
+            myVotes[k.id] = direction;
+
+            // Save after each vote
+            saveVotes();
+
+            setTimeout(function() {
+                currentIndex++;
+                renderCard();
+            }, 300);
+        }
+
+        /* ===== SCREEN 3: Results ===== */
+        function showResults() {
+            showScreen('screen-results');
+            loadVotes(function() {
+                renderResults();
+            });
+        }
+
+        function renderResults() {
+            var list = document.getElementById('resultsList');
+            list.innerHTML = '';
+
+            var majorityCount = 0;
+
+            KANSEN.forEach(function(k) {
+                var row = document.createElement('div');
+                row.className = 'result-row';
+
+                // Left votes (nope)
+                var leftDiv = document.createElement('div');
+                leftDiv.className = 'result-left-votes';
+                // Center
+                var centerDiv = document.createElement('div');
+                centerDiv.className = 'result-center';
+                centerDiv.innerHTML = '<span class="result-num">' + k.id + '</span><span class="result-title">' + k.title + '</span>';
+                // Right votes (like)
+                var rightDiv = document.createElement('div');
+                rightDiv.className = 'result-right-votes';
+
+                var rightCount = 0;
+                var totalVoted = 0;
+
+                PERSONEN.forEach(function(p) {
+                    var pVotes = allVotes[p.key];
+                    if (!pVotes || !pVotes[k.id]) return;
+                    totalVoted++;
+
+                    var img = document.createElement('img');
+                    img.className = 'result-avatar';
+                    img.src = p.img;
+                    img.alt = p.name;
+                    img.title = p.name;
+
+                    if (pVotes[k.id] === 'right') {
+                        rightDiv.appendChild(img);
+                        rightCount++;
+                    } else {
+                        leftDiv.appendChild(img);
+                    }
+                });
+
+                if (totalVoted > 0 && rightCount > totalVoted / 2) majorityCount++;
+
+                row.appendChild(leftDiv);
+                row.appendChild(centerDiv);
+                row.appendChild(rightDiv);
+                list.appendChild(row);
+            });
+
+            var votedPersons = PERSONEN.filter(function(p) {
+                return allVotes[p.key] && Object.keys(allVotes[p.key]).length > 0;
+            });
+
+            document.getElementById('resultsSubtitle').textContent =
+                votedPersons.length + ' van ' + PERSONEN.length + ' deelnemers hebben gestemd';
+            document.getElementById('resultsSummary').textContent =
+                majorityCount + ' van ' + KANSEN.length + ' kansen hebben meerderheidssteun';
+        }
+
+        /* ===== NAV ===== */
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+            document.getElementById(id).classList.add('active');
+        }
+
+        /* ===== BUTTONS ===== */
+        document.getElementById('btnNope').addEventListener('click', function() { vote('left'); });
+        document.getElementById('btnLike').addEventListener('click', function() { vote('right'); });
+        document.getElementById('btnReset').addEventListener('click', function() {
+            if (!currentPerson) return;
+            myVotes = {};
+            allVotes[currentPerson.key] = {};
+            saveVotes(function() {
+                startSwiping();
+            });
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('screen-swipe').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') vote('left');
+                else if (e.key === 'ArrowRight') vote('right');
+            }
+        });
+
+        /* ===== INIT ===== */
+        loadVotes(function() {
+            renderPersonGrid();
+        });
+
+    })();
+    </script>
+</body>
+</html>
