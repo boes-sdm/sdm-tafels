@@ -185,6 +185,66 @@
   .card:hover .card-illust {
     opacity: 0.16;
   }
+  /* ── UITGANGSPUNTEN ── */
+  .uitgangspunten {
+    margin-top: 2.5rem;
+  }
+  .uitgangspunten-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+  }
+  .uitgangspunten-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .uitgangspunt {
+    border-top: 1px solid var(--border);
+  }
+  .uitgangspunt:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  .uitgangspunt summary {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+    transition: color 0.2s;
+  }
+  .uitgangspunt summary::-webkit-details-marker { display: none; }
+  .uitgangspunt summary::before {
+    content: '▸';
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    color: var(--accent);
+    transition: transform 0.2s;
+    display: inline-block;
+    width: 0.8rem;
+    flex-shrink: 0;
+  }
+  .uitgangspunt[open] summary::before {
+    transform: rotate(90deg);
+  }
+  .uitgangspunt summary:hover {
+    color: var(--accent);
+  }
+  .uitgangspunt-body {
+    padding: 0 0 1rem 1.4rem;
+    font-size: 0.92rem;
+    color: var(--ink-light);
+    line-height: 1.65;
+    max-width: 640px;
+  }
   /* ── FOOTER ── */
   footer {
     text-align: center;
@@ -228,6 +288,28 @@
     <p>Achtergrondmateriaal en frameworks ter voorbereiding op de tafelgesprekken over de toekomst van de Nederlandse media.</p>
     <span class="header-line"></span>
   </header>
+
+  <section class="uitgangspunten">
+    <div class="uitgangspunten-label">Uitgangspunten</div>
+    <div class="uitgangspunten-list">
+      <details class="uitgangspunt">
+        <summary>De ge&iuml;nformeerde en betrokken burger</summary>
+        <p class="uitgangspunt-body">De ge&iuml;nformeerde en betrokken burger moet centraal staan als doelstelling. Dit betekent ook dat media goed aansluiten op de behoeftes van zoveel mogelijk burgers.</p>
+      </details>
+      <details class="uitgangspunt">
+        <summary>Grip op de pluriforme informatievoorziening</summary>
+        <p class="uitgangspunt-body">De grip op een pluriforme informatievoorziening niet verliezen aan de dominantie van mondiale techbedrijven. Centraal staat de vraag welke digitale infrastructuur de overhand krijgt in het overbrengen van informatie.</p>
+      </details>
+      <details class="uitgangspunt">
+        <summary>Toekomstbestendige media</summary>
+        <p class="uitgangspunt-body">Zowel publieke als private media moeten zich voorbereiden op wat nodig is om op de lange termijn levensvatbaar en relevant te blijven.</p>
+      </details>
+      <details class="uitgangspunt">
+        <summary>Gedeelde werkelijkheid</summary>
+        <p class="uitgangspunt-body">Tegenwicht aan de versnippering en personalisatie van het informatieaanbod: het aanbieden van gedeelde feitelijkheden en referentiekaders.</p>
+      </details>
+    </div>
+  </section>
 
   <nav class="cards">
     <a href="tempel.html" class="card">
@@ -368,9 +450,9 @@
       <div class="card-body">
         <span class="card-kicker">Tafels</span>
         <h2 class="card-title">Kansen om gezamenlijk op te trekken</h2>
-        <p class="card-desc">Veertien onderwerpen voor gezamenlijke actie in de mediasector &mdash; van licenties en platformonafhankelijkheid tot zelfregulering op AI.</p>
+        <p class="card-desc">Achttien onderwerpen voor gezamenlijke actie in de mediasector &mdash; van licenties en platformonafhankelijkheid tot zelfregulering op AI.</p>
         <div class="card-tags">
-          <span class="card-tag">14 tafels</span>
+          <span class="card-tag">18 tafels</span>
           <span class="card-tag">4 categorie&euml;n</span>
           <span class="card-tag">Tempellinks</span>
         </div>
