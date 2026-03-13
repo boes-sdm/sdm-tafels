@@ -198,26 +198,30 @@
     margin-bottom: 1rem;
   }
   .uitgangspunten-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
   .uitgangspunt {
-    border-top: 1px solid var(--border);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    transition: box-shadow 0.2s;
   }
-  .uitgangspunt:last-child {
-    border-bottom: 1px solid var(--border);
+  .uitgangspunt[open] {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
   }
   .uitgangspunt summary {
     display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.85rem 0;
+    align-items: flex-start;
+    gap: 0.5rem;
     cursor: pointer;
     list-style: none;
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 700;
-    font-size: 1.05rem;
+    font-size: 1rem;
+    line-height: 1.35;
     color: var(--ink);
     transition: color 0.2s;
   }
@@ -239,11 +243,10 @@
     color: var(--accent);
   }
   .uitgangspunt-body {
-    padding: 0 0 1rem 1.4rem;
-    font-size: 0.92rem;
+    padding: 0.6rem 0 0.2rem 1.3rem;
+    font-size: 0.88rem;
     color: var(--ink-light);
-    line-height: 1.65;
-    max-width: 640px;
+    line-height: 1.6;
   }
   /* ── FOOTER ── */
   footer {
@@ -277,6 +280,7 @@
     .card-illust { padding: 0.5rem 0.4rem; }
     .card-illust svg { width: 78px; height: 78px; }
     .card-tags { display: none; }
+    .uitgangspunten-list { grid-template-columns: 1fr; }
   }
 </style>
 </head>
